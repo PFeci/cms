@@ -14,6 +14,7 @@ class DbConnection {
 
     public connect(): void {
         const options = {
+            useMongoClient: true,
             autoReconnect: true,
             reconnectInterval: 1000,
             keepAlive: 1500,

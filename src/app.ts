@@ -1,9 +1,13 @@
+///<reference path="routes/outside-router.ts"/>
 import {Request, Response, NextFunction, Application} from 'express';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
-import DbConnection from './database/DbConnection'
+import DbConnection from './database/db-connection'
+import {OutsideRouter} from "./routes/outside-router";
+import {AuthGuard} from "./routes/auth-guard";
+import {UserRouter} from "./routes/user-router";
 
 // Creates and configures an ExpressJS web server.
 export class App {
@@ -33,11 +37,13 @@ export class App {
     // Configure API endpoints.
     private routes(): void {
 
+        this.express.use('/api/auth', new OutsideRouter().router);
+        this.express.all('/api/*', AuthGuard.verifyToken);
+        this.express.use('/api/user', new UserRouter().router);
+
         this.express.use('*', (req: Request, res: Response, next: NextFunction) => {
             res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
         });
-
-
     }
 
     // private cloudinaryConfig(): void {

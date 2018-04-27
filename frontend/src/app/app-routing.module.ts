@@ -2,6 +2,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {EventComponent} from './event/event.component';
 import {MenuComponent} from './menu/menu.component';
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
         loadChildren: 'app/event/event.module#EventModule'
       }
     ]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: '',

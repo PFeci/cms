@@ -1,0 +1,26 @@
+
+<mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark default-color scrolling-navbar ie-nav" [containerInside]="false">
+  <logo>
+    <a class="logo navbar-brand" href="#"><strong>Eventbook</strong></a>
+  </logo>
+  <links>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active waves-light" mdbWavesEffect>
+        <a class="nav-link">Events <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item waves-light" mdbWavesEffect>
+        <a class="nav-link">Features</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav nav-flex-icons">
+      <li class="nav-item waves-light" mdbWavesEffect>
+        <a class="nav-link"><i class="fa fa-user"></i> Log In</a>
+      </li>
+    </ul>
+  </links>
+</mdb-navbar>
+
+<div style="margin-top: 6%; margin-left: 2%">
+
+<router-outlet></router-outlet>
+</div>

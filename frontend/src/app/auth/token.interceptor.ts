@@ -8,11 +8,11 @@ import {environment} from '../../environments/environment';
 export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any>{
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${this.auth.getToken()}`,
-        url: `${environment.url}${request.url}`
+       Authorization: `Bearer ${this.auth.getToken()}`,
+        // url: `${environment.url}${request.url}`
       }
     });
     return next.handle(request);

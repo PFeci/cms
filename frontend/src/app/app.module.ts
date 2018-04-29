@@ -7,16 +7,18 @@ import {AppRoutingModule} from './app-routing.module';
 import {MenuComponent} from './menu/menu.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
-import {LoginComponent} from './login/login.component';
+import {LoginComponent} from './auth/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './auth/token.interceptor';
-
+import {AuthService} from './auth/auth.service';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,7 @@ import {TokenInterceptor} from './auth/token.interceptor';
     HttpClientModule
   ],
   providers: [
+    AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

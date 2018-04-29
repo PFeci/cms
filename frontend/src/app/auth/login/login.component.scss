@@ -1,10 +1,10 @@
-@import "../../../node_modules/angular-bootstrap-md/scss/core/colors";
+@import "../../../../node_modules/angular-bootstrap-md/scss/core/colors";
 .owl {
   z-index: 1;
   margin: auto;
   width: 211px;
   height: 108px;
-  background-image: url("../../assets/images/owl-login.png");
+  background-image: url("../../../assets/images/owl-login.png");
   position: relative;
 }
 .owl .hand {
@@ -64,6 +64,13 @@
   border-bottom: 3px solid $default-color;
 }
 
+div.alert.alert-info {
+  margin-top: 10px;
+  font-size: x-small;
+}
 
-
-
+i.fa.fa-envelope.prefix.dark-grey-text,
+i.fa.fa-lock.prefix.dark-grey-text {
+  font-size: medium;
+  margin-top: 2px;
+}

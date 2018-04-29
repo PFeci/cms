@@ -1,0 +1,57 @@
+<form [formGroup]="registerForm" (submit)="register()">
+  <div class="md-form form-sm form-group">
+    <i class="fa fa-user prefix dark-grey-text"></i>
+    <i class="fa fa-asterisk prefix"></i>
+    <input placeholder="First name" type="text" class="form-control" formControlName="firstName">
+  </div>
+  <div class="md-form form-sm form-group">
+    <i class="fa fa-user prefix dark-grey-text"></i>
+    <i class="fa fa-asterisk prefix"></i>
+    <input placeholder="Last name" type="text" class="form-control" formControlName="lastName">
+  </div>
+  <div class="md-form form-sm form-group">
+    <i class="fa fa-envelope prefix dark-grey-text"></i>
+    <i class="fa fa-asterisk prefix"></i>
+    <input placeholder="Email address" type="email" class="form-control" formControlName="email">
+  </div>
+  <div class="md-form form-sm form-group">
+    <i class="fa fa-lock prefix dark-grey-text"></i>
+    <i class="fa fa-asterisk prefix"></i>
+    <input placeholder="Password" type="password" class="form-control"
+           (focus)="clickPasswordInput(true)" (focusout)="clickPasswordInput(false)" formControlName="password">
+  </div>
+  <div class="md-form form-sm form-group">
+    <i class="fa fa-lock prefix dark-grey-text"></i>
+    <i class="fa fa-asterisk prefix"></i>
+    <input placeholder="Confirm password" type="password" class="form-control"
+           (focus)="clickPasswordInput(true)" (focusout)="clickPasswordInput(false)" formControlName="confirmPassword">
+  </div>
+  <div *ngIf="firstName?.invalid && firstName.touched"
+       class="alert alert-danger">
+    <div *ngIf="firstName.errors.required">First name is required.</div>
+  </div>
+  <div *ngIf="lastName?.invalid && lastName.touched"
+       class="alert alert-danger">
+    <div *ngIf="lastName.errors.required"> Last name is required.</div>
+  </div>
+  <div *ngIf="email?.invalid && email.touched"
+       class="alert alert-danger">
+    <div *ngIf="email.errors.required"> Email is required.</div>
+    <div *ngIf="email.errors.pattern"> Email format is invalid.</div>
+  </div>
+  <div *ngIf="password?.invalid && password.touched"
+       class="alert alert-danger">
+    <div *ngIf="password.errors.required"> Password is required.</div>
+    <div *ngIf="password.errors.minlength"> Password min length must be 6.</div>
+  </div>
+  <div *ngIf="confirmPassword?.invalid && confirmPassword.touched"
+       class="alert alert-danger">
+    <div *ngIf="confirmPassword.errors.required"> Confirm password is required.</div>
+    <div *ngIf="confirmPassword.errors.isNotEqual"> Confirm password and password not match.</div>
+  </div>
+  <div *ngIf="registerForm.errors?.formError" class="alert alert-danger">
+    This email address already exists.
+  </div>
+  <button type="submit" class="btn btn-default waves-light btn-block" mdbWavesEffect [disabled]="registerForm.invalid">Sign Up</button>
+</form>
+

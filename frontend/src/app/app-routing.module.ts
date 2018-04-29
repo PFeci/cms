@@ -2,7 +2,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {EventComponent} from './event/event.component';
 import {MenuComponent} from './menu/menu.component';
-import {LoginComponent} from './login/login.component';
+import {LoginComponent} from './auth/login/login.component';
 
 const routes: Routes = [
   {

@@ -7,7 +7,6 @@ export interface IUserModel extends Document, UserDb {
 const UserSchema: Schema = new Schema({
         email: String,
         password: String,
-        passwordConf: String,
         firstName: String,
         lastName: String,
         role: Schema.Types.Mixed

@@ -9,9 +9,9 @@ export class AuthGuard {
     public static verifyToken(req: Request, res: Response, next: NextFunction) {
 
         let token = req.body.token || req.query.token || req.headers['authorization'];
-        //cut 'Bearer" from the beginning of the token
-        token = token.slice(7, token.length);
         if (token) {
+            //cut 'Bearer" from the beginning of the token
+            token = token.slice(7, token.length);
             jwt.verify(token, Config.secret, (err: Error, decoded: string) => {
                 if (err) {
                     return res.json({success: false, message: 'Failed to authenticate token.'});
@@ -23,9 +23,17 @@ export class AuthGuard {
         return res.status(403).json({message: 'No token provided.'});
     }
 
-    public static verifyUserRole(req: Request, res: Response, next: NextFunction) {
+    public static verifyAdmin(req: Request, res: Response, next: NextFunction) {
 
-        if (res.locals.user.role === Role.ADMIN || res.locals.user.email === req.body.email) {
+        if (res.locals.user.role === Role.ADMIN) {
+            return next();
+        }
+        return res.status(403).json({message: 'Do not have privilige'});
+    }
+
+    public static verifySupporter(req: Request, res: Response, next: NextFunction) {
+
+        if (res.locals.user.role === Role.ADMIN || res.locals.user.role === Role.SUPPORTER) {
             return next();
         }
         return res.status(403).json({message: 'Do not have privilige'});

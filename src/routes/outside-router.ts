@@ -71,7 +71,7 @@ export class OutsideRouter {
 
                     const userDTO = UserRouter.createUserDTO(user);
                     const token = jwt.sign({id: userDTO.id, role: userDTO.role, email: userDTO.email}, Config.secret, {
-                        expiresIn: 7200 // expires in 2 hours
+                        expiresIn: 86400 // expires in 2 hours
                     });
                     return res.status(200).json({token: token, user: userDTO});
                 } else {

@@ -1,3 +1,29 @@
-<p>
-  user-list works!
-</p>
+<div class="card card-body">
+  <div class="card-text">
+    <table class="table">
+      <thead class="mdb-color grey lighten-3">
+      <tr class="text-black">
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.role | lowercase}}</td>
+        <td>
+          <span class="badge badge-info"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+          <span class="badge badge-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

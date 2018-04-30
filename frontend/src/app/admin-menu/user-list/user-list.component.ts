@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {UserDTO} from '../../../../../src/dtos/user-dto';
+import {UserListService} from '../user-list.service';
+import {Role} from '../../../../../src/enums/role';
 
 @Component({
   selector: 'app-user-list',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserListComponent implements OnInit {
 
-  constructor() { }
+  users: UserDTO [] = [];
+  roles = Role;
+
+  constructor(private userService: UserListService) { }
 
   ngOnInit() {
+    this.userService.getUsers().subscribe(
+      resp => {
+        if(resp['body']){
+          console.log(resp);
+          this.users = resp['body'];
+          console.log(this.users);
+        }
+      },
+      err => console.log(err)
+    )
   }
 
 }

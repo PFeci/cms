@@ -12,6 +12,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './auth/token.interceptor';
 import {AuthService} from './auth/auth.service';
 import { RegisterComponent } from './auth/register/register.component';
+import { AdminMenuComponent } from './admin-menu/admin-menu.component';
+import {AuthGuard} from '../../../src/routes/auth-guard';
+import {AuthGuardService} from './auth/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import { RegisterComponent } from './auth/register/register.component';
   ],
   providers: [
     AuthService,
+    AuthGuardService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

@@ -4,11 +4,13 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
+import * as cors from 'cors';
 import DbConnection from './database/db-connection'
 import {OutsideRouter} from "./routes/outside-router";
 import {AuthGuard} from "./routes/auth-guard";
 import {UserRouter} from "./routes/user-router";
 import {HappeningRouter} from "./routes/happening-router";
+import {CategoryRouter} from "./routes/category-router";
 
 // Creates and configures an ExpressJS web server.
 export class App {
@@ -33,6 +35,7 @@ export class App {
         this.express.use(logger('dev'));
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({extended: false}));
+        this.express.use(cors());
     }
 
     // Configure API endpoints.
@@ -40,6 +43,7 @@ export class App {
 
         this.express.use('/api/auth', new OutsideRouter().router);
         this.express.use('/api/happening', new HappeningRouter().router);
+        this.express.use('/api/category', new CategoryRouter().router);
         this.express.all('/api/*', AuthGuard.verifyToken);
         this.express.use('/api/user', new UserRouter().router);
 

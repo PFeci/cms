@@ -50,8 +50,8 @@ export class HappeningRouter {
     public update(req: Request, res: Response, next: NextFunction) {
         const happeningDTO: HappeningDTO = req.body;
         Happening.findOneAndUpdate({_id: happeningDTO.id}, happeningDTO, {upsert: true, new: true}).exec()
-            .then((eventModel: IHappeningModel) => {
-                const happeningDTO = HappeningRouter.createHappeningDTO(eventModel);
+            .then((happeningModel: IHappeningModel) => {
+                const happeningDTO = HappeningRouter.createHappeningDTO(happeningModel);
                 console.log(happeningDTO);
                 return res.status(200).json(happeningDTO);
             })

@@ -1,4 +1,3 @@
-///<reference path="routes/outside-router.ts"/>
 import {Request, Response, NextFunction, Application} from 'express';
 import * as express from 'express';
 import * as logger from 'morgan';
@@ -11,6 +10,7 @@ import {AuthGuard} from "./routes/auth-guard";
 import {UserRouter} from "./routes/user-router";
 import {HappeningRouter} from "./routes/happening-router";
 import {CategoryRouter} from "./routes/category-router";
+import {SecondCategoryRouter} from "./routes/second-category-router";
 
 // Creates and configures an ExpressJS web server.
 export class App {
@@ -44,6 +44,7 @@ export class App {
         this.express.use('/api/auth', new OutsideRouter().router);
         this.express.use('/api/happening', new HappeningRouter().router);
         this.express.use('/api/category', new CategoryRouter().router);
+        this.express.use('/api/secondcategory', new SecondCategoryRouter().router);
         this.express.all('/api/*', AuthGuard.verifyToken);
         this.express.use('/api/user', new UserRouter().router);
 

@@ -2,6 +2,7 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {IUserModel, User} from "../database/schemas/user-schema";
 import {UserDTO} from "../dtos/user-dto";
 import {Role} from "../enums/role";
+import {AuthGuard} from "./auth-guard";
 
 export class UserRouter {
     router: Router;
@@ -80,7 +81,7 @@ export class UserRouter {
     }
 
     init() {
-        this.router.get('/all', this.getAll);
+        this.router.get('/all', AuthGuard.verifyAdmin, this.getAll);
         this.router.get('/:id', this.getOne);
         this.router.put('/', this.update);
     }

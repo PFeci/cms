@@ -8,6 +8,7 @@ import DbConnection from './database/db-connection'
 import {OutsideRouter} from "./routes/outside-router";
 import {AuthGuard} from "./routes/auth-guard";
 import {UserRouter} from "./routes/user-router";
+import {HappeningRouter} from "./routes/happening-router";
 
 // Creates and configures an ExpressJS web server.
 export class App {
@@ -38,8 +39,10 @@ export class App {
     private routes(): void {
 
         this.express.use('/api/auth', new OutsideRouter().router);
+        this.express.use('/api/happening', new HappeningRouter().router);
         this.express.all('/api/*', AuthGuard.verifyToken);
-        this.express.use('/api/user', AuthGuard.verifyUserRole, new UserRouter().router);
+        this.express.use('/api/user', new UserRouter().router);
+
 
         this.express.use('*', (req: Request, res: Response, next: NextFunction) => {
             res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))

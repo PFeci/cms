@@ -1,3 +1,45 @@
-<p>
-  event-list works!
-</p>
+<div class="row">
+  <div class="col-sm-3" style="height: 400px;" *ngFor="let event of events; let i = index;">
+    <div class="flipp" [ngClass]="flipp? 'hover': ''" [id]="'flipp'+ i">
+      <div class="front">
+        <div class="card card-cascade" style="margin-bottom: 10%; width: 350px; height: 360px">
+          <div class="view overlay">
+            <div class="mdb-color lighten-3 text-center"></div>
+            <img class="img-fluid z-depth-2 rounded"
+                 [src]="event.cover">
+            <div class="text-block">
+              <h4>{{event.title}}</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row card-text">
+              <div class="col-sm-2"><i class="fa fa-calendar-o" aria-hidden="true"></i></div>
+              <div class="col-sm-10">{{event.date | date}}</div>
+            </div>
+            <div class="row card-text">
+              <div class="col-sm-2"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+              <div class="col-sm-10"> {{event.location}}</div>
+            </div>
+            <hr>
+            <a class="badge badge-primary" style="margin-right: 4px; margin-bottom: -10px;"
+               *ngFor="let label of event.labels">{{label}}</a>
+            <a (click)="flippCard(i)" class=" card-text right" style="float: right; margin-bottom: -15px; margin-top: 15px;"><i
+              class="fa fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+
+        </div>
+      </div>
+      <div class="back">
+        <div class="card" style="margin-bottom: 10%; width: 350px; height: 360px">
+          <div class="card-body">
+            <p class="card-text">{{event.description}}</p>
+            <a (click)="flippCard(i)" class=" card-text right" style="float: left; margin-bottom: -15px; margin-top: 15px;"><i
+              class="fa fa-arrow-left" aria-hidden="true"></i></a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

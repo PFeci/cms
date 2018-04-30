@@ -6,6 +6,7 @@ import {UserRouter} from "./user-router";
 import {UserDTO} from "../dtos/user-dto";
 import {Config} from "../config";
 import {UserAuthenticateDTO} from "../dtos/user-authenticate-dto";
+import {Role} from "../enums/role";
 
 export class OutsideRouter {
     router: Router;
@@ -35,6 +36,7 @@ export class OutsideRouter {
             })
             .then((hash) => {
                 userAuthenticateDTO.password = hash;
+                userAuthenticateDTO.role = Role.USER;
                 return new User(userAuthenticateDTO).save();
             })
             // return with the saved user
@@ -68,7 +70,7 @@ export class OutsideRouter {
                     bcrypt.compareSync(userAuthenticateDTO.password, user.password)) {
 
                     const userDTO = UserRouter.createUserDTO(user);
-                    const token = jwt.sign({id: userDTO.id}, Config.secret, {
+                    const token = jwt.sign({id: userDTO.id, role: userDTO.role, email: userDTO.email}, Config.secret, {
                         expiresIn: 7200 // expires in 2 hours
                     });
                     return res.status(200).json({token: token, user: userDTO});

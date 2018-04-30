@@ -9,7 +9,8 @@ const UserSchema: Schema = new Schema({
         password: String,
         passwordConf: String,
         firstName: String,
-        lastName: String
+        lastName: String,
+        role: Schema.Types.Mixed
     },{timestamps: true});
 
 

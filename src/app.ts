@@ -39,7 +39,7 @@ export class App {
 
         this.express.use('/api/auth', new OutsideRouter().router);
         this.express.all('/api/*', AuthGuard.verifyToken);
-        this.express.use('/api/user', new UserRouter().router);
+        this.express.use('/api/user', AuthGuard.verifyUserRole, new UserRouter().router);
 
         this.express.use('*', (req: Request, res: Response, next: NextFunction) => {
             res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))

@@ -1,6 +1,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {IUserModel, User} from "../database/schemas/user-schema";
 import {UserDTO} from "../dtos/user-dto";
+import {Role} from "../enums/role";
 
 export class UserRouter {
     router: Router;
@@ -16,6 +17,7 @@ export class UserRouter {
             email: userModel.email,
             firstName: userModel.firstName,
             lastName: userModel.lastName,
+            role: userModel.role
         };
         return userDTO;
     }
@@ -35,22 +37,6 @@ export class UserRouter {
                 console.log(err);
                 return res.status(500).json({message: err});
             });
-    }
-
-    /**
-     * POST save a User
-     */
-    public save(req: Request, res: Response, next: NextFunction) {
-        const userDTO = req.body;
-        new User(userDTO).save()
-            .then((userModel: IUserModel) => {
-                const userDTO = UserRouter.createUserDTO(userModel);
-                return res.status(200).json(userDTO);
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json({message: err});
-            })
     }
 
     /**
@@ -96,7 +82,6 @@ export class UserRouter {
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', this.getOne);
-        this.router.post('/', this.save);
         this.router.put('/', this.update);
     }
 }

@@ -4,6 +4,15 @@ import {UserDTO} from "../dtos/user-dto";
 import {AuthGuard} from "./auth-guard";
 import {HappeningDTO} from "../dtos/happening-dto";
 import {IHappeningModel, Happening} from "../database/schemas/happening-schema";
+import {CategoryDTO} from "../dtos/category-dto";
+import {Category, ICategoryModel} from "../database/schemas/category-schema";
+import {CategoryRouter} from "./category-router";
+import {SecondCategoryDTO} from "../dtos/second-category-dto";
+import {ISecondCategoryModel, SecondCategory} from "../database/schemas/second-category-schema";
+import {SecondCategoryRouter} from "./second-category-router";
+import {ContentDTO} from "../dtos/content-dto";
+import {Content, IContentModel} from "../database/schemas/content-schema";
+import {ContentRouter} from "./content-router";
 
 export class HappeningRouter {
     router: Router;
@@ -13,28 +22,68 @@ export class HappeningRouter {
         this.init();
     }
 
-    public static createHappeningDTO(happeningModel: IHappeningModel): HappeningDTO {
+
+    public static async createHappeningDTO(happeningModel: IHappeningModel): Promise<HappeningDTO> {
+        let categoryDTOs: CategoryDTO[] = [];
+        await HappeningRouter.getCategories(happeningModel)
+            .then(categories => {
+                categoryDTOs = categories
+            });
+        let secondCategoryDTOs: SecondCategoryDTO[] = [];
+        await HappeningRouter.getSecondCategories(happeningModel)
+            .then(secondCategories => {
+                secondCategoryDTOs = secondCategories
+            });
+        let contentDTOs: ContentDTO[] = [];
+        await HappeningRouter.getContents(happeningModel)
+            .then(contents => {
+                contentDTOs = contents
+            });
+
         const happeningDTO: HappeningDTO = {
             id: happeningModel._id,
             location: happeningModel.location,
             date: happeningModel.date,
             creator: happeningModel.creator,
             description: happeningModel.description,
-            categories: happeningModel.categories,
-            contents: happeningModel.contents,
-            secondCategories: happeningModel.secondCategories
+            categories: categoryDTOs,
+            secondCategories: secondCategoryDTOs,
+            contents: contentDTOs
         };
         return happeningDTO;
+    }
+
+    public static createModelFromDTO(dto: HappeningDTO): IHappeningModel {
+        let model: IHappeningModel = <IHappeningModel>{};
+        model._id = dto.id;
+        model.location = dto.location;
+        model.date = dto.date;
+        model.description = dto.description;
+        model.categories = [];
+        model.secondCategories= [];
+        model.contents= [];
+        dto.categories.forEach((category) => {
+            model.categories.push(category.id);
+        });
+        dto.secondCategories.forEach((secondCategory) => {
+            model.secondCategories.push(secondCategory.id);
+        });
+        dto.contents.forEach((content) => {
+            model.contents.push(content.id);
+        });
+        return model;
     }
 
     /**
      * POST save a Happening
      */
     public save(req: Request, res: Response, next: NextFunction) {
-        const happeningDTO = req.body;
-        new Happening(happeningDTO).save()
+        const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
+        new Happening(happeningModel).save()
             .then((happeningModel: IHappeningModel) => {
-                const happeningDTO: HappeningDTO = HappeningRouter.createHappeningDTO(happeningModel);
+                return HappeningRouter.createHappeningDTO(happeningModel)
+            })
+            .then((happeningDTO: HappeningDTO) => {
                 return res.status(200).json(happeningDTO);
             })
             .catch((err) => {
@@ -48,11 +97,12 @@ export class HappeningRouter {
      * PUT update a Happening
      */
     public update(req: Request, res: Response, next: NextFunction) {
-        const happeningDTO: HappeningDTO = req.body;
-        Happening.findOneAndUpdate({_id: happeningDTO.id}, happeningDTO, {upsert: true, new: true}).exec()
+        const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
+        Happening.findOneAndUpdate({_id: happeningModel._id}, happeningModel, {upsert: true, new: true}).exec()
             .then((happeningModel: IHappeningModel) => {
-                const happeningDTO = HappeningRouter.createHappeningDTO(happeningModel);
-                console.log(happeningDTO);
+                return HappeningRouter.createHappeningDTO(happeningModel);
+            })
+            .then((happeningDTO: HappeningDTO) => {
                 return res.status(200).json(happeningDTO);
             })
             .catch((err) => {
@@ -67,12 +117,14 @@ export class HappeningRouter {
     public getAll(req: Request, res: Response, next: NextFunction) {
 
         Happening.find().exec()
-            .then((happenings: IHappeningModel[]) => {
+            .then(async (happenings: IHappeningModel[]) => {
                 const happeningDTOs: HappeningDTO[] = [];
-                happenings.forEach(happening => {
-                    const happeningDTO: HappeningDTO = HappeningRouter.createHappeningDTO(happening);
-                    happeningDTOs.push(happeningDTO);
-                });
+                await Promise.all(happenings.map(async (happening) => {
+                    await HappeningRouter.createHappeningDTO(happening)
+                        .then((happeningDTO) => {
+                            happeningDTOs.push(happeningDTO);
+                        });
+                }));
                 return res.status(200).json(happeningDTOs);
             })
             .catch((err) => {
@@ -92,8 +144,10 @@ export class HappeningRouter {
                 if (!happening) {
                     return res.status(404).json();
                 }
-                const happeningDTO: HappeningDTO = HappeningRouter.createHappeningDTO(happening);
-                return res.status(200).json(happeningDTO);
+                HappeningRouter.createHappeningDTO(happening)
+                    .then((happeningDTO: HappeningDTO) => {
+                        return res.status(200).json(happeningDTO);
+                    })
             })
             .catch((err) => {
                 console.log(err);
@@ -106,5 +160,49 @@ export class HappeningRouter {
         this.router.get('/:id', AuthGuard.verifyToken, this.getOne);
         this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
         this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save);
+    }
+
+
+
+    public static async getCategories(happeningModel: IHappeningModel): Promise<CategoryDTO[]> {
+        const categoryDTOs: CategoryDTO[] = [];
+        await Promise.all(happeningModel.categories.map(async (categoryId: string) => {
+            await Category.findOne({_id: categoryId}).exec()
+                .then((category: ICategoryModel) => {
+                    categoryDTOs.push(CategoryRouter.createCategoryDTO(category));
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }));
+        return categoryDTOs;
+    }
+
+    public static async getSecondCategories(happeningModel: IHappeningModel): Promise<SecondCategoryDTO[]> {
+        const secondCategoryDTOs: SecondCategoryDTO[] = [];
+        await Promise.all(happeningModel.secondCategories.map(async (secondCategoryId: string) => {
+            await SecondCategory.findOne({_id: secondCategoryId}).exec()
+                .then((secondCategory: ISecondCategoryModel) => {
+                    secondCategoryDTOs.push(SecondCategoryRouter.createSecondCategoryDTO(secondCategory));
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }));
+        return secondCategoryDTOs;
+    }
+
+    public static async getContents(happeningModel: IHappeningModel): Promise<ContentDTO[]> {
+        const contentDTOs: ContentDTO[] = [];
+        await Promise.all(happeningModel.contents.map(async (contentId: string) => {
+            await Content.findOne({_id: contentId}).exec()
+                .then((content: IContentModel) => {
+                    contentDTOs.push(ContentRouter.createContentDTO(content));
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }));
+        return contentDTOs;
     }
 }

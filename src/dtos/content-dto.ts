@@ -1,4 +1,4 @@
 export interface ContentDTO {
-    id?: number;
-    title?: string;
+    id: string;
+    title: string;
 }

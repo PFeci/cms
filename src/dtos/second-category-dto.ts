@@ -1,4 +1,4 @@
 export interface SecondCategoryDTO {
-    id?: number;
-    name?: string;
+    id: string;
+    name: string;
 }

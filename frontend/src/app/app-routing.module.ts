@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'admin',
         loadChildren: 'app/admin-menu/admin-menu.module#AdminMenuModule',
-        canActivateChild: [AuthGuardService]
+        canActivate: [AuthGuardService]
       }
     ]
   },

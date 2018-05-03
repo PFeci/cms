@@ -24,7 +24,7 @@
   <nav style="margin-top: 43px;" class="navbar default-color-dark">
     <span class="navbar-text white-text navbar-nav mr-auto">
           <a class="nav-item float-left">
-            <span class="nav-link"><i class="fa fa-calendar" aria-hidden="true"></i> My events</span>
+            <span class="nav-link" [routerLink]="'event/user'"><i class="fa fa-calendar" aria-hidden="true"></i> My events</span>
           </a>
           <span *ngIf="user.role === admin">
             <a class="nav-item float-left">

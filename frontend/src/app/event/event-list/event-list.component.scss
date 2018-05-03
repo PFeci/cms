@@ -12,9 +12,6 @@
   margin-right: 0;
 }
 .flipp{
-  //position: relative;
-  //width: 200px;
-  //height: 200px;
   float: left;
   margin: 0.5em;
 }
@@ -33,9 +30,6 @@
   /* Assign a perspective, try this value */
   transform: perspective(600px);
   -webkit-transform: perspective(600px);
-
-  //width: 200px;
-  //height: 400px;
   position: absolute;
 }
 
@@ -44,8 +38,6 @@
 
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
-  //background: #27ae60;
-  //text-align: center;
 }
 
 /* The .front card needs to rotate when we hover, 180 degrees will do the trick*/

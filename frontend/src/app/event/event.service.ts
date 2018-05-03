@@ -1,68 +1,36 @@
 import { Injectable } from '@angular/core';
 import {ObserveOnMessage} from 'rxjs/operators/observeOn';
 import {Observable} from 'rxjs/Observable';
-
-export class Event {
-  title: string;
-  description: string;
-  date: any;
-  location: any;
-  labels: string[];
-  cover: string;
-}
+import {UserDTO} from '../../../../src/dtos/user-dto';
+import {HttpClient, HttpRequest} from '@angular/common/http';
+import {HappeningDTO} from '../../../../src/dtos/happening-dto';
+import {CategoryDTO} from '../../../../src/dtos/category-dto';
+import {SecondCategoryDTO} from '../../../../src/dtos/second-category-dto';
 
 @Injectable()
 export class EventService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getEvents(): Observable<Event[]> {
-    let events: Event[] = [];
-    events.push({
-      title: 'Angular 5',
-      description: 'Why is the Angular5 the best. Come',
-      date: new Date(2018, 6, 25),
-      labels: ['new', 'angular'],
-      location: 'otthon',
-      cover: 'https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(97).jpg'
-    });
-    events.push({
-      title: 'Alma',
-      description: 'Why is the Angular5 the best. Come',
-      date: new Date(2018, 11, 2),
-      labels: ['new', 'angular', 'gyümölcs', 'egészség'],
-      location: 'otthon',
-      cover: 'https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(98).jpg'
-    });
-    events.push({
-      title: 'Körte',
-      description: 'Why is the Angular5 the best. Come',
-      date: new Date(2018, 6, 25),
-      labels: ['new', 'angular'],
-      location: 'otthon',
-      cover: 'https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(100).jpg'
-    });
-    events.push({
-      title: 'Meet Me',
-      description: 'The best trip tipps.',
-      date: new Date(2018, 5, 25),
-      labels: ['new', 'trip'],
-      location: 'Andrassy Street',
-      cover: 'https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(147).jpg'
-    });
-    events.push({
-      title: 'Whale whatching',
-      description: 'Everything about whale and whatchings',
-      date: new Date(2018, 7, 10),
-      labels: ['whale', 'whatching'],
-      location: 'Atlantic ocean',
-      cover: 'https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(147).jpg'
-    });
-    return new Observable(observer => {
-      setTimeout(() => {
-        observer.next(events);
-      }, 1000);
-    });
+  getEvents(): Observable<any> {
+    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', 'api/happening/all');
+    return this.http.request(request);
   }
+
+  saveNewEvent(newEvent: HappeningDTO): Observable<any> {
+    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('POST', 'api/happening', newEvent);
+    return this.http.request(request)
+  }
+
+  getCategories(): Observable<any> {
+    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('GET', 'api/category/all');
+    return this.http.request(request);
+  }
+
+  getSecondCategories(): Observable<any> {
+    const request: HttpRequest<SecondCategoryDTO> = new HttpRequest<SecondCategoryDTO>('GET', 'api/secondcategory/all');
+    return this.http.request(request);
+  }
+
 
 }

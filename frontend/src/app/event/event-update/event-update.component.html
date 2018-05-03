@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-sm-2 mb-4">
+    <!--Featured image-->
+    <div class="view overlay rounded z-depth-1-half">
+      <img src="../../../assets/images/owl_teljes.PNG" class="img-fluid" alt="First sample image">
+      <a>
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+  </div>
+  <div class="col-sm-10 mb-4">
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <label>Title</label>
+        <input type="text" class="form-control">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-3">
+        <label>Start Date</label>
+        <br>
+        <p-calendar [(ngModel)]="updateEvent.date" [showTime]="true" hourFormat="24"></p-calendar>
+      </div>
+      <div class="col-sm-3">
+        <label>End Date</label>
+        <br>
+        <p-calendar [showTime]="true" hourFormat="24"></p-calendar>
+      </div>
+      <div class="col-sm-3">
+        <label>Location</label>
+        <input [(ngModel)]="updateEvent.location" type="text" class="form-control">
+      </div>
+      <div class="col-sm-3">
+        <br>
+        <button type="button" class="btn btn-outline-default waves-effect btn-sm">Upload media</button>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <label>Description</label>
+        <textarea [(ngModel)]="updateEvent.description" class="form-control" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <label>Category</label><br>
+        <span *ngFor="let category of categories">
+          <span class="badge" [ngClass]="addedCategory(category) ? 'badge-default': 'grey lighten-2'"
+                (click)="changeCategory(category)">
+            <span>{{category.name}}</span>
+          </span>
+        </span>
+      </div>
+      <div class="col-sm-6">
+        <label>Second category</label><br>
+        <span *ngFor="let scategory of secondCategories">
+         <span class="badge" [ngClass]="addedSecondCategory(scategory) ? 'badge-primary': 'grey lighten-2'"
+               (click)="changeSecondCategory(scategory)">
+            <span>{{scategory.name}}</span>
+          </span>
+        </span>
+      </div>
+    </div>
+    <br>
+    <span class="badge badge-danger update"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></span>
+    <span class="badge badge-default update" (click)="saveEvent()"><i class="fa fa-save fa-2x"
+                                                                      aria-hidden="true"></i></span>
+  </div>
+</div>
+<hr class="mb-5">

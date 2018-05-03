@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {EventComponent} from './event.component';
 import {EventListComponent} from './event-list/event-list.component';
+import {UserEventComponent} from './user-event/user-event.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
         path: '',
         component: EventListComponent,
       },
+      {
+        path: 'user',
+        component: UserEventComponent
+      }
     ]
   }
 ];

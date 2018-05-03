@@ -1,0 +1,33 @@
+<section>
+  <div class="text-right mb-5 pb-5">
+    <a class="btn default-color-dark btn-md text-white" (click)="createNewEvent()"><b><i class="fa fa-plus mr-1"
+                                                                                         aria-hidden="true"></i>&nbsp;Create
+      new event</b></a>
+  </div>
+  <app-event-update *ngIf="newEvent" [updateEvent]="newEvent"></app-event-update>
+  <div class="row">
+    <div class="col-sm-2 mb-4">
+      <!--Featured image-->
+      <div class="view overlay rounded z-depth-1-half">
+        <img src="https://mdbootstrap.com/img/Photos/Others/images/49.jpg" class="img-fluid" alt="First sample image">
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-10 mb-4">
+      <h5 class="mb-3 font-weight-bold dark-grey-text">
+        <strong>This is title of the news</strong>
+      </h5>
+      <p class="grey-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id
+        quod maxime
+        placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus et aut officiis debitis
+        aut rerum.</p>
+      <p>by
+        <a class="font-weight-bold dark-grey-text">Jessica Clark</a>, 26/08/2018</p>
+      <span class="badge badge-default update"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></span>
+    </div>
+  </div>
+  <hr class="mb-5">
+
+</section>

@@ -60,8 +60,8 @@ export class HappeningRouter {
         model.date = dto.date;
         model.description = dto.description;
         model.categories = [];
-        model.secondCategories= [];
-        model.contents= [];
+        model.secondCategories = [];
+        model.contents = [];
         dto.categories.forEach((category) => {
             model.categories.push(category.id);
         });
@@ -98,7 +98,17 @@ export class HappeningRouter {
      */
     public update(req: Request, res: Response, next: NextFunction) {
         const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
-        Happening.findOneAndUpdate({_id: happeningModel._id}, happeningModel, {upsert: true, new: true}).exec()
+        Happening.findOneAndUpdate({_id: happeningModel._id},
+            {
+                $set: {
+                    location: happeningModel.location,
+                    date: happeningModel.date,
+                    description: happeningModel.description,
+                    secondCategories: happeningModel.secondCategories,
+                    contents: happeningModel.contents,
+                    categories: happeningModel.categories
+                }
+            }, {upsert: true, new: true}).exec()
             .then((happeningModel: IHappeningModel) => {
                 return HappeningRouter.createHappeningDTO(happeningModel);
             })
@@ -161,7 +171,6 @@ export class HappeningRouter {
         this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
         this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save);
     }
-
 
 
     public static async getCategories(happeningModel: IHappeningModel): Promise<CategoryDTO[]> {

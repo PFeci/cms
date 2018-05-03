@@ -32,5 +32,19 @@ export class EventService {
     return this.http.request(request);
   }
 
+  getUsersEvent(): Observable<any> {
+    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('GET', 'api/happening/all');
+    return this.http.request(request);
+  }
+
+  updateEvent(updateEvent): Observable<any> {
+    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('PUT', 'api/happening', updateEvent);
+    return this.http.request(request);
+  }
+
+  deleteEvent(deleteEvent): Observable<any> {
+    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('DELETE', 'api/happening');
+    return this.http.request(request);
+  }
 
 }

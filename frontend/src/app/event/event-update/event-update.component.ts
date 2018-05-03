@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
 import {EventService} from '../event.service';
 import {CategoryDTO} from '../../../../../src/dtos/category-dto';
@@ -15,6 +15,7 @@ export class EventUpdateComponent implements OnInit {
   @Input() updateEvent: HappeningDTO;
   categories: CategoryDTO[] = [];
   secondCategories: SecondCategoryDTO[] = [];
+  @Output() finishUpdate: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private eventService: EventService) {
   }
@@ -32,12 +33,26 @@ export class EventUpdateComponent implements OnInit {
 
   saveEvent() {
     if (this.updateEvent.id) {
-
+      this.eventService.updateEvent(this.updateEvent).subscribe(
+        resp => this.finishUpdate.emit(true),
+        err => console.log(err)
+      )
     } else {
       this.eventService.saveNewEvent(this.updateEvent).subscribe(
-        resp => console.log(resp),
+        resp => this.finishUpdate.emit(true),
         err => console.log(err)
       );
+    }
+  }
+
+  deleteEvent() {
+    if (this.updateEvent.id) {
+      this.eventService.deleteEvent(this.updateEvent).subscribe(
+        resp => this.finishUpdate.emit(true),
+        err => console.log(err)
+      )
+    } else {
+      this.finishUpdate.emit(true);
     }
   }
 

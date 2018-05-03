@@ -29,6 +29,7 @@ export class UserEventComponent implements OnInit {
     this.newEvent = <HappeningDTO>{};
     this.newEvent.categories = [];
     this.newEvent.secondCategories = [];
+    this.newEvent.contents = [];
   }
 
   refreshEvents(updatedEvent){

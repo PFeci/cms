@@ -23,4 +23,17 @@ export class UserListComponent implements OnInit {
     );
   }
 
+  updateUser(user){
+    this.userService.updateUser(user).subscribe(
+      resp => user.edit = false,
+      err => console.log(err)
+    );
+  }
+
+  deleteUser(user){
+    this.userService.deleteUser(user).subscribe(
+      resp => console.log(resp),
+      err => console.log(err)
+    )
+  }
 }

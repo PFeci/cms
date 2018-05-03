@@ -15,6 +15,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import {AuthGuard} from '../../../src/routes/auth-guard';
 import {AuthGuardService} from './auth/auth-guard.service';
+import { DeleteModalComponent } from './common/delete-modal/delete-modal.component';
 
 @NgModule({
   declarations: [

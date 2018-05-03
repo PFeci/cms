@@ -113,8 +113,8 @@ export class CategoryRouter {
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', this.getOne);
-        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.delete);
-        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save);
+        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.delete);
+        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.update);
+        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.save);
     }
 }

@@ -41,11 +41,6 @@ export class HappeningRouter {
             .then(contents => {
                 contentDTOs = contents
             });
-        let userDTOs: UserDTO[] = [];
-        await HappeningRouter.getUsers(happeningModel)
-            .then(users => {
-                userDTOs = users
-            });
 
         const happeningDTO: HappeningDTO = {
             id: happeningModel._id,
@@ -56,7 +51,6 @@ export class HappeningRouter {
             categories: categoryDTOs,
             secondCategories: secondCategoryDTOs,
             contents: contentDTOs,
-            subscribers: userDTOs
         };
         return happeningDTO;
     }
@@ -262,21 +256,5 @@ export class HappeningRouter {
                 });
         }));
         return contentDTOs;
-    }
-
-    public static async getUsers(happeningModel: IHappeningModel): Promise<UserDTO[]> {
-        const userDTOs: UserDTO[] = [];
-        await Promise.all(happeningModel.contents.map(async (userId: string) => {
-            await User.findOne({_id: userId}).exec()
-                .then((user: IUserModel) => {
-                    UserRouter.createUserDTO(user).then((userDTO: UserDTO) => {
-                        userDTOs.push(userDTO);
-                    });
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }));
-        return userDTOs;
     }
 }

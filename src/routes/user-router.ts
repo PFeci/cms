@@ -149,10 +149,10 @@ export class UserRouter {
 
     public static async getHappenings(userModel: IUserModel): Promise<HappeningDTO[]> {
         const happeningDTOs: HappeningDTO[] = [];
-        await Promise.all(userModel.interestedCategories.map(async (happeningId: string) => {
+        await Promise.all(userModel.happenings.map(async (happeningId: string) => {
             await Happening.findOne({_id: happeningId}).exec()
-                .then((happening: IHappeningModel) => {
-                    HappeningRouter.createHappeningDTO(happening).then((happeningDTO) => {
+                .then(async(happening: IHappeningModel) => {
+                    await HappeningRouter.createHappeningDTO(happening).then((happeningDTO) => {
                         happeningDTOs.push(happeningDTO);
                     });
                 })

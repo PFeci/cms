@@ -9,7 +9,9 @@ const UserSchema: Schema = new Schema({
         password: String,
         firstName: String,
         lastName: String,
-        role: Schema.Types.Mixed
+        role: Schema.Types.Mixed,
+        interestedCategories: Schema.Types.Array,
+        happenings: Schema.Types.Array
     },{timestamps: true});
 
 

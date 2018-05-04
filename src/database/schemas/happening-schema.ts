@@ -11,7 +11,8 @@ const HappeningSchema: Schema = new Schema({
     categories: Schema.Types.Array,
     secondCategories: Schema.Types.Array,
     contents: Schema.Types.Array,
-    description: String
+    description: String,
+    subscribers: Schema.Types.Array
 }, {timestamps: true});
 
 

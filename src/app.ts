@@ -48,7 +48,6 @@ export class App {
         this.express.use('/api/category', new CategoryRouter().router);
         this.express.use('/api/secondcategory', new SecondCategoryRouter().router);
         this.express.all('/api/*', AuthGuard.verifyToken);
-        this.express.use('/api/email', new EmailRouter().router);
         this.express.use('/api/content', new ContentRouter().router);
         this.express.use('/api/user', new UserRouter().router);
 

@@ -13,6 +13,8 @@ import {SecondCategoryRouter} from "./second-category-router";
 import {ContentDTO} from "../dtos/content-dto";
 import {Content, IContentModel} from "../database/schemas/content-schema";
 import {ContentRouter} from "./content-router";
+import {EmailRouter} from "./email-router";
+import {UserRouter} from "./user-router";
 
 export class HappeningRouter {
     router: Router;
@@ -39,6 +41,11 @@ export class HappeningRouter {
             .then(contents => {
                 contentDTOs = contents
             });
+        let userDTOs: UserDTO[] = [];
+        await HappeningRouter.getUsers(happeningModel)
+            .then(users => {
+                userDTOs = users
+            });
 
         const happeningDTO: HappeningDTO = {
             id: happeningModel._id,
@@ -48,7 +55,8 @@ export class HappeningRouter {
             description: happeningModel.description,
             categories: categoryDTOs,
             secondCategories: secondCategoryDTOs,
-            contents: contentDTOs
+            contents: contentDTOs,
+            subscribers: userDTOs
         };
         return happeningDTO;
     }
@@ -84,7 +92,9 @@ export class HappeningRouter {
                 return HappeningRouter.createHappeningDTO(happeningModel)
             })
             .then((happeningDTO: HappeningDTO) => {
-                return res.status(200).json(happeningDTO);
+                res.locals.happeningModel = happeningModel;
+                res.locals.happeningDTO = happeningDTO;
+                return next();
             })
             .catch((err) => {
                 console.log(err);
@@ -165,11 +175,50 @@ export class HappeningRouter {
             })
     }
 
+    public subscribeToHappening(req: Request, res: Response, next: NextFunction) {
+        const happeningId: string = req.body.happeningId;
+        const userId: string = req.body.userId;
+        User.findOneAndUpdate({_id: userId}, {
+            $push: {
+                happenings: happeningId
+            }
+        }).exec()
+            .then(() => {
+                return Happening.findOneAndUpdate({_id: happeningId},
+                    {
+                        $push: {
+                            subscribers: userId
+                        }
+                    }, {upsert: true, new: true}).exec()
+            })
+            .then((happeningModel: IHappeningModel) => {
+                return HappeningRouter.createHappeningDTO(happeningModel);
+            })
+            .then((happeningDTO: HappeningDTO) => {
+                return res.status(200).json(happeningDTO);
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json({message: err});
+            });
+
+    }
+
+    public getEmailsForNotifications(req: Request, res: Response, next: NextFunction) {
+
+        User.find({interestedCategories: {$in: res.locals.happeningModel.categories}}, {_id: 0, email: 1}).exec()
+            .then((emails: IUserModel[]) => {
+                res.locals.emails = emails;
+                return next();
+            });
+    }
+
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', AuthGuard.verifyToken, this.getOne);
         this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save);
+        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsForNotifications, EmailRouter.sendEmail);
+        this.router.post('/subscribe', AuthGuard.verifyToken, this.subscribeToHappening);
     }
 
 
@@ -213,5 +262,21 @@ export class HappeningRouter {
                 });
         }));
         return contentDTOs;
+    }
+
+    public static async getUsers(happeningModel: IHappeningModel): Promise<UserDTO[]> {
+        const userDTOs: UserDTO[] = [];
+        await Promise.all(happeningModel.contents.map(async (userId: string) => {
+            await User.findOne({_id: userId}).exec()
+                .then((user: IUserModel) => {
+                    UserRouter.createUserDTO(user).then((userDTO: UserDTO) => {
+                        userDTOs.push(userDTO);
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }));
+        return userDTOs;
     }
 }

@@ -8,11 +8,11 @@ const HappeningSchema: Schema = new Schema({
     date: Date,
     location: Schema.Types.Mixed,
     creator: String,
-    categories: Schema.Types.Array,
-    secondCategories: Schema.Types.Array,
-    contents: Schema.Types.Array,
+    categories: [String],
+    secondCategories: [String],
+    contents: [String],
     description: String,
-    subscribers: Schema.Types.Array
+    subscribers: [String]
 }, {timestamps: true});
 
 

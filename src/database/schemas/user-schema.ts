@@ -10,8 +10,8 @@ const UserSchema: Schema = new Schema({
         firstName: String,
         lastName: String,
         role: Schema.Types.Mixed,
-        interestedCategories: Schema.Types.Array,
-        happenings: Schema.Types.Array
+        interestedCategories: [String],
+        happenings: [String]
     },{timestamps: true});
 
 

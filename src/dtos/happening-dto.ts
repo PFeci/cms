@@ -12,5 +12,4 @@ export interface HappeningDTO {
     secondCategories: Array<SecondCategoryDTO>;
     contents: Array<ContentDTO>
     description: string;
-    subscribers: Array<UserDTO>
 }

@@ -2,33 +2,28 @@ import {Router, Request, Response, NextFunction} from 'express';
 import * as Mailjet from "node-mailjet";
 
 export class EmailRouter {
-    router: Router;
-
-    constructor() {
-        this.router = Router();
-        this.init();
-    }
 
     /**
      * POST send an Email
      */
-    public sendEmail(req: Request, res: Response, next: NextFunction) {
+    public static sendEmail(req: Request, res: Response, next: NextFunction) {
 
-        const mailjet = Mailjet.connect('a5a93293af249871ed1ffee1483536c2', '2766929e885bb69d55fff4a0b04cf78b');
+        const emails = res.locals.emails;
+
+        const mailjet = Mailjet.connect('a5a93293af249871ed1ffee1483536c2', '0de09d55d12060ae83529f0588da1d71');
 
         let message = {
-            'FromEmail': 'info@cms.com',
+            'FromEmail': 'plutzerf@hotmail.com',
             'FromName': 'CMS System',
             'Subject': 'New event created you might interested in',
             'Text-part': 'Hello world!',
-            'Recipients': [{'Email': 'fplutzer@gmail.com'}],
+            'Recipients': emails,
         };
 
         mailjet
             .post("send")
             .request(message)
             .then((response: any) => {
-                console.log(response);
                 return res.status(200).json();
             })
             .catch((err: any) => {
@@ -37,8 +32,4 @@ export class EmailRouter {
             });
     }
 
-
-    init() {
-        this.router.post('/send', this.sendEmail);
-    }
 }

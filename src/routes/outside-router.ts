@@ -63,21 +63,23 @@ export class OutsideRouter {
 
         User.findOne({email: userAuthenticateDTO.email}).exec()
             .then((user: IUserModel) => {
-                if (!user) {
-                    return res.status(401).json({message: "Unauthorized Access"});
-                }
-                if (userAuthenticateDTO.password && user.password &&
+                if (user && userAuthenticateDTO.password && user.password &&
                     bcrypt.compareSync(userAuthenticateDTO.password, user.password)) {
-
-                    const userDTO = UserRouter.createUserDTO(user);
-                    const token = jwt.sign({id: userDTO.id, role: userDTO.role, email: userDTO.email}, Config.secret, {
-                        expiresIn: 86400 // expires in 2 hours
-                    });
-                    return res.status(200).json({token: token, user: userDTO});
-                } else {
-                    return res.status(401).json({message: "Unauthorized Access"});
+                    return UserRouter.createUserDTO(user);
                 }
+                throw new Error();
             })
+            .then((userDTO: UserDTO) => {
+                const token = jwt.sign({id: userDTO.id, role: userDTO.role, email: userDTO.email}, Config.secret, {
+                    expiresIn: 86400 // expires in 2 hours
+                });
+                return res.status(200).json({token: token, user: userDTO});
+
+            })
+            .catch((err: any) => {
+                return res.status(401).json({message: "Unauthorized Access"});
+            })
+
     }
 
     init() {

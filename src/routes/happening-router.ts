@@ -13,6 +13,7 @@ import {SecondCategoryRouter} from "./second-category-router";
 import {ContentDTO} from "../dtos/content-dto";
 import {Content, IContentModel} from "../database/schemas/content-schema";
 import {ContentRouter} from "./content-router";
+import {EmailRouter} from "./email-router";
 
 export class HappeningRouter {
     router: Router;
@@ -84,7 +85,9 @@ export class HappeningRouter {
                 return HappeningRouter.createHappeningDTO(happeningModel)
             })
             .then((happeningDTO: HappeningDTO) => {
-                return res.status(200).json(happeningDTO);
+                res.locals.happeningModel = happeningModel;
+                res.locals.happeningDTO = happeningDTO;
+                return next();
             })
             .catch((err) => {
                 console.log(err);
@@ -165,11 +168,20 @@ export class HappeningRouter {
             })
     }
 
+    public getEmailsForNotifications(req: Request, res: Response, next: NextFunction) {
+
+        User.find({interestedCategories: {$in: res.locals.happeningModel.categories}}, {_id: 0, email: 1}).exec()
+            .then((emails : IUserModel[]) => {
+                res.locals.emails = emails;
+                return next();
+            });
+    }
+
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', AuthGuard.verifyToken, this.getOne);
         this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save);
+        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsForNotifications, EmailRouter.sendEmail);
     }
 
 

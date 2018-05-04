@@ -1,4 +1,5 @@
 import {Role} from "../enums/role";
+import {CategoryDTO} from "./category-dto";
 
 export interface UserDTO {
     id: string;
@@ -6,4 +7,5 @@ export interface UserDTO {
     firstName: string;
     lastName: string;
     role: Role;
+    interestedCategories: Array<CategoryDTO>
 }

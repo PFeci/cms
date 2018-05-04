@@ -164,6 +164,22 @@ export class HappeningRouter {
             })
     }
 
+    /**
+     * DELETE one Happening by id
+     */
+    public delete(req: Request, res: Response, next: NextFunction) {
+
+        const happeningId = req.params.id;
+        Happening.findOneAndRemove({_id: happeningId})
+            .then(() => {
+                return res.status(200).json();
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json({message: err});
+            })
+    }
+
     public subscribeToHappening(req: Request, res: Response, next: NextFunction) {
         const happeningId: string = req.body.happeningId;
         const userId: string = req.body.userId;
@@ -211,12 +227,15 @@ export class HappeningRouter {
             });
     }
 
+
+
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', AuthGuard.verifyToken, this.getOne);
         this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update, this.getEmailsOnUpdate, EmailRouter.sendUpdateEmail);
         this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsOnCreation, EmailRouter.sendCreateEmail);
         this.router.post('/subscribe', AuthGuard.verifyToken, this.subscribeToHappening);
+        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.delete);
     }
 
 

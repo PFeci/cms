@@ -149,11 +149,28 @@ export class UserRouter {
             })
     }
 
+    /**
+     * DELETE one User by id
+     */
+    public delete(req: Request, res: Response, next: NextFunction) {
+
+        const userId = req.params.id;
+        User.findOneAndRemove({_id: userId})
+            .then(() => {
+                return res.status(200).json();
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json({message: err});
+            })
+    }
+
     init() {
         this.router.get('/all', AuthGuard.verifyAdmin, this.getAll);
         this.router.get('/:id', this.getOne);
         this.router.put('/', AuthGuard.verifyToken, this.update);
         this.router.put('/role', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.updateRole);
+        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.delete);
     }
 
     public static async getCategories(userModel: IUserModel): Promise<CategoryDTO[]> {

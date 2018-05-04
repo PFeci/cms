@@ -6,11 +6,12 @@ import {HttpClient, HttpRequest} from '@angular/common/http';
 import {HappeningDTO} from '../../../../src/dtos/happening-dto';
 import {CategoryDTO} from '../../../../src/dtos/category-dto';
 import {SecondCategoryDTO} from '../../../../src/dtos/second-category-dto';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class EventService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getEvents(): Observable<any> {
     const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', 'api/happening/all');
@@ -44,6 +45,15 @@ export class EventService {
 
   deleteEvent(deleteEvent): Observable<any> {
     const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('DELETE', 'api/happening');
+    return this.http.request(request);
+  }
+
+  subscribeEvent(subscribe: HappeningDTO): Observable<any> {
+    let body = {
+      happeningId: subscribe.id,
+      userId: this.authService.getUser().id
+    };
+    const request: HttpRequest<any> = new HttpRequest<any>('POST', 'api/happening/subscribe', body);
     return this.http.request(request);
   }
 

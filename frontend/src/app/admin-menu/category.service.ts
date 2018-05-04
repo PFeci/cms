@@ -14,12 +14,17 @@ export class CategoryService {
   }
 
   deleteCategory(category: CategoryDTO): Observable<any> {
-    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('GET', 'api/category/all');
+    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('DELETE', `api/category/${category.id}`);
     return this.http.request(request);
   }
 
   updateCategory(category: CategoryDTO): Observable<any> {
     const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('PUT', 'api/category', category);
+    return this.http.request(request);
+  }
+
+  createCategory(category): Observable<any> {
+    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('POST', 'api/category', category);
     return this.http.request(request);
   }
 }

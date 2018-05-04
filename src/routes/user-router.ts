@@ -84,6 +84,28 @@ export class UserRouter {
     }
 
     /**
+     * PUT update a User's role
+     */
+    public updateRole(req: Request, res: Response, next: NextFunction) {
+        const userModel: IUserModel = UserRouter.createModelFromDTO(req.body);
+        User.findOneAndUpdate({email: userModel.email}, {
+            $set: {
+                role: userModel.role
+            }
+        }, {upsert: true, new: true}).exec()
+            .then((userModel: IUserModel) => {
+                return UserRouter.createUserDTO(userModel);
+            })
+            .then((userDTO: UserDTO) => {
+                return res.status(200).json(userDTO);
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json({message: err});
+            });
+    }
+
+    /**
      * GET all User
      */
     public getAll(req: Request, res: Response, next: NextFunction) {
@@ -130,7 +152,8 @@ export class UserRouter {
     init() {
         this.router.get('/all', AuthGuard.verifyAdmin, this.getAll);
         this.router.get('/:id', this.getOne);
-        this.router.put('/', this.update);
+        this.router.put('/', AuthGuard.verifyToken, this.update);
+        this.router.put('/role', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.updateRole);
     }
 
     public static async getCategories(userModel: IUserModel): Promise<CategoryDTO[]> {
@@ -151,7 +174,7 @@ export class UserRouter {
         const happeningDTOs: HappeningDTO[] = [];
         await Promise.all(userModel.happenings.map(async (happeningId: string) => {
             await Happening.findOne({_id: happeningId}).exec()
-                .then(async(happening: IHappeningModel) => {
+                .then(async (happening: IHappeningModel) => {
                     await HappeningRouter.createHappeningDTO(happening).then((happeningDTO) => {
                         happeningDTOs.push(happeningDTO);
                     });

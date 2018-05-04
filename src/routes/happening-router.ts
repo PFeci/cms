@@ -83,11 +83,7 @@ export class HappeningRouter {
         const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
         new Happening(happeningModel).save()
             .then((happeningModel: IHappeningModel) => {
-                return HappeningRouter.createHappeningDTO(happeningModel)
-            })
-            .then((happeningDTO: HappeningDTO) => {
                 res.locals.happeningModel = happeningModel;
-                res.locals.happeningDTO = happeningDTO;
                 return next();
             })
             .catch((err) => {
@@ -102,6 +98,7 @@ export class HappeningRouter {
      */
     public update(req: Request, res: Response, next: NextFunction) {
         const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
+
         Happening.findOneAndUpdate({_id: happeningModel._id},
             {
                 $set: {
@@ -114,10 +111,8 @@ export class HappeningRouter {
                 }
             }, {upsert: true, new: true}).exec()
             .then((happeningModel: IHappeningModel) => {
-                return HappeningRouter.createHappeningDTO(happeningModel);
-            })
-            .then((happeningDTO: HappeningDTO) => {
-                return res.status(200).json(happeningDTO);
+                res.locals.happeningModel = happeningModel;
+                return next();
             })
             .catch((err) => {
                 console.log(err);
@@ -198,7 +193,16 @@ export class HappeningRouter {
 
     }
 
-    public getEmailsForNotifications(req: Request, res: Response, next: NextFunction) {
+    public getEmailsOnUpdate(req: Request, res: Response, next: NextFunction) {
+
+        User.find({_id: {$in: res.locals.happeningModel.subscribers}}, {_id: 0, email: 1}).exec()
+            .then((emails: IUserModel[]) => {
+                res.locals.emails = emails;
+                return next();
+            });
+    }
+
+    public getEmailsOnCreation(req: Request, res: Response, next: NextFunction) {
 
         User.find({interestedCategories: {$in: res.locals.happeningModel.categories}}, {_id: 0, email: 1}).exec()
             .then((emails: IUserModel[]) => {
@@ -210,8 +214,8 @@ export class HappeningRouter {
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', AuthGuard.verifyToken, this.getOne);
-        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsForNotifications, EmailRouter.sendEmail);
+        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update, this.getEmailsOnUpdate, EmailRouter.sendUpdateEmail);
+        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsOnCreation, EmailRouter.sendCreateEmail);
         this.router.post('/subscribe', AuthGuard.verifyToken, this.subscribeToHappening);
     }
 

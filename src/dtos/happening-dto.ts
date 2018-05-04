@@ -1,6 +1,7 @@
 import {CategoryDTO} from "./category-dto";
 import {SecondCategoryDTO} from "./second-category-dto";
 import {ContentDTO} from "./content-dto";
+import {UserDTO} from "./user-dto";
 
 export interface HappeningDTO {
     id: string;
@@ -11,4 +12,5 @@ export interface HappeningDTO {
     secondCategories: Array<SecondCategoryDTO>;
     contents: Array<ContentDTO>
     description: string;
+    subscribers: Array<UserDTO>
 }

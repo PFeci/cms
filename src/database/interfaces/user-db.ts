@@ -7,4 +7,5 @@ export interface UserDb {
     lastName: string;
     role: Role;
     interestedCategories: Array<string>;
+    happenings: Array<string>;
 }

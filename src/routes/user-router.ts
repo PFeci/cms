@@ -5,7 +5,7 @@ import {Role} from "../enums/role";
 import {AuthGuard} from "./auth-guard";
 import {CategoryDTO} from "../dtos/category-dto";
 import {HappeningRouter} from "./happening-router";
-import {IHappeningModel} from "../database/schemas/happening-schema";
+import {Happening, IHappeningModel} from "../database/schemas/happening-schema";
 import {CategoryRouter} from "./category-router";
 import {Category, ICategoryModel} from "../database/schemas/category-schema";
 import {HappeningDTO} from "../dtos/happening-dto";
@@ -24,13 +24,19 @@ export class UserRouter {
             .then(categories => {
                 categoryDTOs = categories
             });
+        let happeningDTOs: HappeningDTO[] = [];
+        await UserRouter.getHappenings(userModel)
+            .then(happenings => {
+                happeningDTOs = happenings
+            });
         const userDTO: UserDTO = {
             id: userModel._id,
             email: userModel.email,
             firstName: userModel.firstName,
             lastName: userModel.lastName,
             role: userModel.role,
-            interestedCategories: categoryDTOs
+            interestedCategories: categoryDTOs,
+            happenings: happeningDTOs
         };
         return userDTO;
     }
@@ -43,8 +49,12 @@ export class UserRouter {
         model.firstName = dto.firstName;
         model.role = dto.role;
         model.interestedCategories = [];
+        model.happenings = [];
         dto.interestedCategories.forEach((category) => {
             model.interestedCategories.push(category.id);
+        });
+        dto.happenings.forEach((happening) => {
+            model.happenings.push(happening.id);
         });
         return model;
     }
@@ -135,5 +145,21 @@ export class UserRouter {
                 });
         }));
         return categoryDTOs;
+    }
+
+    public static async getHappenings(userModel: IUserModel): Promise<HappeningDTO[]> {
+        const happeningDTOs: HappeningDTO[] = [];
+        await Promise.all(userModel.interestedCategories.map(async (happeningId: string) => {
+            await Happening.findOne({_id: happeningId}).exec()
+                .then((happening: IHappeningModel) => {
+                    HappeningRouter.createHappeningDTO(happening).then((happeningDTO) => {
+                        happeningDTOs.push(happeningDTO);
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }));
+        return happeningDTOs;
     }
 }

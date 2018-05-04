@@ -18,12 +18,13 @@
         </div>
       </div>
       <div class="col-sm-10 mb-4">
-        <h5 class="mb-3 font-weight-bold dark-grey-text">
+        <div class="font-weight-bold dark-grey-text">
           <strong>This is title of the news</strong>
-        </h5>
+        </div>
         <span class="badge badge-default" *ngFor="let category of userEvent.categories">{{category.name}}</span>
         <span class="badge badge-primary" *ngFor="let scategory of userEvent.secondCategories">{{scategory.name}}</span>
-        <p class="grey-text">{{userEvent.description}}</p>
+
+        <p class="grey-text"><br>{{userEvent.description}}</p>
         <div><i class="fa fa-calendar-o" aria-hidden="true"></i>
           <span>{{userEvent.date | date}}</span></div>
         <div>

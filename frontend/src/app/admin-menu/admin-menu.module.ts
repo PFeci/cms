@@ -4,12 +4,13 @@ import {AdminMenuRoutingModule} from './admin-menu-routing.module';
 import {UserListComponent} from './user-list/user-list.component';
 import {UserListService} from './user-list.service';
 import {AdminMenuComponent} from './admin-menu.component';
-import {ContentComponent} from './content/content.component';
+import {CategoryComponent} from './category/category.component';
 import {EmailSettingComponent} from './email-setting/email-setting.component';
 import {DatabaseSettingComponent} from './database-setting/database-setting.component';
 import {FormsModule} from '@angular/forms';
 import {DeleteModalComponent} from '../common/delete-modal/delete-modal.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
+import {CategoryService} from './category.service';
 
 @NgModule({
   imports: [
@@ -18,8 +19,8 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
     FormsModule,
     MDBBootstrapModule.forRoot(),
   ],
-  declarations: [UserListComponent, AdminMenuComponent, ContentComponent, EmailSettingComponent, DatabaseSettingComponent, DeleteModalComponent],
-  providers: [UserListService],
+  declarations: [UserListComponent, AdminMenuComponent, CategoryComponent, EmailSettingComponent, DatabaseSettingComponent, DeleteModalComponent],
+  providers: [UserListService, CategoryService],
   schemas: [NO_ERRORS_SCHEMA]
 
 })

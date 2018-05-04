@@ -209,6 +209,35 @@ export class HappeningRouter {
 
     }
 
+    public unSubscribeFromHappening(req: Request, res: Response, next: NextFunction) {
+        const happeningId: string = req.body.happeningId;
+        const userId: string = req.body.userId;
+        User.findOneAndUpdate({_id: userId}, {
+            $pull: {
+                happenings: happeningId
+            }
+        }).exec()
+            .then(() => {
+                return Happening.findOneAndUpdate({_id: happeningId},
+                    {
+                        $pull: {
+                            subscribers: userId
+                        }
+                    }, {upsert: true, new: true}).exec()
+            })
+            .then((happeningModel: IHappeningModel) => {
+                return HappeningRouter.createHappeningDTO(happeningModel);
+            })
+            .then((happeningDTO: HappeningDTO) => {
+                return res.status(200).json(happeningDTO);
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json({message: err});
+            });
+
+    }
+
     public getEmailsOnUpdate(req: Request, res: Response, next: NextFunction) {
 
         User.find({_id: {$in: res.locals.happeningModel.subscribers}}, {_id: 0, email: 1}).exec()
@@ -235,6 +264,7 @@ export class HappeningRouter {
         this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update, this.getEmailsOnUpdate, EmailRouter.sendUpdateEmail);
         this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsOnCreation, EmailRouter.sendCreateEmail);
         this.router.post('/subscribe', AuthGuard.verifyToken, this.subscribeToHappening);
+        this.router.post('/unsubscribe', AuthGuard.verifyToken, this.unSubscribeFromHappening);
         this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.delete);
     }
 

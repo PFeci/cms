@@ -51,9 +51,18 @@ export class EventService {
   subscribeEvent(subscribe: HappeningDTO): Observable<any> {
     let body = {
       happeningId: subscribe.id,
-      userId: this.authService.getUser().id
+      userId: this.authService.getUserId()
     };
-    const request: HttpRequest<any> = new HttpRequest<any>('POST', 'api/happening/subscribe', body);
+    const request: HttpRequest<HappeningDTO> = new HttpRequest<any>('POST', 'api/happening/subscribe', body);
+    return this.http.request(request);
+  }
+
+  unsubscribeEvent(unsubscribe: HappeningDTO): Observable<any> {
+    let body = {
+      happeningId: unsubscribe.id,
+      userId: this.authService.getUserId()
+    };
+    const request: HttpRequest<HappeningDTO> = new HttpRequest<any>('POST', 'api/happening/unsubscribe', body);
     return this.http.request(request);
   }
 

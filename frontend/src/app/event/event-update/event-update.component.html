@@ -62,9 +62,10 @@
       </div>
     </div>
     <br>
-    <span class="badge badge-danger update"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></span>
+    <span class="badge badge-danger update" (click)="delete.open(event)"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></span>
     <span class="badge badge-default update" (click)="saveEvent()"><i class="fa fa-save fa-2x"
                                                                       aria-hidden="true"></i></span>
   </div>
 </div>
 <hr class="mb-5">
+<app-delete-modal #delete (deleteEvent)="deleteEvent()"></app-delete-modal>

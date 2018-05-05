@@ -11,7 +11,7 @@ export class AuthGuardService implements CanActivate{
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.getUser() && this.authService.getUser().role === Role.ADMIN) {
+    if (this.authService.getToken() && this.authService.getRole() === Role.ADMIN) {
       return true;
     }
     this.router.navigate(['/home/event']);

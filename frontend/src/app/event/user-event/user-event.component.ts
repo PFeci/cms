@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
 import {EventService} from '../event.service';
 
@@ -12,27 +12,33 @@ export class UserEventComponent implements OnInit {
   newEvent: HappeningDTO;
   usersEvent: HappeningDTO[];
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService) {
+  }
 
   ngOnInit() {
     this.getAllEvents();
   }
 
-  getAllEvents(){
+  getAllEvents() {
     this.eventService.getUsersEvent().subscribe(
-      resp => this.usersEvent = resp['body'],
+      resp => {
+        if (resp['body']) {
+          this.usersEvent = resp['body']['happenings'];
+          this.usersEvent.forEach(event => event.date = new Date(event.date));
+        }
+      },
       err => console.log(err)
     );
   }
 
-  createNewEvent(){
+  createNewEvent() {
     this.newEvent = <HappeningDTO>{};
     this.newEvent.categories = [];
     this.newEvent.secondCategories = [];
     this.newEvent.contents = [];
   }
 
-  refreshEvents(updatedEvent){
+  refreshEvents(updatedEvent) {
     this.getAllEvents();
     this.newEvent ? this.newEvent = null : '';
     updatedEvent ? updatedEvent.update = false : '';

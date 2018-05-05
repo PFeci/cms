@@ -3,25 +3,37 @@ import {HttpClient, HttpRequest} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {UserDTO} from '../../../../src/dtos/user-dto';
+import {Role} from '../../../../src/enums/role';
 
 @Injectable()
 export class AuthService {
 
   private token: string;
-  private currentUser: UserDTO;
+  private userId: string;
+  private role: string;
   public loggedIn = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {
-    this.token = localStorage.getItem('token');
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    localStorage.getItem('token') ? this.token = localStorage.getItem('token') : '';
+    localStorage.getItem('user') ? this.userId = localStorage.getItem('user') : '';
+    localStorage.getItem('role') ? this.role = localStorage.getItem('role') : '';
   }
 
   getToken(){
     return this.token;
   }
 
+  getRole(){
+    return this.role;
+  }
+
+  getUserId() {
+    return this.userId;
+  }
+
   getUser(){
-    return this.currentUser;
+    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', `api/user/${this.userId}`);
+    return this.http.request(request);
   }
 
   login(user) {
@@ -46,9 +58,11 @@ export class AuthService {
       let token = resp.body.token;
       let user = resp.body.user;
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', user.id);
+      localStorage.setItem('role', user.role);
       this.token = token;
-      this.currentUser = user;
+      this.userId = user.id;
+      this.role = user.role;
       this.loggedIn.next(true);
     }
   }

@@ -11,7 +11,7 @@ import {Role} from '../../../../src/enums/role';
 export class MenuComponent implements OnInit {
 
   isLoged: boolean = false;
-  user: UserDTO;
+  user: UserDTO = <UserDTO> {};
   admin = Role.ADMIN;
 
   constructor(private authService: AuthService) {
@@ -19,12 +19,19 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.isLoged = this.authService.getToken() ? true : false;
-    this.user = this.authService.getUser();
+    this.getUser();
     this.authService.loggedIn.subscribe(
       resp => {
         this.isLoged = resp;
-        this.user = this.authService.getUser();
+        this.getUser();
       });
+  }
+
+  getUser(){
+    this.authService.getUser().subscribe(
+      resp => this.user = resp['body'],
+      err => console.log(err)
+    )
   }
 
   logout() {

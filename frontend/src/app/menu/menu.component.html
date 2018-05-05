@@ -13,7 +13,7 @@
       <li *ngIf="isLoged" class="nav-item waves-light" mdbWavesEffect>
         <a class="nav-link" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
            aria-controls="collapseExample">
-          {{user.firstName}} {{user.lastName}} <i class="fa fa-chevron-down" aria-hidden="true"></i>
+          {{user?.firstName}} {{user?.lastName}} <i class="fa fa-chevron-down" aria-hidden="true"></i>
         </a>
       </li>
     </ul>
@@ -23,10 +23,16 @@
 <div *ngIf="isLoged" class="collapse" id="collapseExample">
   <nav style="margin-top: 43px;" class="navbar default-color-dark">
     <span class="navbar-text white-text navbar-nav mr-auto">
+      <a class="nav-item float-left">
+            <span class="nav-link" [routerLink]="'event/subscription'"><i class="fa fa-calendar-o" aria-hidden="true"></i>Subscriptions</span>
+          </a>
+      <a class="nav-item float-left">
+            <span class="nav-link" [routerLink]="''"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</span>
+          </a>
           <a class="nav-item float-left">
             <span class="nav-link" [routerLink]="'event/user'"><i class="fa fa-calendar" aria-hidden="true"></i> My events</span>
           </a>
-          <span *ngIf="user.role === admin">
+          <span *ngIf="user?.role === admin">
             <a class="nav-item float-left">
               <span class="nav-link" [routerLink]="'admin/users'"><i class="fa fa-user"></i> Users</span>
             </a>
@@ -34,7 +40,8 @@
               <span class="nav-link" [routerLink]="'admin/content'"><i class="fa fa-file" aria-hidden="true"></i> Categories</span>
             </a>
              <a class="nav-item float-left">
-              <span class="nav-link" [routerLink]="'admin/email'"><i class="fa fa-at" aria-hidden="true"></i> Emails</span>
+              <span class="nav-link" [routerLink]="'admin/email'"><i class="fa fa-at"
+                                                                     aria-hidden="true"></i> Emails</span>
             </a>
             <a class="nav-item float-left">
               <span class="nav-link" [routerLink]="'admin/database'"><i class="fa fa-database" aria-hidden="true"></i>Database</span>

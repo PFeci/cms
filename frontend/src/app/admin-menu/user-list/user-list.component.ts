@@ -24,7 +24,7 @@ export class UserListComponent implements OnInit {
   }
 
   updateUser(user){
-    this.userService.updateUser(user).subscribe(
+    this.userService.changeRole(user).subscribe(
       resp => user.edit = false,
       err => console.log(err)
     );

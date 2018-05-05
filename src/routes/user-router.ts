@@ -163,6 +163,13 @@ export class UserRouter {
         const userId = req.params.id;
         User.findOneAndRemove({_id: userId})
             .then(() => {
+                return Happening.update({}, {
+                    $pull: {
+                        subscribers: userId
+                    }
+                }).exec();
+            })
+            .then(() => {
                 return res.status(200).json();
             })
             .catch((err) => {

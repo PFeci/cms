@@ -21,13 +21,13 @@ export class EventCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.loggedIn) {
+    if (this.authService.getUserId()) {
       this.getUser();
     }
   }
 
   getUser() {
-    if (this.authService.loggedIn) {
+    if (this.authService.getUserId()) {
       this.authService.getUser().subscribe(
         resp => {
           this.user = resp['body'];

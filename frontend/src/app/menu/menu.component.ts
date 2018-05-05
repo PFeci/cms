@@ -28,7 +28,7 @@ export class MenuComponent implements OnInit {
   }
 
   getUser() {
-    if (this.authService.loggedIn) {
+    if (this.authService.getUserId()) {
       this.authService.getUser().subscribe(
         resp => this.user = resp['body'],
         err => console.log(err)

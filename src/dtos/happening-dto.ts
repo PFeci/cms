@@ -5,7 +5,8 @@ import {UserDTO} from "./user-dto";
 
 export interface HappeningDTO {
     id: string;
-    date: Date;
+    startDate: Date;
+    endDate: Date;
     location: string;
     creator: string;
     categories: Array<CategoryDTO>;

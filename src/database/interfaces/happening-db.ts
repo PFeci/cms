@@ -3,7 +3,8 @@ import {SecondCategoryDb} from "./second-category-db";
 import {ContentDb} from "./content-db";
 
 export interface HappeningDb {
-    date: Date;
+    startDate: Date;
+    endDate: Date;
     location: string,
     creator: string,
     categories: Array<string>,

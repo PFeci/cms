@@ -115,7 +115,8 @@ export class HappeningRouter {
             {
                 $set: {
                     location: happeningModel.location,
-                    date: happeningModel.date,
+                    startDate: happeningModel.startDate,
+                    endDate: happeningModel.endDate,
                     description: happeningModel.description,
                     secondCategories: happeningModel.secondCategories,
                     contents: happeningModel.contents,

@@ -12,6 +12,7 @@ import {DeleteModalComponent} from '../common/delete-modal/delete-modal.componen
 import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import { EventSubscriptionComponent } from './event-subscription/event-subscription.component';
 import { EventCardComponent } from './event-card/event-card.component';
+import {CommonsModule} from '../common/commons.module';
 
 @NgModule({
   imports: [
@@ -19,9 +20,10 @@ import { EventCardComponent } from './event-card/event-card.component';
     EventRoutingModule,
     CalendarModule,
     FormsModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    CommonsModule
   ],
-  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, DeleteModalComponent, EventSubscriptionComponent, EventCardComponent],
+  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent],
   providers: [EventService]
 })
 export class EventModule { }

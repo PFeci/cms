@@ -4,7 +4,7 @@
       <div class="view overlay">
         <div class="mdb-color lighten-3 text-center"></div>
         <img class="img-fluid z-depth-2 rounded"
-             [src]="event.cover">
+             [src]="">
         <div class="text-block">
           <h4>{{event.title}}</h4>
         </div>
@@ -20,8 +20,8 @@
         </div>
         <hr>
         <a class="badge badge-primary" style="margin-right: 4px; margin-bottom: -10px;"
-           *ngFor="let label of event.labels">{{label}}</a>
-        <a (click)="flippCard(i)" class=" card-text right" style="float: right; margin-bottom: -15px; margin-top: 15px;"><i
+           *ngFor="let category of event.categories">{{category.name}}</a>
+        <a (click)="flippCard()" class=" card-text right" style="float: right; margin-bottom: -15px; margin-top: 15px;"><i
           class="fa fa-arrow-right" aria-hidden="true"></i></a>
       </div>
 

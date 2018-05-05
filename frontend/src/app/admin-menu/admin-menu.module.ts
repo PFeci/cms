@@ -11,6 +11,7 @@ import {FormsModule} from '@angular/forms';
 import {DeleteModalComponent} from '../common/delete-modal/delete-modal.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import {CategoryService} from './category.service';
+import {CommonsModule} from '../common/commons.module';
 
 @NgModule({
   imports: [
@@ -18,8 +19,9 @@ import {CategoryService} from './category.service';
     AdminMenuRoutingModule,
     FormsModule,
     MDBBootstrapModule.forRoot(),
+    CommonsModule
   ],
-  declarations: [UserListComponent, AdminMenuComponent, CategoryComponent, EmailSettingComponent, DatabaseSettingComponent, DeleteModalComponent],
+  declarations: [UserListComponent, AdminMenuComponent, CategoryComponent, EmailSettingComponent, DatabaseSettingComponent],
   providers: [UserListService, CategoryService],
   schemas: [NO_ERRORS_SCHEMA]
 

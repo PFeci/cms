@@ -32,8 +32,10 @@ export class AuthService {
   }
 
   getUser(){
-    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', `api/user/${this.userId}`);
-    return this.http.request(request);
+    if(this.getUserId()){
+      const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', `api/user/${this.userId}`);
+      return this.http.request(request);
+    }
   }
 
   login(user) {

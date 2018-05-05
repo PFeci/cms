@@ -1,0 +1,43 @@
+<div class="flipp" [ngClass]="flipp? 'hover': ''" [id]="'flipp'+ index">
+  <div class="front">
+    <div class="card card-cascade" style="margin-bottom: 10%; width: 350px; height: 360px">
+      <div class="view overlay">
+        <div class="mdb-color lighten-3 text-center"></div>
+        <img class="img-fluid z-depth-2 rounded"
+             [src]="event.cover">
+        <div class="text-block">
+          <h4>{{event.title}}</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row card-text">
+          <div class="col-sm-2"><i class="fa fa-calendar-o" aria-hidden="true"></i></div>
+          <div class="col-sm-10">{{event.date | date}}</div>
+        </div>
+        <div class="row card-text">
+          <div class="col-sm-2"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+          <div class="col-sm-10"> {{event.location}}</div>
+        </div>
+        <hr>
+        <a class="badge badge-primary" style="margin-right: 4px; margin-bottom: -10px;"
+           *ngFor="let label of event.labels">{{label}}</a>
+        <a (click)="flippCard(i)" class=" card-text right" style="float: right; margin-bottom: -15px; margin-top: 15px;"><i
+          class="fa fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+
+    </div>
+  </div>
+  <div class="back">
+    <div class="card" style="margin-bottom: 10%; width: 350px; height: 360px">
+      <div class="card-body">
+        <div class="card-text">
+          <h5 *ngIf="user && !isSubscribe()" (click)="subscribeEvent()"><span class="badge badge-primary float-right"><i class="fa fa-at" aria-hidden="true"></i>&nbsp;Subscribe</span></h5>
+          <h5 *ngIf="user && isSubscribe()" (click)="unsubscribeEvent()"><span class="badge badge-light float-right"><i class="fa fa-at" aria-hidden="true"></i>&nbsp;Unsubscribe</span></h5>
+          {{event.description}}
+        </div>
+        <a (click)="flippCard()" class=" card-text right" style="float: left; margin-bottom: -15px; margin-top: 15px;"><i
+          class="fa fa-arrow-left" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+</div>

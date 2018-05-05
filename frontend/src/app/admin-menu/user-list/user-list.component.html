@@ -1,0 +1,39 @@
+<div class="card card-body">
+  <div class="card-text">
+    <table class="table">
+      <thead class="mdb-color grey lighten-3">
+      <tr class="text-black">
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.email}}</td>
+        <td>
+          <select class="form-control form-control-sm" [(ngModel)]="user.role" [disabled]="!user.edit">
+            <option value="ADMIN">admin</option>
+            <option value="USER">user</option>
+            <option value="SUPPORTER">supporter</option>
+          </select>
+        </td>
+        <td>
+          <div class="float-right">
+          <span (click)="user.edit = true" *ngIf="!user.edit" class="badge badge-primary"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+          <span (click)="updateUser(user)" *ngIf="user.edit" class="badge badge-default"><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
+          <span (click)="delete.open(user)" class="badge badge-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-delete-modal #delete (deleteEvent)="deleteUser($event)"></app-delete-modal>

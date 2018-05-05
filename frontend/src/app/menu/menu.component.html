@@ -1,28 +1,60 @@
-
-<mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark default-color scrolling-navbar ie-nav" [containerInside]="false">
+<mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark default-color scrolling-navbar ie-nav"
+            [containerInside]="false">
   <logo>
-    <a class="logo navbar-brand" href="#"><img src="../../assets/images/owl_teljes.PNG" width="20" style="margin-right: 13px; margin-top: -5px"><strong>EventBook</strong></a>
+    <a class="logo navbar-brand" href="#"><img src="../../assets/images/owl_teljes.PNG" width="20"
+                                               style="margin-right: 13px; margin-top: -5px"><strong>EventBook</strong></a>
   </logo>
   <links>
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active waves-light" mdbWavesEffect>
-        <a class="nav-link">Events <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item waves-light" mdbWavesEffect *ngIf="isLoged">
-        <a class="nav-link">Features</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav nav-flex-icons" >
+    <ul class="navbar-nav mr-auto"></ul>
+    <ul class="navbar-nav nav-flex-icons">
       <li *ngIf="!isLoged" class="nav-item waves-light" mdbWavesEffect (click)="fluid.open()">
         <a class="nav-link"><i class="fa fa-user"></i> Sign In / Up</a>
+      </li>
+      <li *ngIf="isLoged" class="nav-item waves-light" mdbWavesEffect>
+        <a class="nav-link" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+           aria-controls="collapseExample">
+          {{user?.firstName}} {{user?.lastName}} <i class="fa fa-chevron-down" aria-hidden="true"></i>
+        </a>
       </li>
     </ul>
   </links>
 </mdb-navbar>
+<br>
+<div *ngIf="isLoged" class="collapse" id="collapseExample">
+  <nav style="margin-top: 43px;" class="navbar default-color-dark">
+    <span class="navbar-text white-text navbar-nav mr-auto">
+      <a class="nav-item float-left">
+            <span class="nav-link" [routerLink]="'event/subscription'"><i class="fa fa-calendar-o" aria-hidden="true"></i>Subscriptions</span>
+          </a>
+      <a class="nav-item float-left">
+            <span class="nav-link" [routerLink]="''"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</span>
+          </a>
+          <a class="nav-item float-left">
+            <span class="nav-link" [routerLink]="'event/user'"><i class="fa fa-calendar" aria-hidden="true"></i> My events</span>
+          </a>
+          <span *ngIf="user?.role === admin">
+            <a class="nav-item float-left">
+              <span class="nav-link" [routerLink]="'admin/users'"><i class="fa fa-user"></i> Users</span>
+            </a>
+            <a class="nav-item float-left">
+              <span class="nav-link" [routerLink]="'admin/content'"><i class="fa fa-file" aria-hidden="true"></i> Categories</span>
+            </a>
+             <a class="nav-item float-left">
+              <span class="nav-link" [routerLink]="'admin/email'"><i class="fa fa-at"
+                                                                     aria-hidden="true"></i> Emails</span>
+            </a>
+            <a class="nav-item float-left">
+              <span class="nav-link" [routerLink]="'admin/database'"><i class="fa fa-database" aria-hidden="true"></i>Database</span>
+            </a>
+          </span>
+          <a (click)="logout()" class="nav-item float-left">
+            <span class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</span>
+          </a>
+    </span>
+  </nav>
+</div>
 
-
-
-<div style="margin-top: 6%; margin-left: 2%">
+<div>
   <router-outlet></router-outlet>
 </div>
 <app-login #fluid></app-login>

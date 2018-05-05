@@ -1,0 +1,34 @@
+<br>
+<div class="text-right mb-3">
+  <a class="btn default-color-dark btn-md text-white" (click)="createNewCategory()">
+    <b><i class="fa fa-plus mr-1" aria-hidden="true"></i>&nbsp;Create new category</b></a>
+</div>
+<div class="card">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngIf="newCategory">
+      <div class="row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newCategory.name">
+        </div>
+        <div class="col-sm-2">
+          <span class="badge badge-danger float-right" (click)="deleteNewCategory()"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></span>
+          <span class="badge badge-default float-right" (click)="saveNewCategory()"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item" *ngFor="let category of categories">
+      <div class="row">
+        <div class="col-sm-10">
+          <input type="text" id="exampleForm2" class="form-control form-control-sm" [(ngModel)]="category.name" *ngIf="category.edit">
+          <span *ngIf="!category.edit">{{category.name}}</span>
+        </div>
+        <div class="col-sm-2">
+          <span class="badge badge-danger float-right" (click)="delete.open(category)"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></span>
+          <span class="badge badge-primary float-right" (click)="category.edit = true" *ngIf="!category.edit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></span>
+          <span class="badge badge-default float-right" (click)="updateCategory(category)" *ngIf="category.edit"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<app-delete-modal #delete (deleteEvent)="deleteCategory($event)"></app-delete-modal>

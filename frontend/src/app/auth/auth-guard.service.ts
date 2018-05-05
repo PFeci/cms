@@ -1,8 +1,21 @@
 import { Injectable } from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
+import {AuthService} from './auth.service';
+import {Role} from '../../../../src/enums/role';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class AuthGuardService {
+export class AuthGuardService implements CanActivate{
 
-  constructor() { }
+
+  constructor(private authService: AuthService, private router: Router) { }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.authService.getToken() && this.authService.getRole() === Role.ADMIN) {
+      return true;
+    }
+    this.router.navigate(['/home/event']);
+    return false;
+  }
 
 }

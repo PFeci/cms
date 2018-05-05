@@ -10,4 +10,5 @@ export interface UserDTO {
     role: Role;
     interestedCategories: Array<CategoryDTO>;
     happenings: Array<HappeningDTO>;
+    madeByMe: Array<HappeningDTO>;
 }

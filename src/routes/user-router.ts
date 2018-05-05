@@ -29,6 +29,11 @@ export class UserRouter {
             .then(happenings => {
                 happeningDTOs = happenings
             });
+        let myHappeningDTOs: HappeningDTO[] = [];
+        await UserRouter.getMyHappenings(userModel)
+            .then(myHappenings => {
+                myHappeningDTOs = myHappenings
+            });
         const userDTO: UserDTO = {
             id: userModel._id,
             email: userModel.email,
@@ -36,7 +41,8 @@ export class UserRouter {
             lastName: userModel.lastName,
             role: userModel.role,
             interestedCategories: categoryDTOs,
-            happenings: happeningDTOs
+            happenings: happeningDTOs,
+            madeByMe: myHappeningDTOs
         };
         return userDTO;
     }
@@ -201,5 +207,21 @@ export class UserRouter {
                 });
         }));
         return happeningDTOs;
+    }
+
+    public static async getMyHappenings(userModel: IUserModel): Promise<HappeningDTO[]> {
+        const myHappeningDTOs: HappeningDTO[] = [];
+        await Promise.all(userModel.madeByMe.map(async (myHappeningId: string) => {
+            await Happening.findOne({_id: myHappeningId}).exec()
+                .then(async (myHappening: IHappeningModel) => {
+                    await HappeningRouter.createHappeningDTO(myHappening).then((myHappeningDTO) => {
+                        myHappeningDTOs.push(myHappeningDTO);
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }));
+        return myHappeningDTOs;
     }
 }

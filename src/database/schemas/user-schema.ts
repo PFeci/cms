@@ -11,7 +11,8 @@ const UserSchema: Schema = new Schema({
         lastName: String,
         role: Schema.Types.Mixed,
         interestedCategories: [String],
-        happenings: [String]
+        happenings: [String],
+        madeByMe: [String]
     },{timestamps: true});
 
 

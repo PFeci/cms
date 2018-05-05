@@ -8,4 +8,5 @@ export interface UserDb {
     role: Role;
     interestedCategories: Array<string>;
     happenings: Array<string>;
+    madeByMe: Array<String>;
 }

@@ -83,11 +83,7 @@ export class HappeningRouter {
         const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
         new Happening(happeningModel).save()
             .then((happeningModel: IHappeningModel) => {
-                return HappeningRouter.createHappeningDTO(happeningModel)
-            })
-            .then((happeningDTO: HappeningDTO) => {
                 res.locals.happeningModel = happeningModel;
-                res.locals.happeningDTO = happeningDTO;
                 return next();
             })
             .catch((err) => {
@@ -102,6 +98,7 @@ export class HappeningRouter {
      */
     public update(req: Request, res: Response, next: NextFunction) {
         const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
+
         Happening.findOneAndUpdate({_id: happeningModel._id},
             {
                 $set: {
@@ -114,10 +111,8 @@ export class HappeningRouter {
                 }
             }, {upsert: true, new: true}).exec()
             .then((happeningModel: IHappeningModel) => {
-                return HappeningRouter.createHappeningDTO(happeningModel);
-            })
-            .then((happeningDTO: HappeningDTO) => {
-                return res.status(200).json(happeningDTO);
+                res.locals.happeningModel = happeningModel;
+                return next();
             })
             .catch((err) => {
                 console.log(err);
@@ -169,6 +164,22 @@ export class HappeningRouter {
             })
     }
 
+    /**
+     * DELETE one Happening by id
+     */
+    public delete(req: Request, res: Response, next: NextFunction) {
+
+        const happeningId = req.params.id;
+        Happening.findOneAndRemove({_id: happeningId})
+            .then(() => {
+                return res.status(200).json();
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json({message: err});
+            })
+    }
+
     public subscribeToHappening(req: Request, res: Response, next: NextFunction) {
         const happeningId: string = req.body.happeningId;
         const userId: string = req.body.userId;
@@ -198,7 +209,45 @@ export class HappeningRouter {
 
     }
 
-    public getEmailsForNotifications(req: Request, res: Response, next: NextFunction) {
+    public unSubscribeFromHappening(req: Request, res: Response, next: NextFunction) {
+        const happeningId: string = req.body.happeningId;
+        const userId: string = req.body.userId;
+        User.findOneAndUpdate({_id: userId}, {
+            $pull: {
+                happenings: happeningId
+            }
+        }).exec()
+            .then(() => {
+                return Happening.findOneAndUpdate({_id: happeningId},
+                    {
+                        $pull: {
+                            subscribers: userId
+                        }
+                    }, {upsert: true, new: true}).exec()
+            })
+            .then((happeningModel: IHappeningModel) => {
+                return HappeningRouter.createHappeningDTO(happeningModel);
+            })
+            .then((happeningDTO: HappeningDTO) => {
+                return res.status(200).json(happeningDTO);
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).json({message: err});
+            });
+
+    }
+
+    public getEmailsOnUpdate(req: Request, res: Response, next: NextFunction) {
+
+        User.find({_id: {$in: res.locals.happeningModel.subscribers}}, {_id: 0, email: 1}).exec()
+            .then((emails: IUserModel[]) => {
+                res.locals.emails = emails;
+                return next();
+            });
+    }
+
+    public getEmailsOnCreation(req: Request, res: Response, next: NextFunction) {
 
         User.find({interestedCategories: {$in: res.locals.happeningModel.categories}}, {_id: 0, email: 1}).exec()
             .then((emails: IUserModel[]) => {
@@ -207,12 +256,16 @@ export class HappeningRouter {
             });
     }
 
+
+
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', AuthGuard.verifyToken, this.getOne);
-        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsForNotifications, EmailRouter.sendEmail);
+        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update, this.getEmailsOnUpdate, EmailRouter.sendUpdateEmail);
+        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsOnCreation, EmailRouter.sendCreateEmail);
         this.router.post('/subscribe', AuthGuard.verifyToken, this.subscribeToHappening);
+        this.router.post('/unsubscribe', AuthGuard.verifyToken, this.unSubscribeFromHappening);
+        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.delete);
     }
 
 

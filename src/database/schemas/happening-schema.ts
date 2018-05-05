@@ -5,7 +5,8 @@ export interface IHappeningModel extends Document, HappeningDb {
 }
 
 const HappeningSchema: Schema = new Schema({
-    date: Date,
+    startDate: Date,
+    endDate: Date,
     location: Schema.Types.Mixed,
     creator: String,
     categories: [String],

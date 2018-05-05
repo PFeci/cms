@@ -44,7 +44,8 @@ export class HappeningRouter {
         const happeningDTO: HappeningDTO = {
             id: happeningModel._id,
             location: happeningModel.location,
-            date: happeningModel.date,
+            startDate: happeningModel.startDate,
+            endDate: happeningModel.endDate,
             creator: happeningModel.creator,
             description: happeningModel.description,
             title: happeningModel.title,
@@ -59,7 +60,8 @@ export class HappeningRouter {
         let model: IHappeningModel = <IHappeningModel>{};
         model._id = dto.id;
         model.location = dto.location;
-        model.date = dto.date;
+        model.startDate = dto.startDate;
+        model.endDate = dto.endDate;
         model.description = dto.description;
         model.title = dto.title;
         model.categories = [];

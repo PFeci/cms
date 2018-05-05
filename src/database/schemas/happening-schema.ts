@@ -12,7 +12,8 @@ const HappeningSchema: Schema = new Schema({
     secondCategories: [String],
     contents: [String],
     description: String,
-    subscribers: [String]
+    subscribers: [String],
+    title: String
 }, {timestamps: true});
 
 

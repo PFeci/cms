@@ -10,5 +10,6 @@ export interface HappeningDb {
     secondCategories: Array<string>,
     contents: Array<string>,
     description: string,
-    subscribers: Array<string>
+    subscribers: Array<string>,
+    title: string
 }

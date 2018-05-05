@@ -14,7 +14,6 @@ import {ContentDTO} from "../dtos/content-dto";
 import {Content, IContentModel} from "../database/schemas/content-schema";
 import {ContentRouter} from "./content-router";
 import {EmailRouter} from "./email-router";
-import {UserRouter} from "./user-router";
 
 export class HappeningRouter {
     router: Router;
@@ -48,9 +47,10 @@ export class HappeningRouter {
             date: happeningModel.date,
             creator: happeningModel.creator,
             description: happeningModel.description,
+            title: happeningModel.title,
             categories: categoryDTOs,
             secondCategories: secondCategoryDTOs,
-            contents: contentDTOs,
+            contents: contentDTOs
         };
         return happeningDTO;
     }
@@ -61,6 +61,7 @@ export class HappeningRouter {
         model.location = dto.location;
         model.date = dto.date;
         model.description = dto.description;
+        model.title = dto.title;
         model.categories = [];
         model.secondCategories = [];
         model.contents = [];
@@ -81,9 +82,18 @@ export class HappeningRouter {
      */
     public save(req: Request, res: Response, next: NextFunction) {
         const happeningModel: IHappeningModel = HappeningRouter.createModelFromDTO(req.body);
+
         new Happening(happeningModel).save()
             .then((happeningModel: IHappeningModel) => {
                 res.locals.happeningModel = happeningModel;
+
+                return User.findOneAndUpdate({email: res.locals.user.email}, {
+                    $push: {
+                        madeByMe: happeningModel._id
+                    }
+                }).exec()
+            })
+            .then(() => {
                 return next();
             })
             .catch((err) => {
@@ -107,7 +117,7 @@ export class HappeningRouter {
                     description: happeningModel.description,
                     secondCategories: happeningModel.secondCategories,
                     contents: happeningModel.contents,
-                    categories: happeningModel.categories
+                    categories: happeningModel.categories,
                 }
             }, {upsert: true, new: true}).exec()
             .then((happeningModel: IHappeningModel) => {
@@ -171,6 +181,13 @@ export class HappeningRouter {
 
         const happeningId = req.params.id;
         Happening.findOneAndRemove({_id: happeningId})
+            .then(() => {
+                return User.update({},{
+                    $pull: {
+                        madeByMe: happeningId
+                    }
+                } ).exec();
+            })
             .then(() => {
                 return res.status(200).json();
             })
@@ -242,6 +259,10 @@ export class HappeningRouter {
 
         User.find({_id: {$in: res.locals.happeningModel.subscribers}}, {_id: 0, email: 1}).exec()
             .then((emails: IUserModel[]) => {
+                //no need to send emails
+                if (emails.length === 0) {
+                    return res.status(200).json();
+                }
                 res.locals.emails = emails;
                 return next();
             });
@@ -251,11 +272,14 @@ export class HappeningRouter {
 
         User.find({interestedCategories: {$in: res.locals.happeningModel.categories}}, {_id: 0, email: 1}).exec()
             .then((emails: IUserModel[]) => {
+                //no need to send emails
+                if (emails.length === 0) {
+                    return res.status(200).json();
+                }
                 res.locals.emails = emails;
                 return next();
             });
     }
-
 
 
     init() {

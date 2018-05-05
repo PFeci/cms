@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
 import {EventService} from '../event.service';
+import {AuthGuardService} from '../../auth/auth-guard.service';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-user-event',
@@ -12,7 +14,7 @@ export class UserEventComponent implements OnInit {
   newEvent: HappeningDTO;
   usersEvent: HappeningDTO[];
 
-  constructor(private eventService: EventService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -20,11 +22,16 @@ export class UserEventComponent implements OnInit {
   }
 
   getAllEvents() {
-    this.eventService.getUsersEvent().subscribe(
+    this.authService.getUser().subscribe(
       resp => {
         if (resp['body']) {
-          this.usersEvent = resp['body']['happenings'];
-          this.usersEvent.forEach(event => event.date = new Date(event.date));
+          this.usersEvent = resp['body']['madeByMe'];
+          if (this.usersEvent.length !== 0) {
+            this.usersEvent.forEach(event => {
+              event.startDate = new Date(event.startDate);
+              event.endDate = new Date(event.endDate);
+            });
+          }
         }
       },
       err => console.log(err)

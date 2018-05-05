@@ -4,6 +4,7 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as cors from 'cors';
+import * as cloudinary from "cloudinary";
 import DbConnection from './database/db-connection'
 import {OutsideRouter} from "./routes/outside-router";
 import {AuthGuard} from "./routes/auth-guard";
@@ -12,7 +13,6 @@ import {HappeningRouter} from "./routes/happening-router";
 import {CategoryRouter} from "./routes/category-router";
 import {SecondCategoryRouter} from "./routes/second-category-router";
 import {ContentRouter} from "./routes/content-router";
-import {EmailRouter} from "./routes/email-router";
 
 // Creates and configures an ExpressJS web server.
 export class App {
@@ -25,7 +25,7 @@ export class App {
         this.express.use('/', express.static(path.join(__dirname, '../frontend/dist')));
         this.middleware();
         this.routes();
-        // this.cloudinaryConfig();
+        this.cloudinaryConfig();
 
         DbConnection.connect();
         DbConnection.errorHandler();
@@ -57,15 +57,15 @@ export class App {
         });
     }
 
-    // private cloudinaryConfig(): void {
-    //     cloudinary.config({
-    //         cloud_name: 'dj5hg3jvo',
-    //         api_key: '465423256943594',
-    //         api_secret: '7QHalxaRHtG4oU-KGfr5X7-ztfc'
-    //     });
-    //
-    //
-    // }
+    private cloudinaryConfig(): void {
+        cloudinary.config({
+            cloud_name: 'dj5hg3jvo',
+            api_key: '465423256943594',
+            api_secret: '7QHalxaRHtG4oU-KGfr5X7-ztfc'
+        });
+
+
+    }
 
 }
 

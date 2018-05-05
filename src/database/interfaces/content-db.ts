@@ -1,3 +1,3 @@
 export interface ContentDb {
-    title: string;
+    src: string;
 }

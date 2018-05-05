@@ -1,8 +1,15 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {AuthGuard} from "./auth-guard";
 import {IContentModel, Content} from "../database/schemas/content-schema";
 import {ContentDTO} from "../dtos/content-dto";
-import {CategoryRouter} from "./category-router";
+import * as multer from "multer";
+import * as Datauri from 'datauri';
+import * as cloudinary from 'cloudinary';
+import {Happening, IHappeningModel} from "../database/schemas/happening-schema";
+import {HappeningDTO} from "../dtos/happening-dto";
+import {HappeningRouter} from "./happening-router";
+
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage}).single('file');
 
 export class ContentRouter {
     router: Router;
@@ -15,82 +22,55 @@ export class ContentRouter {
     public static createContentDTO(contentModel: IContentModel): ContentDTO {
         const contentDTO: ContentDTO = {
             id: contentModel._id,
-            title: contentModel.title
+            src: contentModel.src
         };
         return contentDTO;
     }
 
+
     /**
-     * POST save a Content
+     * POST upload Content to cloudinary
      */
-    public save(req: Request, res: Response, next: NextFunction) {
-        const contentDTO = req.body;
-        new Content(contentDTO).save()
-            .then((contentModel: IContentModel) => {
-                const contentDTO: ContentDTO = ContentRouter.createContentDTO(contentModel);
-                return res.status(200).json(contentDTO);
-            })
-            .catch((err) => {
-                console.log(err);
+    public uploadContent(req: Request, res: Response, next: NextFunction) {
+
+        const happeningId = req.params.happeningId;
+
+        upload(req, res, (err) => {
+            if (err) {
                 return res.status(500).json({message: err});
-            })
-    }
+            }
+            const uri = new Datauri();
+            uri.format('.png', req['file'].buffer);
 
+            cloudinary.v2.uploader.upload(uri.content, {use_filename: true},
+                (err: any, result: any) => {
+                    if (err) {
+                        return res.status(500).json({message: err});
+                    }
+                    const contentDTO = <ContentDTO>{
+                        src: result.secure_url
+                    };
+                    new Content(contentDTO).save()
+                        .then((contentModel: IContentModel) => {
+                            return Happening.findOneAndUpdate({_id: happeningId}, {
+                                $push: {
+                                    contents: contentModel._id
+                                }
+                            }).exec();
+                        })
+                        .then((happeningModel: IHappeningModel) => {
+                            return HappeningRouter.createHappeningDTO(happeningModel);
+                        })
+                        .then((happeningDTO: HappeningDTO) => {
+                            return res.status(200).json(happeningDTO);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            return res.status(500).json({message: err});
+                        })
 
-    /**
-     * PUT update a Content
-     */
-    public update(req: Request, res: Response, next: NextFunction) {
-        const contentDTO: ContentDTO = req.body;
-        Content.findOneAndUpdate({_id: contentDTO.id}, contentDTO, {upsert: true, new: true}).exec()
-            .then((contentModel: IContentModel) => {
-                const contentDTO = ContentRouter.createContentDTO(contentModel);
-                return res.status(200).json(contentDTO);
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json({message: err});
-            });
-    }
-
-    /**
-     * GET all Contents
-     */
-    public getAll(req: Request, res: Response, next: NextFunction) {
-
-        Content.find().exec()
-            .then((contents: IContentModel[]) => {
-                const contentDTOs: ContentDTO[] = [];
-                contents.forEach(category => {
-                    const contentDTO: ContentDTO = ContentRouter.createContentDTO(category);
-                    contentDTOs.push(contentDTO);
                 });
-                return res.status(200).json(contentDTOs);
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json({message: err});
-            })
-    }
-
-    /**
-     * GET one Content by id
-     */
-    public getOne(req: Request, res: Response, next: NextFunction) {
-
-        const contentId = req.params.id;
-        Content.findOne({_id: contentId}).exec()
-            .then((content: IContentModel) => {
-                if (!content) {
-                    return res.status(404).json();
-                }
-                const contentDTO: ContentDTO = ContentRouter.createContentDTO(content);
-                return res.status(200).json(contentDTO);
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json({message: err});
-            })
+        });
     }
 
 
@@ -102,6 +82,13 @@ export class ContentRouter {
         const contentId = req.params.id;
         Content.findOneAndRemove({_id: contentId})
             .then(() => {
+                return Happening.update({}, {
+                    $pull: {
+                        contents: contentId
+                    }
+                }).exec();
+            })
+            .then(() => {
                 return res.status(200).json();
             })
             .catch((err) => {
@@ -112,10 +99,7 @@ export class ContentRouter {
 
 
     init() {
-        this.router.get('/all', this.getAll);
-        this.router.get('/:id', this.getOne);
-        this.router.delete('/:id', AuthGuard.verifyAdmin, this.delete);
-        this.router.put('/',  AuthGuard.verifyAdmin, this.update);
-        this.router.post('/', this.save);
+        this.router.put('/:happeningId', this.uploadContent);
+        this.router.delete('/:contentId', this.delete);
     }
 }

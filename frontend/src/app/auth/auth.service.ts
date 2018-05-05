@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpRequest} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
@@ -19,11 +19,11 @@ export class AuthService {
     localStorage.getItem('role') ? this.role = localStorage.getItem('role') : '';
   }
 
-  getToken(){
+  getToken() {
     return this.token;
   }
 
-  getRole(){
+  getRole() {
     return this.role;
   }
 
@@ -31,11 +31,9 @@ export class AuthService {
     return this.userId;
   }
 
-  getUser(){
-    if(this.getUserId()){
-      const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', `api/user/${this.userId}`);
-      return this.http.request(request);
-    }
+  getUser() {
+    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', `api/user/${this.userId}`);
+    return this.http.request(request);
   }
 
   login(user) {
@@ -46,6 +44,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('role');
     this.loggedIn.next(false);
     this.router.navigate(['/home/event']);
   }
@@ -55,8 +54,8 @@ export class AuthService {
     return this.http.request(request);
   }
 
-  saveToken(resp){
-    if(resp.body){
+  saveToken(resp) {
+    if (resp.body) {
       let token = resp.body.token;
       let user = resp.body.user;
       localStorage.setItem('token', token);

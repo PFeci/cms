@@ -21,16 +21,20 @@ export class EventCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUser();
+    if (this.authService.loggedIn) {
+      this.getUser();
+    }
   }
 
   getUser() {
-    this.authService.getUser().subscribe(
-      resp => {
-        this.user = resp['body'];
-      },
-      err => console.log(err)
-    );
+    if (this.authService.loggedIn) {
+      this.authService.getUser().subscribe(
+        resp => {
+          this.user = resp['body'];
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   flippCard() {

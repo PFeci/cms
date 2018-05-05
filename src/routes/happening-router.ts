@@ -184,7 +184,8 @@ export class HappeningRouter {
             .then(() => {
                 return User.update({},{
                     $pull: {
-                        madeByMe: happeningId
+                        madeByMe: happeningId,
+                        happenings: happeningId
                     }
                 } ).exec();
             })

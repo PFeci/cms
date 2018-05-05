@@ -2,6 +2,8 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {AuthGuard} from "./auth-guard";
 import {CategoryDTO} from "../dtos/category-dto";
 import {ICategoryModel, Category} from "../database/schemas/category-schema";
+import {User} from "../database/schemas/user-schema";
+import {Happening} from "../database/schemas/happening-schema";
 
 export class CategoryRouter {
     router: Router;
@@ -100,6 +102,20 @@ export class CategoryRouter {
 
         const categoryId = req.params.id;
         Category.findOneAndRemove({_id: categoryId})
+            .then(() => {
+                return User.update({}, {
+                    $pull: {
+                        interestedCategories: categoryId
+                    }
+                }).exec();
+            })
+            .then(() => {
+                return Happening.update({},{
+                    $pull: {
+                        categories: categoryId
+                    }
+                }).exec();
+            })
             .then(() => {
                 return res.status(200).json();
             })

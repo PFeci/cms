@@ -2,6 +2,7 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {AuthGuard} from "./auth-guard";
 import {SecondCategoryDTO} from "../dtos/second-category-dto";
 import {ISecondCategoryModel, SecondCategory} from "../database/schemas/second-category-schema";
+import {Happening} from "../database/schemas/happening-schema";
 
 export class SecondCategoryRouter {
     router: Router;
@@ -100,6 +101,13 @@ export class SecondCategoryRouter {
 
         const secondCategoryId = req.params.id;
         SecondCategory.findOneAndRemove({_id: secondCategoryId})
+            .then(() => {
+                return Happening.update({},{
+                    $pull: {
+                        secondCategories: secondCategoryId
+                    }
+                }).exec();
+            })
             .then(() => {
                 return res.status(200).json();
             })

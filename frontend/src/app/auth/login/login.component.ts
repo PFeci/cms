@@ -48,10 +48,8 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.loginForm.value).subscribe(
       resp => {
-        if (resp['body']) {
           this.authService.saveToken(resp);
           this.fluid.onEsc();
-        }
       },
       err => this.loginForm.setErrors({formError: true})
     );

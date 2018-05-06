@@ -24,15 +24,13 @@ export class UserEventComponent implements OnInit {
   getAllEvents() {
     this.authService.getUser().subscribe(
       resp => {
-        if (resp['body']) {
-          this.usersEvent = resp['body']['madeByMe'];
+          this.usersEvent = resp['madeByMe'];
           if (this.usersEvent.length !== 0) {
             this.usersEvent.forEach(event => {
               event.startDate = new Date(event.startDate);
               event.endDate = new Date(event.endDate);
             });
           }
-        }
       },
       err => console.log(err)
     );

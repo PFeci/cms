@@ -22,7 +22,7 @@ export class CategoryComponent implements OnInit {
 
   getCategories() {
     this.categoryService.getCategories().subscribe(
-      resp => this.categories = resp['body'],
+      resp => this.categories = resp,
       err => console.log(err)
     );
   }

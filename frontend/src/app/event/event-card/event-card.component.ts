@@ -30,7 +30,7 @@ export class EventCardComponent implements OnInit {
     if (this.authService.getUserId()) {
       this.authService.getUser().subscribe(
         resp => {
-          this.user = resp['body'];
+          this.user = resp;
         },
         err => console.log(err)
       );

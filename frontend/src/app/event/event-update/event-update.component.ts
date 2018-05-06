@@ -22,7 +22,7 @@ export class EventUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.eventService.getCategories().subscribe(
-      resp => this.categories = resp['body'],
+      resp => this.categories = resp,
       err => console.log(err)
     );
     this.eventService.getSecondCategories().subscribe(

@@ -8,23 +8,19 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-  getCategories(): Observable<any> {
-    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('GET', 'api/category/all');
-    return this.http.request(request);
+  getCategories(): Observable<CategoryDTO[]> {
+    return this.http.get<CategoryDTO[]>('api/category/all');
   }
 
-  deleteCategory(category: CategoryDTO): Observable<any> {
-    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('DELETE', `api/category/${category.id}`);
-    return this.http.request(request);
+  deleteCategory(category: CategoryDTO): Observable<CategoryDTO> {
+    return this.http.delete<CategoryDTO>(`api/category/${category.id}`);
   }
 
-  updateCategory(category: CategoryDTO): Observable<any> {
-    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('PUT', 'api/category', category);
-    return this.http.request(request);
+  updateCategory(category: CategoryDTO): Observable<CategoryDTO> {
+    return this.http.put<CategoryDTO>('api/category', category);
   }
 
-  createCategory(category): Observable<any> {
-    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('POST', 'api/category', category);
-    return this.http.request(request);
+  createCategory(category): Observable<CategoryDTO> {
+    return this.http.post<CategoryDTO>('api/category', category);
   }
 }

@@ -24,4 +24,9 @@ export class UserListService {
     return this.http.request(request);
   }
 
+  changeRole(user): Observable<any> {
+    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('PUT', 'api/user/role', user);
+    return this.http.request(request);
+  }
+
 }

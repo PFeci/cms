@@ -1,0 +1,33 @@
+<br>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card card-body">
+      <h5 class="card-title">Personal settings</h5>
+      <div class="card-text">
+        <div class="md-form form-sm form-group">
+          <i class="fa fa-user prefix dark-grey-text"></i>
+          <input placeholder="First name" [(ngModel)]="user.firstName" type="text" class="form-control">
+        </div>
+        <div class="md-form form-sm form-group">
+          <i class="fa fa-user prefix dark-grey-text"></i>
+          <input placeholder="Last name" [(ngModel)]="user.lastName" type="text" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary btn-sm float-right" (click)="updateUser()">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card card-body">
+      <h5 class="card-title">Categories settings</h5>
+      <div class="card-text">
+        <div *ngFor="let category of categories" class="float-left" style="margin-left: 2%">
+          <h5 (click)="addInterestedCategory(category)" [ngClass]="isInterestedCategory(category) ? 'badge-default': 'grey lighten-2'">
+            <span class="badge">{{category.name}}</span>
+          </h5>
+        </div>
+      <button type="button" class="btn btn-primary btn-sm float-right" (click)="updateUser()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+

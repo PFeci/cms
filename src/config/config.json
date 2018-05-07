@@ -1,0 +1,1 @@
+{"jwt":{"secret":"secret"},"database":{"dbUser":"admin","dbPassword":"admin","dbServer":"ds038319.mlab.com:38319","dbName":"cms-internet"}}

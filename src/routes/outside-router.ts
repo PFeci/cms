@@ -4,10 +4,9 @@ import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken"
 import {UserRouter} from "./user-router";
 import {UserDTO} from "../dtos/user-dto";
-import {Config} from "../config";
 import {UserAuthenticateDTO} from "../dtos/user-authenticate-dto";
 import {Role} from "../enums/role";
-
+import * as config from "../config/config.json"
 export class OutsideRouter {
     router: Router;
     static saltRounds: number = 10;
@@ -70,7 +69,7 @@ export class OutsideRouter {
                 throw new Error();
             })
             .then((userDTO: UserDTO) => {
-                const token = jwt.sign({id: userDTO.id, role: userDTO.role, email: userDTO.email}, Config.secret, {
+                const token = jwt.sign({id: userDTO.id, role: userDTO.role, email: userDTO.email}, (<any>config).jwt.secret, {
                     expiresIn: 86400 // expires in 2 hours
                 });
                 return res.status(200).json({token: token, user: userDTO});

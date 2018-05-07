@@ -1,7 +1,8 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import * as jwt from "jsonwebtoken"
-import {Config} from "../config";
 import {Role} from "../enums/role";
+import * as config from "../config/config.json";
+
 
 export class AuthGuard {
 
@@ -12,15 +13,14 @@ export class AuthGuard {
         if (token) {
             //cut 'Bearer" from the beginning of the token
             token = token.slice(7, token.length);
-            jwt.verify(token, Config.secret, (err: Error, decoded: string) => {
-                if (err) {
-                    return res.json({success: false, message: 'Failed to authenticate token.'});
-                }
-                res.locals.user = decoded;
-            });
-            return next();
+            try {
+                res.locals.user = jwt.verify(token, (<any>config).jwt.secret);
+                return next();
+            } catch(err) {
+                // err
+            }
         }
-        return res.status(403).json({message: 'No token provided.'});
+        return res.status(403).json({message: 'Bad token.'});
     }
 
     public static verifyAdmin(req: Request, res: Response, next: NextFunction) {

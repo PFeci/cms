@@ -8,13 +8,14 @@ import { UserEventComponent } from './user-event/user-event.component';
 import { EventUpdateComponent } from './event-update/event-update.component';
 import {CalendarModule} from 'primeng/primeng';
 import {FormsModule} from '@angular/forms';
-import {DeleteModalComponent} from '../common/delete-modal/delete-modal.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import { EventSubscriptionComponent } from './event-subscription/event-subscription.component';
 import { EventCardComponent } from './event-card/event-card.component';
 import {CommonsModule} from '../common/commons.module';
 import { UploadMediaComponent } from './upload-media/upload-media.component';
 import {FileUploadModule} from 'ng2-file-upload';
+import {HttpClientModule} from '@angular/common/http';
+import {ShareButtonModule} from '@ngx-share/button';
 
 @NgModule({
   imports: [
@@ -24,7 +25,9 @@ import {FileUploadModule} from 'ng2-file-upload';
     FormsModule,
     MDBBootstrapModule.forRoot(),
     CommonsModule,
-    FileUploadModule
+    FileUploadModule,
+    HttpClientModule,      // (Required) for share counts
+    ShareButtonModule.forRoot()
   ],
   declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent, UploadMediaComponent],
   providers: [EventService]

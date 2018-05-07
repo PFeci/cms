@@ -5,6 +5,8 @@
         <div class="mdb-color lighten-3 text-center"></div>
         <img *ngIf="event.contents.length !== 0" class="img-fluid z-depth-2 rounded"
              [src]="event.contents[0].src">
+        <img *ngIf="event.contents.length === 0" class="img-fluid z-depth-2 rounded"
+             src="../../../assets/images/basic.JPG">
         <div class="text-block">
           <h4>{{event.title}}</h4>
         </div>
@@ -31,14 +33,28 @@
     <div class="card" style="margin-bottom: 10%; width: 350px; height: 360px">
       <div class="card-body">
         <div class="card-text">
-          <h5 *ngIf="user && !isSubscribe()" (click)="subscribeEvent()"><span class="badge badge-primary float-right"><i class="fa fa-at" aria-hidden="true"></i>&nbsp;Subscribe</span></h5>
-          <h5 *ngIf="user && isSubscribe()" (click)="unsubscribeEvent()"><span class="badge badge-light float-right"><i class="fa fa-at" aria-hidden="true"></i>&nbsp;Unsubscribe</span></h5>
+          <h5 *ngIf="user && !isSubscribe()" (click)="subscribeEvent()"><span class="badge badge-primary float-right"><i
+            class="fa fa-at" aria-hidden="true"></i>&nbsp;Subscribe</span></h5>
+          <h5 *ngIf="user && isSubscribe()" (click)="unsubscribeEvent()"><span class="badge badge-light float-right"><i
+            class="fa fa-at" aria-hidden="true"></i>&nbsp;Unsubscribe</span></h5>
           <br>
-          {{event.description}}
-          <img class="img-thumbnail" *ngFor="let image of event.contents" [src]="image.src">
-          <button type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="upload.open(event)">Upload media</button>
+          <div style="height: 165px">
+            {{event.description}}
+          </div>
+          <button type="button" class="btn btn-default waves-effect btn-sm" (click)="upload.open(event)">Media</button>
+          <button type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="upload.open(event)">
+            Managing media
+          </button>
         </div>
-        <a (click)="flippCard()" class=" card-text right" style="float: left; margin-bottom: -15px; margin-top: 15px;"><i
+        <hr>
+        <div class="float-right">
+          <share-button [size]="-7" button="facebook"></share-button>
+          <share-button [size]="-7" button="twitter"></share-button>
+          <share-button [size]="-7" button="pinterest"></share-button>
+        </div>
+        <br>
+        <a (click)="flippCard()" class=" card-text right"
+           style="float: left; margin-bottom: -15px; margin-top: 15px;"><i
           class="fa fa-arrow-left" aria-hidden="true"></i></a>
       </div>
     </div>

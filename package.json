@@ -37,7 +37,7 @@
   },
   "scripts": {
     "startDev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\"",
-    "postinstall": "tsc && cp src/config dist/ && cd frontend && npm install && npm run build",
+    "postinstall": "tsc && cp src/config/config.json dist/config && cd frontend && npm install && npm run build",
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

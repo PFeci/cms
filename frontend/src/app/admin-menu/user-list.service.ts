@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {UserDTO} from '../../../../src/dtos/user-dto';
+import {CategoryDTO} from '../../../../src/dtos/category-dto';
 
 @Injectable()
 export class UserListService {
@@ -9,24 +10,20 @@ export class UserListService {
   constructor(private http: HttpClient) {
   }
 
-  getUsers(): Observable<any> {
-    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', 'api/user/all');
-    return this.http.request(request);
+  getUsers(): Observable<UserDTO[]> {
+    return this.http.get<UserDTO[]>('api/user/all');
   }
 
-  updateUser(user): Observable<any> {
-    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('PUT', 'api/user', user);
-    return this.http.request(request);
+  updateUser(user): Observable<UserDTO> {
+    return this.http.put<UserDTO>('api/user', user);
   }
 
-  deleteUser(user): Observable<any>{
-    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('PUT', 'api/user', user);
-    return this.http.request(request);
+  deleteUser(user): Observable<UserDTO>{
+    return this.http.delete<UserDTO>(`api/user/${user.id}`);
   }
 
-  changeRole(user): Observable<any> {
-    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('PUT', 'api/user/role', user);
-    return this.http.request(request);
-  }
+  changeRole(user): Observable<UserDTO> {
+    return this.http.put<UserDTO>('api/user/role', user);
+    }
 
 }

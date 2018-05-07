@@ -1,3 +1,4 @@
+<br>
 <div class="card card-body">
   <div class="card-text">
     <table class="table">
@@ -26,9 +27,12 @@
         </td>
         <td>
           <div class="float-right">
-          <span (click)="user.edit = true" *ngIf="!user.edit" class="badge badge-primary"><i class="fa fa-user-o" aria-hidden="true"></i></span>
-          <span (click)="updateUser(user)" *ngIf="user.edit" class="badge badge-default"><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
-          <span (click)="delete.open(user)" class="badge badge-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+            <span (click)="user.edit = true" *ngIf="!user.edit" class="badge badge-primary"><i
+              class="fa fa-user-o fa-lg" aria-hidden="true"></i></span>
+            <span (click)="updateUser(user)" *ngIf="user.edit" class="badge badge-default"><i
+              class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></span>
+            <span (click)="delete.open(user)" class="badge badge-danger"><i class="fa fa-trash-o fa-lg"
+                                                                            aria-hidden="true"></i></span>
           </div>
         </td>
       </tr>

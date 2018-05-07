@@ -1,8 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {EventComponent} from './event/event.component';
 import {MenuComponent} from './menu/menu.component';
-import {LoginComponent} from './auth/login/login.component';
 import {AuthGuardService} from './auth/auth-guard.service';
 
 const routes: Routes = [
@@ -18,6 +16,10 @@ const routes: Routes = [
         path: 'admin',
         loadChildren: 'app/admin-menu/admin-menu.module#AdminMenuModule',
         canActivate: [AuthGuardService]
+      },
+      {
+        path: 'other',
+        loadChildren: 'app/other-menu/other-menu.module#OtherMenuModule',
       }
     ]
   },

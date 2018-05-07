@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
   getUser() {
     if (this.authService.getUserId()) {
       this.authService.getUser().subscribe(
-        resp => this.user = resp['body'],
+        resp => this.user = resp,
         err => console.log(err)
       );
     }

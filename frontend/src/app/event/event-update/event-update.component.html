@@ -24,7 +24,7 @@
       <div class="col-sm-3">
         <label>End Date</label>
         <br>
-        <p-calendar [showTime]="true" hourFormat="24"></p-calendar>
+        <p-calendar [(ngModel)]="updateEvent.endDate"  [showTime]="true" hourFormat="24"></p-calendar>
       </div>
       <div class="col-sm-3">
         <label>Location</label>
@@ -32,7 +32,7 @@
       </div>
       <div class="col-sm-3">
         <br>
-        <button type="button" class="btn btn-outline-default waves-effect btn-sm">Upload media</button>
+        <button *ngIf="updateEvent.id" type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="upload.open(updateEvent)">Upload media</button>
       </div>
     </div>
     <div class="row mb-3">
@@ -69,3 +69,4 @@
 </div>
 <hr class="mb-5">
 <app-delete-modal #delete (deleteEvent)="deleteEvent()"></app-delete-modal>
+<app-upload-media #upload></app-upload-media>

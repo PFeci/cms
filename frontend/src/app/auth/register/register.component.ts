@@ -45,9 +45,9 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.authService.register(this.registerForm.value).subscribe(
-      resp => {if(resp['body']){
+      resp => {
         this.registerSuccess.emit(true);
-      }},
+      },
       err => this.registerForm.setErrors({formError: true})
     );
   }

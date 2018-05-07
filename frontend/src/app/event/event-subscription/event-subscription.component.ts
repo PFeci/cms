@@ -21,10 +21,7 @@ export class EventSubscriptionComponent implements OnInit {
   getEvents(){
     this.authService.getUser().subscribe(
       resp => {
-        if (resp['body']) {
-          console.log(resp);
-          this.events = resp['body']['happenings'];
-        }
+          this.events = resp['happenings'];
       },
       err => console.log(err)
     );

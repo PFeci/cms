@@ -24,6 +24,8 @@
         "../node_modules/primeng/resources/primeng.min.css",
         "../node_modules/angular-bootstrap-md/scss/bootstrap/bootstrap.scss",
         "../node_modules/angular-bootstrap-md/scss/mdb-free.scss",
+        "../node_modules/@ngx-share/button/styles/share-buttons.scss",
+        "../node_modules/@ngx-share/button/styles/themes/default/default-theme.scss",
         "styles.scss"
       ],
       "scripts": [

@@ -13,57 +13,44 @@ export class EventService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getEvents(): Observable<any> {
-    const request: HttpRequest<UserDTO> = new HttpRequest<UserDTO>('GET', 'api/happening/all');
-    return this.http.request(request);
+  getEvents(): Observable<HappeningDTO[]> {
+    return this.http.get<HappeningDTO[]>('api/happening/all');
   }
 
-  saveNewEvent(newEvent: HappeningDTO): Observable<any> {
-    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('POST', 'api/happening', newEvent);
-    return this.http.request(request)
+  saveNewEvent(newEvent: HappeningDTO): Observable<HappeningDTO> {
+    return this.http.post<HappeningDTO>('api/happening', newEvent);
   }
 
-  getCategories(): Observable<any> {
-    const request: HttpRequest<CategoryDTO> = new HttpRequest<CategoryDTO>('GET', 'api/category/all');
-    return this.http.request(request);
+  getCategories(): Observable<CategoryDTO[]> {
+    return this.http.get<CategoryDTO[]>('api/category/all');
   }
 
-  getSecondCategories(): Observable<any> {
-    const request: HttpRequest<SecondCategoryDTO> = new HttpRequest<SecondCategoryDTO>('GET', 'api/secondcategory/all');
-    return this.http.request(request);
+  getSecondCategories(): Observable<SecondCategoryDTO[]> {
+    return this.http.get<SecondCategoryDTO[]>('api/secondcategory/all');
   }
 
-  getUsersEvent(): Observable<any> {
-    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('GET', 'api/happening/all');
-    return this.http.request(request);
+  updateEvent(updateEvent): Observable<HappeningDTO> {
+    return this.http.put<HappeningDTO>('api/happening', updateEvent);
   }
 
-  updateEvent(updateEvent): Observable<any> {
-    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('PUT', 'api/happening', updateEvent);
-    return this.http.request(request);
+  deleteEvent(deleteEvent): Observable<HappeningDTO> {
+    return this.http.delete<HappeningDTO>(`api/happening/${deleteEvent.id}`);
   }
 
-  deleteEvent(deleteEvent): Observable<any> {
-    const request: HttpRequest<HappeningDTO> = new HttpRequest<HappeningDTO>('DELETE', 'api/happening');
-    return this.http.request(request);
-  }
-
-  subscribeEvent(subscribe: HappeningDTO): Observable<any> {
+  subscribeEvent(subscribe: HappeningDTO): Observable<HappeningDTO> {
     let body = {
       happeningId: subscribe.id,
       userId: this.authService.getUserId()
     };
-    const request: HttpRequest<HappeningDTO> = new HttpRequest<any>('POST', 'api/happening/subscribe', body);
-    return this.http.request(request);
+    return this.http.post<HappeningDTO>('api/happening/subscribe', body);
   }
 
-  unsubscribeEvent(unsubscribe: HappeningDTO): Observable<any> {
+  unsubscribeEvent(unsubscribe: HappeningDTO): Observable<HappeningDTO> {
     let body = {
       happeningId: unsubscribe.id,
       userId: this.authService.getUserId()
     };
-    const request: HttpRequest<HappeningDTO> = new HttpRequest<any>('POST', 'api/happening/unsubscribe', body);
-    return this.http.request(request);
+    return this.http.post<HappeningDTO>('api/happening/unsubscribe', body);
   }
 
 }

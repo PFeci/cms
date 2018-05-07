@@ -190,7 +190,7 @@ export class HappeningRouter {
                         madeByMe: happeningId,
                         happenings: happeningId
                     }
-                } ).exec();
+                },{multi: true} ).exec();
             })
             .then(() => {
                 return res.status(200).json();

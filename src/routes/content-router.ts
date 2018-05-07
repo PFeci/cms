@@ -86,7 +86,7 @@ export class ContentRouter {
                     $pull: {
                         contents: contentId
                     }
-                }).exec();
+                },{multi: true}).exec();
             })
             .then(() => {
                 return res.status(200).json();

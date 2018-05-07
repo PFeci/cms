@@ -106,7 +106,7 @@ export class SecondCategoryRouter {
                     $pull: {
                         secondCategories: secondCategoryId
                     }
-                }).exec();
+                },{multi: true}).exec();
             })
             .then(() => {
                 return res.status(200).json();

@@ -167,7 +167,7 @@ export class UserRouter {
                     $pull: {
                         subscribers: userId
                     }
-                }).exec();
+                },{multi: true}).exec();
             })
             .then(() => {
                 return res.status(200).json();

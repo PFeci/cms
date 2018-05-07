@@ -107,14 +107,14 @@ export class CategoryRouter {
                     $pull: {
                         interestedCategories: categoryId
                     }
-                }).exec();
+                },{multi: true}).exec();
             })
             .then(() => {
                 return Happening.update({},{
                     $pull: {
                         categories: categoryId
                     }
-                }).exec();
+                },{multi: true}).exec();
             })
             .then(() => {
                 return res.status(200).json();

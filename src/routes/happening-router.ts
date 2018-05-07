@@ -1,7 +1,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {IUserModel, User} from "../database/schemas/user-schema";
 import {UserDTO} from "../dtos/user-dto";
-import {AuthGuard} from "./auth-guard";
+import {AuthRouter} from "./auth-router";
 import {HappeningDTO} from "../dtos/happening-dto";
 import {IHappeningModel, Happening} from "../database/schemas/happening-schema";
 import {CategoryDTO} from "../dtos/category-dto";
@@ -288,12 +288,12 @@ export class HappeningRouter {
 
     init() {
         this.router.get('/all', this.getAll);
-        this.router.get('/:id', AuthGuard.verifyToken, this.getOne);
-        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update, this.getEmailsOnUpdate, EmailRouter.sendUpdateEmail);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save, this.getEmailsOnCreation, EmailRouter.sendCreateEmail);
-        this.router.post('/subscribe', AuthGuard.verifyToken, this.subscribeToHappening);
-        this.router.post('/unsubscribe', AuthGuard.verifyToken, this.unSubscribeFromHappening);
-        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.delete);
+        this.router.get('/:id', AuthRouter.verifyToken, this.getOne);
+        this.router.put('/', AuthRouter.verifyToken, AuthRouter.verifySupporter, this.update, this.getEmailsOnUpdate, EmailRouter.sendUpdateEmail);
+        this.router.post('/', AuthRouter.verifyToken, AuthRouter.verifySupporter, this.save, this.getEmailsOnCreation, EmailRouter.sendCreateEmail);
+        this.router.post('/subscribe', AuthRouter.verifyToken, this.subscribeToHappening);
+        this.router.post('/unsubscribe', AuthRouter.verifyToken, this.unSubscribeFromHappening);
+        this.router.delete('/:id', AuthRouter.verifyToken, AuthRouter.verifySupporter, this.delete);
     }
 
 

@@ -4,7 +4,7 @@ import {Role} from "../enums/role";
 import * as config from "../config/config.json";
 
 
-export class AuthGuard {
+export class AuthRouter {
 
 
     public static verifyToken(req: Request, res: Response, next: NextFunction) {

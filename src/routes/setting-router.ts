@@ -1,7 +1,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import * as config from "../config/config.json";
 import * as fs from "fs";
-import {AuthGuard} from "./auth-guard";
+import {AuthRouter} from "./auth-router";
 import DbConnection from './../database/db-connection'
 
 

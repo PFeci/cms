@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {AuthGuard} from "./auth-guard";
+import {AuthRouter} from "./auth-router";
 import {CategoryDTO} from "../dtos/category-dto";
 import {ICategoryModel, Category} from "../database/schemas/category-schema";
 import {User} from "../database/schemas/user-schema";
@@ -129,8 +129,8 @@ export class CategoryRouter {
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', this.getOne);
-        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.delete);
-        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.update);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.save);
+        this.router.delete('/:id', AuthRouter.verifyToken, AuthRouter.verifyAdmin, this.delete);
+        this.router.put('/', AuthRouter.verifyToken, AuthRouter.verifyAdmin, this.update);
+        this.router.post('/', AuthRouter.verifyToken, AuthRouter.verifyAdmin, this.save);
     }
 }

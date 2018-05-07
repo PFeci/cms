@@ -2,7 +2,7 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {IUserModel, User} from "../database/schemas/user-schema";
 import {UserDTO} from "../dtos/user-dto";
 import {Role} from "../enums/role";
-import {AuthGuard} from "./auth-guard";
+import {AuthRouter} from "./auth-router";
 import {CategoryDTO} from "../dtos/category-dto";
 import {HappeningRouter} from "./happening-router";
 import {Happening, IHappeningModel} from "../database/schemas/happening-schema";
@@ -179,11 +179,11 @@ export class UserRouter {
     }
 
     init() {
-        this.router.get('/all', AuthGuard.verifyAdmin, this.getAll);
+        this.router.get('/all', AuthRouter.verifyAdmin, this.getAll);
         this.router.get('/:id', this.getOne);
-        this.router.put('/', AuthGuard.verifyToken, this.update);
-        this.router.put('/role', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.updateRole);
-        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifyAdmin, this.delete);
+        this.router.put('/', AuthRouter.verifyToken, this.update);
+        this.router.put('/role', AuthRouter.verifyToken, AuthRouter.verifyAdmin, this.updateRole);
+        this.router.delete('/:id', AuthRouter.verifyToken, AuthRouter.verifyAdmin, this.delete);
     }
 
     public static async getCategories(userModel: IUserModel): Promise<CategoryDTO[]> {

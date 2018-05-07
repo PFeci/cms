@@ -7,7 +7,7 @@ import * as cors from 'cors';
 import * as cloudinary from "cloudinary";
 import DbConnection from './database/db-connection'
 import {OutsideRouter} from "./routes/outside-router";
-import {AuthGuard} from "./routes/auth-guard";
+import {AuthRouter} from "./routes/auth-router";
 import {UserRouter} from "./routes/user-router";
 import {HappeningRouter} from "./routes/happening-router";
 import {CategoryRouter} from "./routes/category-router";
@@ -44,13 +44,13 @@ export class App {
     // Configure API endpoints.
     private routes(): void {
 
-        this.express.use('/api/setting', AuthGuard.verifyToken, AuthGuard.verifyAdmin, new SettingRouter().router);
+        this.express.use('/api/setting', AuthRouter.verifyToken, AuthRouter.verifyAdmin, new SettingRouter().router);
         this.express.use('/', DbConnection.checkDBConnection);
         this.express.use('/api/auth', new OutsideRouter().router);
         this.express.use('/api/happening', new HappeningRouter().router);
         this.express.use('/api/category', new CategoryRouter().router);
         this.express.use('/api/secondcategory', new SecondCategoryRouter().router);
-        this.express.all('/api/*', AuthGuard.verifyToken);
+        this.express.all('/api/*', AuthRouter.verifyToken);
         this.express.use('/api/content', new ContentRouter().router);
         this.express.use('/api/user', new UserRouter().router);
 

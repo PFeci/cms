@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {AuthGuard} from "./auth-guard";
+import {AuthRouter} from "./auth-router";
 import {SecondCategoryDTO} from "../dtos/second-category-dto";
 import {ISecondCategoryModel, SecondCategory} from "../database/schemas/second-category-schema";
 import {Happening} from "../database/schemas/happening-schema";
@@ -121,8 +121,8 @@ export class SecondCategoryRouter {
     init() {
         this.router.get('/all', this.getAll);
         this.router.get('/:id', this.getOne);
-        this.router.delete('/:id', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.delete);
-        this.router.put('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.update);
-        this.router.post('/', AuthGuard.verifyToken, AuthGuard.verifySupporter, this.save);
+        this.router.delete('/:id', AuthRouter.verifyToken, AuthRouter.verifySupporter, this.delete);
+        this.router.put('/', AuthRouter.verifyToken, AuthRouter.verifySupporter, this.update);
+        this.router.post('/', AuthRouter.verifyToken, AuthRouter.verifySupporter, this.save);
     }
 }

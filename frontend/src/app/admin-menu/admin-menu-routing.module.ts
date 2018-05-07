@@ -24,7 +24,7 @@ const routes: Routes = [
         component: EmailSettingComponent,
       },
       {
-        path: 'updateDatabase',
+        path: 'database',
         component: DatabaseSettingComponent,
       },
     ]

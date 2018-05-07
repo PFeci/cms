@@ -26,7 +26,7 @@ export class EventUpdateComponent implements OnInit {
       err => console.log(err)
     );
     this.eventService.getSecondCategories().subscribe(
-      resp => this.secondCategories = resp['body'],
+      resp => this.secondCategories = resp,
       err => console.log(err)
     );
   }

@@ -13,6 +13,8 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import { EventSubscriptionComponent } from './event-subscription/event-subscription.component';
 import { EventCardComponent } from './event-card/event-card.component';
 import {CommonsModule} from '../common/commons.module';
+import { UploadMediaComponent } from './upload-media/upload-media.component';
+import {FileUploadModule} from 'ng2-file-upload';
 
 @NgModule({
   imports: [
@@ -21,9 +23,10 @@ import {CommonsModule} from '../common/commons.module';
     CalendarModule,
     FormsModule,
     MDBBootstrapModule.forRoot(),
-    CommonsModule
+    CommonsModule,
+    FileUploadModule
   ],
-  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent],
+  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent, UploadMediaComponent],
   providers: [EventService]
 })
 export class EventModule { }

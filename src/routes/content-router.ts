@@ -29,7 +29,7 @@ export class ContentRouter {
 
 
     /**
-     * POST upload Content to cloudinary
+     * PUT upload Content to cloudinary
      */
     public uploadContent(req: Request, res: Response, next: NextFunction) {
 
@@ -56,7 +56,7 @@ export class ContentRouter {
                                 $push: {
                                     contents: contentModel._id
                                 }
-                            }).exec();
+                            },{new: true}).exec();
                         })
                         .then((happeningModel: IHappeningModel) => {
                             return HappeningRouter.createHappeningDTO(happeningModel);

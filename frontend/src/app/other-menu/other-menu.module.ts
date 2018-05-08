@@ -9,14 +9,17 @@ import {EventService} from '../event/event.service';
 import {CategoryService} from '../admin-menu/category.service';
 import {TokenInterceptor} from '../auth/token.interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { SecondCategoryComponent } from './second-category/second-category.component';
+import {CommonsModule} from '../common/commons.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    OtherMenuRoutingModule
+    OtherMenuRoutingModule,
+    CommonsModule
   ],
-  declarations: [OtherMenuComponent, SettingsComponent],
+  declarations: [OtherMenuComponent, SettingsComponent, SecondCategoryComponent],
   providers: [OtherMenuService, EventService, CategoryService,  {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,

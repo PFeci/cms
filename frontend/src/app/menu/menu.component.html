@@ -1,7 +1,7 @@
 <mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark default-color scrolling-navbar ie-nav"
             [containerInside]="false">
   <logo>
-    <a class="logo navbar-brand" href="#"><img src="../../assets/images/owl_teljes.PNG" width="20"
+    <a class="logo navbar-brand" href="home/event"><img src="../../assets/images/owl_teljes.PNG" width="20"
                                                style="margin-right: 13px; margin-top: -5px"><strong>EventBook</strong></a>
   </logo>
   <links>
@@ -27,28 +27,28 @@
             <span class="nav-link" [routerLink]="'event/subscription'"><i class="fa fa-calendar-o" aria-hidden="true"></i>Subscriptions</span>
           </a>
           <a class="nav-item float-left">
-            <span class="nav-link" [routerLink]="'other/setting'"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</span>
+            <span class="nav-link" [routerLink]="'setting'"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</span>
           </a>
           <a class="nav-item float-left">
             <span class="nav-link" [routerLink]="'event/user'"><i class="fa fa-calendar" aria-hidden="true"></i> My events</span>
           </a>
           <a class="nav-item float-left">
-            <span class="nav-link" [routerLink]="'other/second-category'"><i class="fa fa-file" aria-hidden="true"></i> Second Categories</span>
+            <span class="nav-link" [routerLink]="'second-category'"><i class="fa fa-file" aria-hidden="true"></i> Second Categories</span>
           </a>
 
           <span *ngIf="user?.role === admin">
             <a class="nav-item float-left">
-              <span class="nav-link" [routerLink]="'admin/users'"><i class="fa fa-user"></i> Users</span>
+              <span class="nav-link" [routerLink]="'users'"><i class="fa fa-user"></i> Users</span>
             </a>
             <a class="nav-item float-left">
-              <span class="nav-link" [routerLink]="'admin/content'"><i class="fa fa-file" aria-hidden="true"></i> Categories</span>
+              <span class="nav-link" [routerLink]="'category'"><i class="fa fa-file" aria-hidden="true"></i> Categories</span>
             </a>
              <a class="nav-item float-left">
-              <span class="nav-link" [routerLink]="'admin/email'"><i class="fa fa-at"
+              <span class="nav-link" [routerLink]="''"><i class="fa fa-at"
                                                                      aria-hidden="true"></i> Emails</span>
             </a>
             <a class="nav-item float-left">
-              <span class="nav-link" [routerLink]="'admin/database'"><i class="fa fa-database" aria-hidden="true"></i>Database</span>
+              <span class="nav-link" [routerLink]="''"><i class="fa fa-database" aria-hidden="true"></i>Database</span>
             </a>
           </span>
           <a (click)="logout()" class="nav-item float-left">
@@ -58,7 +58,7 @@
   </nav>
 </div>
 
-<div>
+<div class="main-content">
   <router-outlet></router-outlet>
 </div>
 <app-login #fluid></app-login>

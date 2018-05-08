@@ -11,12 +11,10 @@ import {FormsModule} from '@angular/forms';
 import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import { EventSubscriptionComponent } from './event-subscription/event-subscription.component';
 import { EventCardComponent } from './event-card/event-card.component';
-import {CommonsModule} from '../common/commons.module';
-import { UploadMediaComponent } from '../common/upload-media/upload-media.component';
-import {FileUploadModule} from 'ng2-file-upload';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
 import {TokenInterceptor} from '../auth/token.interceptor';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -25,7 +23,7 @@ import {TokenInterceptor} from '../auth/token.interceptor';
     CalendarModule,
     FormsModule,
     MDBBootstrapModule.forRoot(),
-    CommonsModule,
+    SharedModule,
     HttpClientModule,      // (Required) for share counts
     ShareButtonModule.forRoot()
   ],

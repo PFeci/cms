@@ -48,7 +48,7 @@ export class App {
         this.express.use('/', DbConnection.checkDBConnection);
         this.express.use('/api/auth', new OutsideRouter().router);
         this.express.use('/api/happening', new HappeningRouter().router);
-        this.express.use('/api/category', new CategoryRouter().router);
+        this.express.use('/api/category-list', new CategoryRouter().router);
         this.express.use('/api/secondcategory', new SecondCategoryRouter().router);
         this.express.all('/api/*', AuthRouter.verifyToken);
         this.express.use('/api/content', new ContentRouter().router);

@@ -22,7 +22,7 @@ export class EventService {
   }
 
   getCategories(): Observable<CategoryDTO[]> {
-    return this.http.get<CategoryDTO[]>('api/category/all');
+    return this.http.get<CategoryDTO[]>('api/category-list/all');
   }
 
   getSecondCategories(): Observable<SecondCategoryDTO[]> {

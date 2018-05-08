@@ -12,7 +12,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import { EventSubscriptionComponent } from './event-subscription/event-subscription.component';
 import { EventCardComponent } from './event-card/event-card.component';
 import {CommonsModule} from '../common/commons.module';
-import { UploadMediaComponent } from './upload-media/upload-media.component';
+import { UploadMediaComponent } from '../common/upload-media/upload-media.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
@@ -26,11 +26,10 @@ import {TokenInterceptor} from '../auth/token.interceptor';
     FormsModule,
     MDBBootstrapModule.forRoot(),
     CommonsModule,
-    FileUploadModule,
     HttpClientModule,      // (Required) for share counts
     ShareButtonModule.forRoot()
   ],
-  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent, UploadMediaComponent],
+  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent],
   providers: [EventService,  {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,

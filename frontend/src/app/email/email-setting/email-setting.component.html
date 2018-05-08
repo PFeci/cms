@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card card-body">
+      <h5 class="card-title">New email</h5>
+      <br>
+      <div class="card-text">
+        <label for="newSender">Sender</label>
+        <input id="newSender" [(ngModel)]="newEmail.fromName" type="text" class="form-control">
+        <br>
+        <label for="newSubject">Subject</label>
+        <input id="newSubject" placeholder="Subject" [(ngModel)]="newEmail.subject" type="text" class="form-control">
+        <br>
+        <label for="newText">Text</label>
+        <textarea id="newText" rows="4" [(ngModel)]="newEmail.text" type="text" class="form-control"></textarea>
+        <br>
+        <button type="button" class="btn btn-primary btn-sm float-right" (click)="updateNewEmail()">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card card-body">
+      <h5 class="card-title">Update email</h5>
+      <br>
+      <div class="card-text">
+        <label for="updateSender">Sender</label>
+        <input id="updateSender" [(ngModel)]="updateEmail.fromName" type="text" class="form-control">
+        <br>
+        <label for="updateSubject">Subject</label>
+        <input id="updateSubject" placeholder="Subject" [(ngModel)]="updateEmail.subject" type="text" class="form-control">
+        <br>
+        <label for="updateText">Text</label>
+        <textarea id="updateText" rows="4" [(ngModel)]="updateEmail.text" type="text" class="form-control"></textarea>
+        <br>
+        <button type="button" class="btn btn-primary btn-sm float-right" (click)="updateUpdateEmail()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

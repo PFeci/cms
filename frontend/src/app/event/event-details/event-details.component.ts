@@ -24,4 +24,7 @@ export class EventDetailsComponent implements OnInit {
     });
   }
 
+  onNavigate(content){
+    window.open(content.src, "_blank");
+  }
 }

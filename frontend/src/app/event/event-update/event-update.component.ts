@@ -7,7 +7,8 @@ import * as _ from 'lodash';
 import {CategoryService} from '../../category/category.service';
 import {SecondCategoryService} from '../../second-category/second-category.service';
 import {MouseEvent as AGMMouseEvent} from '@agm/core';
-import {GeocodeService} from "../geocode.service";
+import {GeocodeService} from '../geocode.service';
+import {Location} from "../../../../../src/interface/location";
 
 @Component({
   selector: 'app-event-update',
@@ -42,8 +43,10 @@ export class EventUpdateComponent implements OnInit {
       resp => this.secondCategories = resp,
       err => console.log(err)
     );
-    this.marker.lat = this.updateEvent.location.lat;
-    this.marker.lng = this.updateEvent.location.lng;
+    if (this.updateEvent.location) {
+      this.marker.lat = this.updateEvent.location.lat;
+      this.marker.lng = this.updateEvent.location.lng;
+    }
 
   }
 
@@ -54,7 +57,7 @@ export class EventUpdateComponent implements OnInit {
       this.eventService.updateEvent(this.updateEvent).subscribe(
         resp => this.finishUpdate.emit(true),
         err => console.log(err)
-      )
+      );
     } else {
       this.eventService.saveNewEvent(this.updateEvent).subscribe(
         resp => this.finishUpdate.emit(true),
@@ -68,7 +71,7 @@ export class EventUpdateComponent implements OnInit {
       this.eventService.deleteEvent(this.updateEvent).subscribe(
         resp => this.finishUpdate.emit(true),
         err => console.log(err)
-      )
+      );
     } else {
       this.finishUpdate.emit(true);
     }
@@ -113,7 +116,7 @@ export class EventUpdateComponent implements OnInit {
     this.geocodeService.geocodeAddress(this.marker)
       .subscribe(
         location => {
-          console.log(location.address);
+          !this.updateEvent.location ? this.updateEvent.location = <Location>{} : '';
           this.updateEvent.location.address = location.address;
         }
       );

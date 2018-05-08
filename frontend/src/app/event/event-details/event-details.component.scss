@@ -1,4 +1,4 @@
-.fa.fa-calendar-o, .fa.fa-map-marker{
+.fa.fa-calendar-o, .fa.fa-map-marker {
   margin-right: 2%;
 }
 
@@ -6,9 +6,14 @@
   margin-right: 1%;
 }
 
-img, video{
+img, video {
   width: 300px;
   height: 200px;
   margin-left: 15px;
   margin-bottom: 15px
 }
+
+img:hover {
+  opacity: 0.8;
+}
+

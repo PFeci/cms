@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="row card-text">
-      <div class="col-sm-12"><i class="fa fa-map-marker" aria-hidden="true"></i> {{happening.location.address}}</div>
+      <div class="col-sm-12"><i class="fa fa-map-marker" aria-hidden="true"></i> {{happening.location?.address}}</div>
     </div>
     <br>
     <span class="badge badge-default" *ngFor="let category of happening.categories">{{category.name}}</span>
@@ -26,8 +26,8 @@
     <hr>
     <div style="text-align: center">
       <div *ngFor="let content of happening.contents" style="display: inline-block">
-        <img *ngIf="content?.fileType === 'image'" class="float-left" [src]="content.src">
-        <video class="float-left" controls *ngIf="content?.fileType === 'video'">
+        <img (click)="onNavigate(content)" *ngIf="content?.fileType === 'image'" class="float-left" [src]="content.src">
+        <video (click)="onNavigate(content)"  class="float-left" controls *ngIf="content?.fileType === 'video'">
           <source [src]="content.src" type="video/mp4">
           Your browser does not support HTML5 video.
         </video>

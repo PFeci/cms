@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="row card-text">
-      <div class="col-sm-12"><i class="fa fa-map-marker" aria-hidden="true"></i> {{happening.location}}</div>
+      <div class="col-sm-12"><i class="fa fa-map-marker" aria-hidden="true"></i> {{happening.location.address}}</div>
     </div>
     <br>
     <span class="badge badge-default" *ngFor="let category of happening.categories">{{category.name}}</span>

@@ -29,7 +29,7 @@
           <span>{{userEvent.startDate | date}} - {{userEvent.endDate | date}}</span></div>
         <div>
           <i class="fa fa-map-marker" aria-hidden="true"></i>
-          <span>{{userEvent.location}}</span>
+          <span>{{userEvent.location.address}}</span>
         </div>
         <span (click)="userEvent.update = true" class="badge badge-default update"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></span>
       </div>

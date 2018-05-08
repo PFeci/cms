@@ -27,10 +27,6 @@
         <p-calendar [(ngModel)]="updateEvent.endDate"  [showTime]="true" hourFormat="24"></p-calendar>
       </div>
       <div class="col-sm-3">
-        <label>Location</label>
-        <input [(ngModel)]="updateEvent.location" type="text" class="form-control">
-      </div>
-      <div class="col-sm-3">
         <br>
         <button *ngIf="updateEvent.id" type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="upload.open(updateEvent)">Upload media</button>
       </div>
@@ -61,6 +57,33 @@
         </span>
       </div>
     </div>
+
+
+    <agm-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom"
+      [disableDefaultUI]="false"
+      [zoomControl]="false"
+      (mapClick)="mapClicked($event)">
+
+      <agm-marker
+        [latitude]="marker.lat"
+        [longitude]="marker.lng"
+        [label]="marker.label"
+        [markerDraggable]="marker.draggable">
+
+        <agm-info-window>
+          <strong>InfoWindow content</strong>
+        </agm-info-window>
+
+      </agm-marker>
+
+
+    </agm-map>
+
+
+
     <br>
     <span class="badge badge-danger update" (click)="delete.open(updateEvent)"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></span>
     <span class="badge badge-default update" (click)="saveEvent()"><i class="fa fa-save fa-2x"

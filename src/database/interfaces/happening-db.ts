@@ -1,11 +1,9 @@
-import {CategoryDb} from "./category-db";
-import {SecondCategoryDb} from "./second-category-db";
-import {ContentDb} from "./content-db";
+import {Location} from "../../interface/location";
 
 export interface HappeningDb {
     startDate: Date;
     endDate: Date;
-    location: string,
+    location: Location,
     creator: string,
     categories: Array<string>,
     secondCategories: Array<string>,

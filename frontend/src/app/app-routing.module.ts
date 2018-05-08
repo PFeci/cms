@@ -13,13 +13,23 @@ const routes: Routes = [
         loadChildren: 'app/event/event.module#EventModule'
       },
       {
-        path: 'admin',
-        loadChildren: 'app/admin-menu/admin-menu.module#AdminMenuModule',
+        path: 'category',
+        loadChildren: 'app/category/category.module#CategoryModule',
         canActivate: [AuthGuardService]
       },
       {
-        path: 'other',
-        loadChildren: 'app/other-menu/other-menu.module#OtherMenuModule',
+        path: 'users',
+        loadChildren: 'app/users/users.module#UsersModule',
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: 'second-category',
+        loadChildren: 'app/second-category/second-category.module#SecondCategoryModule',
+        // canActivate: [AuthGuardService] -- supporter
+      },
+      {
+        path: 'setting',
+        loadChildren: 'app/setting/setting.module#SettingModule',
       }
     ]
   },

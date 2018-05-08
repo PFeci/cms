@@ -9,15 +9,15 @@
     "dbName": "cms-internet"
   },
   "email": {
-    "newEvent": {
+    "newEmail": {
       "fromName": "CMS System",
       "subject": "New event",
-      "text": "Check out the new event has been created that you might interested in"
+      "text": "Check out the new event has been created that you might interested in."
     },
-    "updateEvent": {
+    "updateEmail": {
       "fromName": "CMS System",
       "subject": "Updated event",
-      "text": "The event you have subscribed has been updated"
+      "text": "The event you have subscribed has been updated."
     }
   }
 }

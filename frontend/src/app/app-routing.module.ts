@@ -30,6 +30,10 @@ const routes: Routes = [
       {
         path: 'setting',
         loadChildren: 'app/setting/setting.module#SettingModule',
+      },
+      {
+        path: 'email',
+        loadChildren: 'app/email/email.module#EmailModule'
       }
     ]
   },

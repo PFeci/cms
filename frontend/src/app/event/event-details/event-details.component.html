@@ -1,9 +1,17 @@
-<div class="card">
-  <div class="card-body">
-    <h5>{{happening.title}}</h5>
-    <div class="mb-3">
-      {{happening.description}}
+<div class="card card-body">
+  <div class="float-right" style="text-align: right">
+    <share-button [size]="-7" button="facebook"></share-button>
+    <share-button [size]="-7" button="twitter"></share-button>
+    <share-button [size]="-7" button="pinterest"></share-button>
+  </div>
+  <h4 class="card-title">{{happening.title}}</h4>
+  <div class="card-text">
+    <div class="row card-text">
+      <div class="col-sm-12">
+        {{happening.description}}
+      </div>
     </div>
+    <br>
     <div class="row card-text">
       <div class="col-sm-12">
         <i class="fa fa-calendar-o" aria-hidden="true"></i>{{happening.startDate | date}} - {{happening.endDate | date}}
@@ -16,13 +24,16 @@
     <span class="badge badge-default" *ngFor="let category of happening.categories">{{category.name}}</span>
     <span class="badge badge-primary" *ngFor="let scategory of happening.secondCategories">{{scategory.name}}</span>
     <hr>
-    <div *ngFor="let content of happening.contents"><img class="float-left img-thumbnail" style="width: 300px;"
-                                                         [src]="content.src"></div>
-    <video width="400" controls *ngIf="content.type === 'video'">
-      <source [src]="content.src" type="video/mp4">
-      Your browser does not support HTML5 video.
-    </video>
-
+    <div style="text-align: center">
+      <div *ngFor="let content of happening.contents" style="display: inline-block">
+        <img *ngIf="content?.fileType === 'image'" class="float-left" [src]="content.src">
+        <video class="float-left" controls *ngIf="content?.fileType === 'video'">
+          <source [src]="content.src" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+    </div>
   </div>
 </div>
+<br>
 <app-delete-modal #delete (deleteEvent)="deleteSecondCategory($event)"></app-delete-modal>

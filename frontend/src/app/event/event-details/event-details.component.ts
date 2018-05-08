@@ -10,14 +10,13 @@ import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
 })
 export class EventDetailsComponent implements OnInit {
 
-  private happening: HappeningDTO = <HappeningDTO>{};
+  happening: HappeningDTO = <HappeningDTO>{};
 
   constructor(private route: ActivatedRoute, private eventService: EventService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       let id = params['eventId'];
-      console.log(params);
       this.eventService.getEventById(id).subscribe(
         resp => {this.happening = resp;},
         err => console.log(err)

@@ -15,6 +15,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
 import {TokenInterceptor} from '../auth/token.interceptor';
 import {SharedModule} from '../shared/shared.module';
+import { EventDetailsComponent } from './event-details/event-details.component';
+import {CategoryService} from '../category/category.service';
+import {SecondCategoryService} from '../second-category/second-category.service';
 
 @NgModule({
   imports: [
@@ -27,8 +30,8 @@ import {SharedModule} from '../shared/shared.module';
     HttpClientModule,      // (Required) for share counts
     ShareButtonModule.forRoot()
   ],
-  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent],
-  providers: [EventService,  {
+  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent, EventDetailsComponent],
+  providers: [EventService, CategoryService, SecondCategoryService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true

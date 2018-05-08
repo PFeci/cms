@@ -41,10 +41,7 @@
           <div style="height: 165px">
             {{event.description}}
           </div>
-          <button type="button" class="btn btn-default waves-effect btn-sm" (click)="upload.open(event)">Media</button>
-          <button type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="upload.open(event)">
-            Managing media
-          </button>
+          <button type="button" class="btn btn-outline-default waves-effect btn-sm" [routerLink]="['details', event.id]">Media</button>
         </div>
         <hr>
         <div class="float-right">

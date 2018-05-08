@@ -4,6 +4,8 @@ import {EventService} from '../event.service';
 import {CategoryDTO} from '../../../../../src/dtos/category-dto';
 import {SecondCategoryDTO} from '../../../../../src/dtos/second-category-dto';
 import * as _ from 'lodash';
+import {CategoryService} from '../../category/category.service';
+import {SecondCategoryService} from '../../second-category/second-category.service';
 
 @Component({
   selector: 'app-event-update',
@@ -17,15 +19,15 @@ export class EventUpdateComponent implements OnInit {
   secondCategories: SecondCategoryDTO[] = [];
   @Output() finishUpdate: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private eventService: EventService) {
+  constructor(private eventService: EventService, private categoryService: CategoryService, private secondCategoryService: SecondCategoryService) {
   }
 
   ngOnInit() {
-    this.eventService.getCategories().subscribe(
+    this.categoryService.getCategories().subscribe(
       resp => this.categories = resp,
       err => console.log(err)
     );
-    this.eventService.getSecondCategories().subscribe(
+    this.secondCategoryService.getSecondCategories().subscribe(
       resp => this.secondCategories = resp,
       err => console.log(err)
     );

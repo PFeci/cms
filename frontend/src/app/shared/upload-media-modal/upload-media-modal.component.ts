@@ -15,6 +15,7 @@ export class UploadMediaModalComponent implements OnInit {
   uploader: FileUploader;
   @ViewChild('uploadModal') public uploadModal: ModalDirective;
   happening: HappeningDTO;
+  isUpload: boolean = true;
 
   constructor(private authService: AuthService) {
   }
@@ -43,6 +44,9 @@ export class UploadMediaModalComponent implements OnInit {
 
   remove(file) {
     _.remove(this.uploader.queue, file);
+  }
+  changeIsUpload(isUp) {
+    this.isUpload = isUp;
   }
 
 }

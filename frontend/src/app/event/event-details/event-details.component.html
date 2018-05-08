@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="card-body">
+    <h5>{{happening.title}}</h5>
+    <div class="mb-3">
+      {{happening.description}}
+    </div>
+    <div class="row card-text">
+      <div class="col-sm-12">
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>{{happening.startDate | date}} - {{happening.endDate | date}}
+      </div>
+    </div>
+    <div class="row card-text">
+      <div class="col-sm-12"><i class="fa fa-map-marker" aria-hidden="true"></i> {{happening.location}}</div>
+    </div>
+    <br>
+    <span class="badge badge-default" *ngFor="let category of happening.categories">{{category.name}}</span>
+    <span class="badge badge-primary" *ngFor="let scategory of happening.secondCategories">{{scategory.name}}</span>
+    <hr>
+    <div *ngFor="let content of happening.contents"><img class="float-left img-thumbnail" style="width: 300px;"
+                                                         [src]="content.src"></div>
+    <video width="400" controls *ngIf="content.type === 'video'">
+      <source [src]="content.src" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
+  </div>
+</div>
+<app-delete-modal #delete (deleteEvent)="deleteSecondCategory($event)"></app-delete-modal>

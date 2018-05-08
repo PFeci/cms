@@ -21,14 +21,6 @@ export class EventService {
     return this.http.post<HappeningDTO>('api/happening', newEvent);
   }
 
-  getCategories(): Observable<CategoryDTO[]> {
-    return this.http.get<CategoryDTO[]>('api/category-list/all');
-  }
-
-  getSecondCategories(): Observable<SecondCategoryDTO[]> {
-    return this.http.get<SecondCategoryDTO[]>('api/secondcategory/all');
-  }
-
   updateEvent(updateEvent): Observable<HappeningDTO> {
     return this.http.put<HappeningDTO>('api/happening', updateEvent);
   }
@@ -51,6 +43,10 @@ export class EventService {
       userId: this.authService.getUserId()
     };
     return this.http.post<HappeningDTO>('api/happening/unsubscribe', body);
+  }
+
+  getEventById(id): Observable<HappeningDTO> {
+    return this.http.get<HappeningDTO>(`api/happening/${id}`)
   }
 
 }

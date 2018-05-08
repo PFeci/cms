@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card card-body">
+      <h5 class="card-title">Database settings</h5>
+      <br>
+      <div class="card-text">
+        <label for="user">Username</label>
+        <input id="user" [(ngModel)]="database.dbUser" type="text" class="form-control">
+        <br>
+        <label for="password">Password</label>
+        <input id="password" [(ngModel)]="database.dbPassword" type="text" class="form-control">
+        <br>
+        <label for="server">Server URL</label>
+        <input id="server" [(ngModel)]="database.dbServer" type="text" class="form-control" />
+        <br>
+        <label for="name">Server name</label>
+        <input id="name"  [(ngModel)]="database.dbName" type="text" class="form-control" />
+        <br>
+        <button type="button" class="btn btn-primary btn-sm float-right" (click)="updateDatabase()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

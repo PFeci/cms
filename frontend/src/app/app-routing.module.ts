@@ -34,6 +34,10 @@ const routes: Routes = [
       {
         path: 'email',
         loadChildren: 'app/email/email.module#EmailModule'
+      },
+      {
+        path: 'database',
+        loadChildren: 'app/database/database.module#DatabaseModule'
       }
     ]
   },

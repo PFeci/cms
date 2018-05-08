@@ -14,8 +14,9 @@ import { EventCardComponent } from './event-card/event-card.component';
 import {CommonsModule} from '../common/commons.module';
 import { UploadMediaComponent } from './upload-media/upload-media.component';
 import {FileUploadModule} from 'ng2-file-upload';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
+import {TokenInterceptor} from '../auth/token.interceptor';
 
 @NgModule({
   imports: [
@@ -30,6 +31,10 @@ import {ShareButtonModule} from '@ngx-share/button';
     ShareButtonModule.forRoot()
   ],
   declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent, UploadMediaComponent],
-  providers: [EventService]
+  providers: [EventService,  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }]
 })
 export class EventModule { }

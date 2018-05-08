@@ -8,10 +8,11 @@ import {CategoryComponent} from './category/category.component';
 import {EmailSettingComponent} from './email-setting/email-setting.component';
 import {DatabaseSettingComponent} from './database-setting/database-setting.component';
 import {FormsModule} from '@angular/forms';
-import {DeleteModalComponent} from '../common/delete-modal/delete-modal.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import {CategoryService} from './category.service';
 import {CommonsModule} from '../common/commons.module';
+import {TokenInterceptor} from '../auth/token.interceptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -22,7 +23,11 @@ import {CommonsModule} from '../common/commons.module';
     CommonsModule
   ],
   declarations: [UserListComponent, AdminMenuComponent, CategoryComponent, EmailSettingComponent, DatabaseSettingComponent],
-  providers: [UserListService, CategoryService],
+  providers: [UserListService, CategoryService,  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   schemas: [NO_ERRORS_SCHEMA]
 
 })

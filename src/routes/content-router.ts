@@ -22,7 +22,8 @@ export class ContentRouter {
     public static createContentDTO(contentModel: IContentModel): ContentDTO {
         const contentDTO: ContentDTO = {
             id: contentModel._id,
-            src: contentModel.src
+            src: contentModel.src,
+            fileType: contentModel.fileType
         };
         return contentDTO;
     }
@@ -42,13 +43,21 @@ export class ContentRouter {
             const uri = new Datauri();
             uri.format('.png', req['file'].buffer);
 
-            cloudinary.v2.uploader.upload(uri.content, {use_filename: true},
+            let resourceType: string;
+            if (req['file'].mimetype.slice(0, 5) === 'image') {
+                resourceType = 'image';
+            } else {
+                resourceType = 'video';
+            }
+
+            cloudinary.v2.uploader.upload(uri.content, {resource_type: resourceType, use_filename: true},
                 (err: any, result: any) => {
                     if (err) {
                         return res.status(500).json({message: err});
                     }
                     const contentDTO = <ContentDTO>{
-                        src: result.secure_url
+                        src: result.secure_url,
+                        fileType: resourceType
                     };
                     new Content(contentDTO).save()
                         .then((contentModel: IContentModel) => {
@@ -56,7 +65,7 @@ export class ContentRouter {
                                 $push: {
                                     contents: contentModel._id
                                 }
-                            },{new: true}).exec();
+                            }, {new: true}).exec();
                         })
                         .then((happeningModel: IHappeningModel) => {
                             return HappeningRouter.createHappeningDTO(happeningModel);
@@ -86,7 +95,7 @@ export class ContentRouter {
                     $pull: {
                         contents: contentId
                     }
-                },{multi: true}).exec();
+                }, {multi: true}).exec();
             })
             .then(() => {
                 return res.status(200).json();

@@ -5,7 +5,8 @@ export interface IContentModel extends Document, ContentDb {
 }
 
 const ContentSchema: Schema = new Schema({
-    src: String
+    src: String,
+    fileType: String
 }, {timestamps: true});
 
 

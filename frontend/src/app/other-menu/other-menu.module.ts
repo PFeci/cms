@@ -7,7 +7,8 @@ import {OtherMenuService} from './other-menu.service';
 import {FormsModule} from '@angular/forms';
 import {EventService} from '../event/event.service';
 import {CategoryService} from '../admin-menu/category.service';
-import {UserListService} from '../admin-menu/user-list.service';
+import {TokenInterceptor} from '../auth/token.interceptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -16,7 +17,11 @@ import {UserListService} from '../admin-menu/user-list.service';
     OtherMenuRoutingModule
   ],
   declarations: [OtherMenuComponent, SettingsComponent],
-  providers: [OtherMenuService, EventService, CategoryService]
+  providers: [OtherMenuService, EventService, CategoryService,  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }]
 })
 
 export class OtherMenuModule { }

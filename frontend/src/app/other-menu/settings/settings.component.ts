@@ -39,6 +39,7 @@ export class SettingsComponent implements OnInit {
 
   addInterestedCategory(category: CategoryDTO) {
     if (_.findIndex(this.user.interestedCategories, category) === -1) {
+      this.user.interestedCategories ? '' : this.user.interestedCategories = [];
       this.user.interestedCategories.push(category);
     } else {
       _.remove(this.user.interestedCategories, {id: category.id});

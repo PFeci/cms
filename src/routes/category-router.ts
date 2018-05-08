@@ -1,9 +1,9 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {AuthRouter} from "./auth-router";
-import {CategoryDTO} from "../dtos/category-dto";
-import {ICategoryModel, Category} from "../database/schemas/category-schema";
-import {User} from "../database/schemas/user-schema";
-import {Happening} from "../database/schemas/happening-schema";
+import {AuthRouter} from './auth-router';
+import {CategoryDTO} from '../dtos/category-dto';
+import {ICategoryModel, Category} from '../database/schemas/category-schema';
+import {User} from '../database/schemas/user-schema';
+import {Happening} from '../database/schemas/happening-schema';
 
 export class CategoryRouter {
     router: Router;
@@ -34,7 +34,7 @@ export class CategoryRouter {
             .catch((err) => {
                 console.log(err);
                 return res.status(500).json({message: err});
-            })
+            });
     }
 
 
@@ -71,7 +71,7 @@ export class CategoryRouter {
             .catch((err) => {
                 console.log(err);
                 return res.status(500).json({message: err});
-            })
+            });
     }
 
     /**
@@ -91,7 +91,7 @@ export class CategoryRouter {
             .catch((err) => {
                 console.log(err);
                 return res.status(500).json({message: err});
-            })
+            });
     }
 
 
@@ -110,7 +110,7 @@ export class CategoryRouter {
                 },{multi: true}).exec();
             })
             .then(() => {
-                return Happening.update({},{
+                return Happening.update({}, {
                     $pull: {
                         categories: categoryId
                     }
@@ -122,7 +122,7 @@ export class CategoryRouter {
             .catch((err) => {
                 console.log(err);
                 return res.status(500).json({message: err});
-            })
+            });
     }
 
 

@@ -33,7 +33,7 @@ export class EventService {
     return this.http.put<HappeningDTO>('api/happening', updateEvent);
   }
 
-  deleteEvent(deleteEvent): Observable<HappeningDTO> {
+  deleteEvent(deleteEvent: HappeningDTO): Observable<HappeningDTO> {
     return this.http.delete<HappeningDTO>(`api/happening/${deleteEvent.id}`);
   }
 

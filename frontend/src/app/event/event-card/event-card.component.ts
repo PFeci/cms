@@ -16,6 +16,7 @@ export class EventCardComponent implements OnInit {
   @Input() index: number;
   user: UserDTO;
   @Output() eventRefresh: EventEmitter<any> = new EventEmitter<any>();
+  currentUrl: string;
 
   constructor(private eventService: EventService, private authService: AuthService) {
   }
@@ -24,6 +25,8 @@ export class EventCardComponent implements OnInit {
     if (this.authService.getUserId()) {
       this.getUser();
     }
+
+    this.currentUrl = window.location.href;
   }
 
   getUser() {

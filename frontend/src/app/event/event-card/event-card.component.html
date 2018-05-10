@@ -45,9 +45,9 @@
         </div>
         <hr>
         <div class="float-right">
-          <share-button [size]="-7" button="facebook"></share-button>
-          <share-button [size]="-7" button="twitter"></share-button>
-          <share-button [size]="-7" button="pinterest"></share-button>
+          <share-button [url]="currentUrl+'/details/'+event.id" [size]="-7" button="facebook"></share-button>
+          <share-button [url]="currentUrl+'/details/'+event.id" [size]="-7" button="twitter"></share-button>
+          <share-button [url]="currentUrl+'/details/'+event.id" [size]="-7" button="pinterest"></share-button>
         </div>
         <br>
         <a (click)="flippCard()" class=" card-text right"

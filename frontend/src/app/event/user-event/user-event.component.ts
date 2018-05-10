@@ -11,7 +11,6 @@ import {AuthService} from '../../auth/auth.service';
 })
 export class UserEventComponent implements OnInit {
 
-  newEvent: HappeningDTO;
   usersEvent: HappeningDTO[];
 
   constructor(private authService: AuthService) {
@@ -34,18 +33,5 @@ export class UserEventComponent implements OnInit {
       },
       err => console.log(err)
     );
-  }
-
-  createNewEvent() {
-    this.newEvent = <HappeningDTO>{};
-    this.newEvent.categories = [];
-    this.newEvent.secondCategories = [];
-    this.newEvent.contents = [];
-  }
-
-  refreshEvents(updatedEvent) {
-    this.getAllEvents();
-    this.newEvent ? this.newEvent = null : '';
-    updatedEvent ? updatedEvent.update = false : '';
   }
 }

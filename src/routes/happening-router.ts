@@ -96,6 +96,10 @@ export class HappeningRouter {
                 }).exec()
             })
             .then(() => {
+                return HappeningRouter.createHappeningDTO(res.locals.happeningModel);
+            })
+            .then((happeningDTO: HappeningDTO) => {
+                res.locals.happeningDTO = happeningDTO;
                 return next();
             })
             .catch((err) => {
@@ -278,7 +282,7 @@ export class HappeningRouter {
             .then((emails: IUserModel[]) => {
                 //no need to send emails
                 if (emails.length === 0) {
-                    return res.status(200).json();
+                    return res.status(200).json(res.locals.happeningDTO);
                 }
                 res.locals.emails = emails;
                 return next();

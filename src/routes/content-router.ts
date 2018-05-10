@@ -88,7 +88,7 @@ export class ContentRouter {
      */
     public delete(req: Request, res: Response, next: NextFunction) {
 
-        const contentId = req.params.id;
+        const contentId = req.params.contentId;
         Content.findOneAndRemove({_id: contentId})
             .then(() => {
                 return Happening.update({}, {

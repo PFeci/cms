@@ -49,4 +49,8 @@ export class EventService {
     return this.http.get<HappeningDTO>(`api/happening/${id}`)
   }
 
+  deleteContent(id): Observable<HappeningDTO> {
+    return this.http.delete<HappeningDTO>(`api/content/${id}`)
+  }
+
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
 import {EventService} from '../event.service';
 import {CategoryDTO} from '../../../../../src/dtos/category-dto';
@@ -8,7 +8,8 @@ import {CategoryService} from '../../category/category.service';
 import {SecondCategoryService} from '../../second-category/second-category.service';
 import {MouseEvent as AGMMouseEvent} from '@agm/core';
 import {GeocodeService} from '../geocode.service';
-import {Location} from "../../../../../src/interface/location";
+import {Location} from '../../../../../src/interface/location';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-event-update',
@@ -22,18 +23,36 @@ export class EventUpdateComponent implements OnInit {
   lng: number = -9.142685;
   marker: Marker = <Marker>{};
 
-  @Input() updateEvent: HappeningDTO;
+  updateEvent: HappeningDTO = <HappeningDTO>{
+    contents: [],
+    secondCategories: [],
+    categories: []
+  };
   categories: CategoryDTO[] = [];
   secondCategories: SecondCategoryDTO[] = [];
-  @Output() finishUpdate: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private eventService: EventService,
               private categoryService: CategoryService,
               private secondCategoryService: SecondCategoryService,
-              private geocodeService: GeocodeService) {
+              private geocodeService: GeocodeService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      let id = params['eventId'];
+      if (id !== '0') {
+        this.eventService.getEventById(id).subscribe(
+          resp => {
+            this.updateEvent = resp;
+            this.updateEvent.startDate = new Date(this.updateEvent.startDate);
+            this.updateEvent.endDate = new Date(this.updateEvent.endDate);
+          },
+          err => console.log(err)
+        );
+      }
+    });
 
     this.categoryService.getCategories().subscribe(
       resp => this.categories = resp,
@@ -55,25 +74,31 @@ export class EventUpdateComponent implements OnInit {
     this.updateEvent.location.lat = this.marker.lat;
     if (this.updateEvent.id) {
       this.eventService.updateEvent(this.updateEvent).subscribe(
-        resp => this.finishUpdate.emit(true),
+        resp => this.router.navigate(['home/event/user']),
         err => console.log(err)
       );
     } else {
       this.eventService.saveNewEvent(this.updateEvent).subscribe(
-        resp => this.finishUpdate.emit(true),
+        resp => {
+          this.updateEvent = resp;
+          console.log(resp);
+        },
         err => console.log(err)
       );
     }
   }
 
-  deleteEvent() {
-    if (this.updateEvent.id) {
+  deleteEvent(content) {
+    if (this.updateEvent.id && !content.src) {
       this.eventService.deleteEvent(this.updateEvent).subscribe(
-        resp => this.finishUpdate.emit(true),
+        resp => this.router.navigate(['home/event/user']),
         err => console.log(err)
       );
-    } else {
-      this.finishUpdate.emit(true);
+    } else if (content.src) {
+      this.eventService.deleteContent(content.id).subscribe(
+        resp => console.log(resp),
+        err => console.log(err)
+      );
     }
   }
 

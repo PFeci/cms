@@ -1,40 +1,42 @@
 <section>
-  <div class="text-right mb-5 pb-5">
-    <a class="btn default-color-dark btn-md text-white" (click)="createNewEvent()"><b><i class="fa fa-plus mr-1"
-                                                                                         aria-hidden="true"></i>&nbsp;Create
-      new event</b></a>
+  <div class="text-right pb-5">
+    <a class="btn default-color-dark btn-md text-white" [routerLink]="['../update', 0]">
+      <b><i class="fa fa-plus mr-1" aria-hidden="true"></i>&nbsp;Create new event</b></a>
   </div>
-  <app-event-update *ngIf="newEvent" [updateEvent]="newEvent" (finishUpdate)="refreshEvents()"></app-event-update>
-  <div *ngFor="let userEvent of usersEvent">
-    <app-event-update *ngIf="userEvent.update"  [updateEvent]="userEvent" (finishUpdate)="refreshEvents(userEvent)"></app-event-update>
-    <div class="row" *ngIf="!userEvent.update">
-      <div class="col-sm-2 mb-4">
-        <!--Featured image-->
-        <div class="view overlay rounded z-depth-1-half">
-          <img src="https://mdbootstrap.com/img/Photos/Others/images/49.jpg" class="img-fluid" alt="First sample image">
-          <a>
-            <div class="mask rgba-white-slight"></div>
-          </a>
-        </div>
-      </div>
-      <div class="col-sm-10 mb-4">
-        <div class="font-weight-bold dark-grey-text">
-          <strong>{{userEvent.title}}</strong>
-        </div>
-        <span class="badge badge-default" *ngFor="let category of userEvent.categories">{{category.name}}</span>
-        <span class="badge badge-primary" *ngFor="let scategory of userEvent.secondCategories">{{scategory.name}}</span>
+  <div class="card card-body">
+    <h4 class="card-title">My Events</h4>
+    <br>
+    <div class="card-text">
+      <div *ngFor="let userEvent of usersEvent">
+        <div class="row">
+          <div class="col-sm-2 mb-4">
+            <!--Featured image-->
+            <div class="view overlay rounded z-depth-1-half">
+              <img [src]="userEvent.contents[0]?.src" class="img-fluid">
+            </div>
+          </div>
+          <div class="col-sm-10 mb-4">
+            <div class="font-weight-bold dark-grey-text">
+              <strong>{{userEvent.title}}</strong>
+            </div>
+            <p class="grey-text"><br>{{userEvent.description}}</p>
+            <div><i class="fa fa-calendar-o" aria-hidden="true"></i>
+              <span>{{userEvent.startDate | date}} - {{userEvent.endDate | date}}</span></div>
+            <div>
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <span>{{userEvent.location.address}}</span>
+            </div>
+            <br>
+            <span class="badge badge-default" *ngFor="let category of userEvent.categories">{{category.name}}</span>
+            <span class="badge badge-primary"
+                  *ngFor="let scategory of userEvent.secondCategories">{{scategory.name}}</span>
 
-        <p class="grey-text"><br>{{userEvent.description}}</p>
-        <div><i class="fa fa-calendar-o" aria-hidden="true"></i>
-          <span>{{userEvent.startDate | date}} - {{userEvent.endDate | date}}</span></div>
-        <div>
-          <i class="fa fa-map-marker" aria-hidden="true"></i>
-          <span>{{userEvent.location.address}}</span>
+            <span [routerLink]="['../update', userEvent.id]" class="badge badge-default update"><i
+              class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></span>
+          </div>
         </div>
-        <span (click)="userEvent.update = true" class="badge badge-default update"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></span>
+        <hr class="mb-5">
       </div>
     </div>
-  <hr class="mb-5">
   </div>
-
 </section>

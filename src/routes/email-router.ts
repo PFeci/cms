@@ -21,7 +21,7 @@ export class EmailRouter {
             .post("send")
             .request(message)
             .then((response: any) => {
-                return res.status(200).json();
+                return res.status(200).json(res.locals.happeningDTO);
             })
             .catch((err: any) => {
                 console.log(err);

@@ -14,7 +14,7 @@
     <br>
     <div class="row card-text">
       <div class="col-sm-12">
-        <i class="fa fa-calendar-o" aria-hidden="true"></i>{{happening.startDate | date}} - {{happening.endDate | date}}
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>{{happening.startDate | date :['y MMM d, h:mm a']}} - {{happening.endDate | date :['y MMM d, h:mm a']}}
       </div>
     </div>
     <div class="row card-text">

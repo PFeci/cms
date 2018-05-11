@@ -14,15 +14,17 @@
       <div class="card-body">
         <div class="row card-text">
           <div class="col-sm-2"><i class="fa fa-calendar-o" aria-hidden="true"></i></div>
-          <div class="col-sm-10">{{event.startDate | date}} - {{event.endDate | date}}</div>
+          <div class="col-sm-10">{{event.startDate | date :['y MMM d, h:mm a']}} - {{event.endDate | date :['y MMM d, h:mm a']}}</div>
         </div>
         <div class="row card-text">
           <div class="col-sm-2"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
           <div class="col-sm-10"> {{event.location.address}}</div>
         </div>
         <hr>
-        <a class="badge badge-primary" style="margin-right: 4px; margin-bottom: -10px;"
+        <a class="badge badge-default" style="margin-right: 4px; margin-bottom: -10px;"
            *ngFor="let category of event.categories">{{category.name}}</a>
+        <a class="badge badge-primary" style="margin-right: 4px; margin-bottom: -10px;"
+           *ngFor="let scategory of event.secondCategories">{{scategory.name}}</a>
         <a (click)="flippCard()" class=" card-text right" style="float: right; margin-bottom: -15px; margin-top: 15px;"><i
           class="fa fa-arrow-right" aria-hidden="true"></i></a>
       </div>
@@ -40,8 +42,8 @@
           <br>
           <div style="height: 165px">
             {{event.description}}
-          </div>
           <button type="button" class="btn btn-outline-default waves-effect btn-sm" [routerLink]="['details', event.id]">Media</button>
+          </div>
         </div>
         <hr>
         <div class="float-right">

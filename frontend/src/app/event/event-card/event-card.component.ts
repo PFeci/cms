@@ -27,6 +27,11 @@ export class EventCardComponent implements OnInit {
     }
 
     this.currentUrl = window.location.href;
+
+    this.authService.loggedIn.subscribe(
+      resp => {
+        !resp ? this.user = null : this.getUser();
+      });
   }
 
   getUser() {

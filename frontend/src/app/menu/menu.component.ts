@@ -13,6 +13,7 @@ export class MenuComponent implements OnInit {
   isLoged: boolean = false;
   user: UserDTO = <UserDTO> {};
   admin = Role.ADMIN;
+  supporter = Role.SUPPORTER;
 
   constructor(private authService: AuthService) {
   }

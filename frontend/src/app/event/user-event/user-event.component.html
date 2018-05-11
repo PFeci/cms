@@ -21,7 +21,7 @@
             </div>
             <p class="grey-text"><br>{{userEvent.description}}</p>
             <div><i class="fa fa-calendar-o" aria-hidden="true"></i>
-              <span>{{userEvent.startDate | date}} - {{userEvent.endDate | date}}</span></div>
+              <span>{{userEvent.startDate | date :['y MMM d, h:mm a']}} - {{userEvent.endDate | date :['y MMM d, h:mm a']}}</span></div>
             <div>
               <i class="fa fa-map-marker" aria-hidden="true"></i>
               <span>{{userEvent.location.address}}</span>

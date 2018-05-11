@@ -62,7 +62,7 @@ export class EventUpdateComponent implements OnInit {
 
   }
 
-  private getEvent(id) {
+  getEvent(id) {
     this.eventService.getEventById(id).subscribe(
       resp => {
         this.updateEvent = resp;

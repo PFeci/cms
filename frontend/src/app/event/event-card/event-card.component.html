@@ -40,9 +40,10 @@
           <h5 *ngIf="user && isSubscribe()" (click)="unsubscribeEvent()"><span class="badge badge-light float-right"><i
             class="fa fa-at" aria-hidden="true"></i>&nbsp;Unsubscribe</span></h5>
           <br>
-          <div style="height: 165px">
+          <div style="height: 210px">
             {{event.description}}
-          <button type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="goToDetails(event.id)" >Details</button>
+            <br>
+          <button *ngIf="user" type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="goToDetails(event.id)" >Details</button>
           </div>
         </div>
         <hr>

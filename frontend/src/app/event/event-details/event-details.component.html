@@ -14,7 +14,8 @@
     <br>
     <div class="row card-text">
       <div class="col-sm-12">
-        <i class="fa fa-calendar-o" aria-hidden="true"></i>{{happening.startDate | date :['y MMM d, h:mm a']}} - {{happening.endDate | date :['y MMM d, h:mm a']}}
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>{{happening.startDate | date :['y MMM d, h:mm a']}} -
+        {{happening.endDate | date :['y MMM d, h:mm a']}}
       </div>
     </div>
     <div class="row card-text">
@@ -24,15 +25,50 @@
     <span class="badge badge-default" *ngFor="let category of happening.categories">{{category.name}}</span>
     <span class="badge badge-primary" *ngFor="let scategory of happening.secondCategories">{{scategory.name}}</span>
     <hr>
-    <div style="text-align: center">
+    <div style="text-align: center" *ngIf="!editMultimedia">
+      <button *ngIf="user?.role === Role.ADMIN || user?.role === Role.SUPPORTER" (click)="editMultimedia = true" type="button" class="btn btn-default waves-effect btn-sm float-right">Managing media</button>
+      <br>
+      <br>
       <div *ngFor="let content of happening.contents" style="display: inline-block">
-        <img (click)="onNavigate(content)" *ngIf="content?.fileType === 'image'" class="float-left" [src]="content.src">
-        <video (click)="onNavigate(content)"  class="float-left" controls *ngIf="content?.fileType === 'video'">
+        <img (click)="onNavigate(content)" *ngIf="content?.fileType === 'image'" class="float-left gallery-img" [src]="content.src">
+        <video (click)="onNavigate(content)" class="float-left" controls *ngIf="content?.fileType === 'video'">
           <source [src]="content.src" type="video/mp4">
           Your browser does not support HTML5 video.
         </video>
       </div>
     </div>
+    <div *ngIf="editMultimedia">
+      <button (click)="editMultimedia = false" type="button" class="btn btn-default waves-effect btn-sm float-right">Back</button>
+      <button type="button" class="btn btn-outline-default waves-effect btn-sm float-right"
+              (click)="upload.open(happening)">Upload media
+      </button>
+      <br>
+      <table class="table">
+        <thead class="mdb-color grey lighten-3">
+        <tr class="text-black">
+          <th>#</th>
+          <th>File</th>
+          <th>Type</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let content of happening.contents; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td><img width="50" [src]="content.src"></td>
+          <td>{{content.fileType}}</td>
+          <td>
+            <div class="float-right">
+              <span (click)="delete.open(content)" class="badge badge-danger"><i class="fa fa-trash-o fa-lg"
+                                                                                 aria-hidden="true"></i></span>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 <br>
+<app-upload-media-modal #upload (refresh)="getEvent(happening.id)"></app-upload-media-modal>
+<app-delete-modal #delete (deleteEvent)="deleteContent($event)"></app-delete-modal>

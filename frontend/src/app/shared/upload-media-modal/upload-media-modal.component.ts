@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {ModalDirective} from 'angular-bootstrap-md/modals/modal.directive';
 import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
@@ -16,6 +16,7 @@ export class UploadMediaModalComponent implements OnInit {
   @ViewChild('uploadModal') public uploadModal: ModalDirective;
   happening: HappeningDTO;
   isUpload: boolean = true;
+  @Output() public refresh: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private authService: AuthService) {
   }
@@ -26,6 +27,9 @@ export class UploadMediaModalComponent implements OnInit {
     });
     this.uploader.authToken = 'Bearer ' + this.authService.getToken();
     this.uploader.onCompleteAll = () => {
+      this.uploadModal.hide();
+      this.uploader.queue = [];
+      this.refresh.emit();
     };
 
     this.uploader.onErrorItem = () => {

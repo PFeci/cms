@@ -43,14 +43,7 @@ export class EventUpdateComponent implements OnInit {
     this.route.params.subscribe(params => {
       let id = params['eventId'];
       if (id !== '0') {
-        this.eventService.getEventById(id).subscribe(
-          resp => {
-            this.updateEvent = resp;
-            this.updateEvent.startDate = new Date(this.updateEvent.startDate);
-            this.updateEvent.endDate = new Date(this.updateEvent.endDate);
-          },
-          err => console.log(err)
-        );
+        this.getEvent(id);
       }
     });
 
@@ -67,6 +60,17 @@ export class EventUpdateComponent implements OnInit {
       this.marker.lng = this.updateEvent.location.lng;
     }
 
+  }
+
+  private getEvent(id) {
+    this.eventService.getEventById(id).subscribe(
+      resp => {
+        this.updateEvent = resp;
+        this.updateEvent.startDate = new Date(this.updateEvent.startDate);
+        this.updateEvent.endDate = new Date(this.updateEvent.endDate);
+      },
+      err => console.log(err)
+    );
   }
 
   saveEvent() {
@@ -96,9 +100,12 @@ export class EventUpdateComponent implements OnInit {
       );
     } else if (content.src) {
       this.eventService.deleteContent(content.id).subscribe(
-        resp => console.log(resp),
+        resp => {
+          this.getEvent(this.updateEvent.id);
+        },
         err => console.log(err)
-      );
+      )
+      ;
     }
   }
 

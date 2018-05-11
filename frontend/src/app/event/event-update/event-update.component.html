@@ -125,4 +125,4 @@
 </div>
 <br>
 <app-delete-modal #delete (deleteEvent)="deleteEvent($event)"></app-delete-modal>
-<app-upload-media-modal #upload></app-upload-media-modal>
+<app-upload-media-modal #upload (refresh)="getEvent(updateEvent.id)"></app-upload-media-modal>

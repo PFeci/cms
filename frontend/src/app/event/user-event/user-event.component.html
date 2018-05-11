@@ -12,7 +12,9 @@
           <div class="col-sm-2 mb-4">
             <!--Featured image-->
             <div class="view overlay rounded z-depth-1-half">
-              <img [src]="userEvent.contents[0]?.src" class="img-fluid">
+              <img *ngIf="userEvent.contents.length !== 0" [src]="userEvent.contents[0]?.src" class="img-fluid">
+              <img *ngIf="userEvent.contents.length === 0" class="img-fluid"
+                   src="../../../assets/images/basic.JPG">
             </div>
           </div>
           <div class="col-sm-10 mb-4">
@@ -21,7 +23,8 @@
             </div>
             <p class="grey-text"><br>{{userEvent.description}}</p>
             <div><i class="fa fa-calendar-o" aria-hidden="true"></i>
-              <span>{{userEvent.startDate | date :['y MMM d, h:mm a']}} - {{userEvent.endDate | date :['y MMM d, h:mm a']}}</span></div>
+              <span>{{userEvent.startDate | date :['y MMM d, h:mm a']}} - {{userEvent.endDate | date :['y MMM d, h:mm a']}}</span>
+            </div>
             <div>
               <i class="fa fa-map-marker" aria-hidden="true"></i>
               <span>{{userEvent.location.address}}</span>

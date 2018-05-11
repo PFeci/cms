@@ -4,6 +4,7 @@ import {EventService} from '../event.service';
 import {UserDTO} from '../../../../../src/dtos/user-dto';
 import {AuthService} from '../../auth/auth.service';
 import * as _ from 'lodash';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-event-card',
@@ -18,7 +19,9 @@ export class EventCardComponent implements OnInit {
   @Output() eventRefresh: EventEmitter<any> = new EventEmitter<any>();
   currentUrl: string;
 
-  constructor(private eventService: EventService, private authService: AuthService) {
+  constructor(private eventService: EventService,
+              private authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -76,5 +79,9 @@ export class EventCardComponent implements OnInit {
       let index = _.findIndex(this.user.happenings, {id: this.event.id});
       return index !== -1;
     }
+  }
+
+  goToDetails(eventId) {
+    this.router.navigate(['/home/event/details/', eventId]);
   }
 }

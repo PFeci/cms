@@ -38,7 +38,6 @@ export class GeocodeService {
         return new Observable(observer => {
           this.geocoder.geocode({'location': location}, (results, status) => {
             if (status == google.maps.GeocoderStatus.OK) {
-              console.log('Geocoding complete!');
               observer.next({
                 address : results[0].formatted_address
               });

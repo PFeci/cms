@@ -42,7 +42,7 @@
           <br>
           <div style="height: 165px">
             {{event.description}}
-          <button type="button" class="btn btn-outline-default waves-effect btn-sm" [routerLink]="['details', event.id]">Media</button>
+          <button type="button" class="btn btn-outline-default waves-effect btn-sm" (click)="goToDetails(event.id)" >Details</button>
           </div>
         </div>
         <hr>

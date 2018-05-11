@@ -20,9 +20,12 @@ import {CategoryService} from '../category/category.service';
 import {SecondCategoryService} from '../second-category/second-category.service';
 import {AgmCoreModule} from "@agm/core";
 import {GeocodeService} from "./geocode.service";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {CategorySearchPipe} from "./category-search.pipe";
 
 @NgModule({
   imports: [
+    NgSelectModule,
     CommonModule,
     EventRoutingModule,
     CalendarModule,
@@ -37,7 +40,7 @@ import {GeocodeService} from "./geocode.service";
       apiKey: 'AIzaSyB1jDg7PjguTCz6-gqoGj8BvyJH5sV-VzE'
     })
   ],
-  declarations: [EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent, EventDetailsComponent],
+  declarations: [CategorySearchPipe, EventComponent, EventListComponent, UserEventComponent, EventUpdateComponent, EventSubscriptionComponent, EventCardComponent, EventDetailsComponent],
   providers: [EventService, CategoryService, SecondCategoryService, GeocodeService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,

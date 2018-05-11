@@ -1,5 +1,15 @@
+<ng-select
+  [items]="categories"
+  bindLabel="name"
+  bindValue="id"
+  [closeOnSelect]="false"
+  [multiple]="true"
+  placeholder="Select categories"
+  [(ngModel)]="selectedCategories">
+</ng-select>
+<br>
 <div class="d-flex flex-wrap">
-  <div *ngFor="let event of events; let i = index;" style="width:400px; height: 400px">
+  <div *ngFor="let event of events | categorySearch:selectedCategories; let i = index;" style="width:400px; height: 400px">
     <app-event-card [event]="event" [index]="i"></app-event-card>
   </div>
 </div>

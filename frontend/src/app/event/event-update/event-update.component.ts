@@ -26,7 +26,7 @@ export class EventUpdateComponent implements OnInit {
   updateEvent: HappeningDTO = <HappeningDTO>{
     contents: [],
     secondCategories: [],
-    categories: []
+    categories: [],
   };
   categories: CategoryDTO[] = [];
   secondCategories: SecondCategoryDTO[] = [];
@@ -55,11 +55,6 @@ export class EventUpdateComponent implements OnInit {
       resp => this.secondCategories = resp,
       err => console.log(err)
     );
-    if (this.updateEvent.location) {
-      this.marker.lat = this.updateEvent.location.lat;
-      this.marker.lng = this.updateEvent.location.lng;
-    }
-
   }
 
   getEvent(id) {
@@ -68,6 +63,10 @@ export class EventUpdateComponent implements OnInit {
         this.updateEvent = resp;
         this.updateEvent.startDate = new Date(this.updateEvent.startDate);
         this.updateEvent.endDate = new Date(this.updateEvent.endDate);
+        if (this.updateEvent.location) {
+          this.marker.lat = this.updateEvent.location.lat;
+          this.marker.lng = this.updateEvent.location.lng;
+        }
       },
       err => console.log(err)
     );
@@ -85,7 +84,8 @@ export class EventUpdateComponent implements OnInit {
       this.eventService.saveNewEvent(this.updateEvent).subscribe(
         resp => {
           this.updateEvent = resp;
-          console.log(resp);
+          this.updateEvent.startDate = new Date(this.updateEvent.startDate);
+          this.updateEvent.endDate = new Date(this.updateEvent.endDate);
         },
         err => console.log(err)
       );

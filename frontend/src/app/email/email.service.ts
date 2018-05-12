@@ -23,4 +23,12 @@ export class EmailService {
   updateUpdateEmail(email: EmailDTO): Observable<EmailDTO> {
     return this.http.put<EmailDTO>('api/setting/email/update', email);
   }
+
+  getEmailConf(): Observable<any> {
+    return this.http.get<any>('api/setting/email/conf');
+  }
+
+  updateEmailConf(conf: any): Observable<any> {
+    return this.http.put<any>('api/setting/email/conf', conf);
+  }
 }

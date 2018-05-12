@@ -1,5 +1,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import * as Mailjet from "node-mailjet";
+import * as fs from "fs";
+import * as config from "../config/config.json";
 
 export class EmailRouter {
 
@@ -7,13 +9,16 @@ export class EmailRouter {
 
         const emails = res.locals.emails;
 
-        const mailjet = Mailjet.connect('a5a93293af249871ed1ffee1483536c2', '0de09d55d12060ae83529f0588da1d71');
+        const config = JSON.parse(fs.readFileSync('./dist/config/config.json', 'utf8'));
+
+        const mailjet = Mailjet.connect(config.email.conf.username, config.email.conf.password);
+
 
         let message = {
             'FromEmail': 'plutzerf@hotmail.com',
-            'FromName': 'CMS System',
-            'Subject': 'New event',
-            'Text-part': 'Check out the new event has been created that you might interested in',
+            'FromName': config.email.newEmail.fromName,
+            'Subject': config.email.newEmail.subject,
+            'Text-part': config.email.newEmail.text,
             'Recipients': emails,
         };
 
@@ -33,13 +38,18 @@ export class EmailRouter {
 
         const emails = res.locals.emails;
 
-        const mailjet = Mailjet.connect('a5a93293af249871ed1ffee1483536c2', '0de09d55d12060ae83529f0588da1d71');
+        const config = JSON.parse(fs.readFileSync('./dist/config/config.json', 'utf8'));
+
+        console.log(config.email.conf.username, config.email.conf.password);
+
+        const mailjet = Mailjet.connect(config.email.conf.username, config.email.conf.password);
+
 
         let message = {
             'FromEmail': 'plutzerf@hotmail.com',
-            'FromName': 'CMS System',
-            'Subject': 'Updated event',
-            'Text-part': 'The event you have subscribed has been updated',
+            'FromName': config.email.updateEmail.fromName,
+            'Subject': config.email.updateEmail.subject,
+            'Text-part': config.email.updateEmail.text,
             'Recipients': emails,
         };
 

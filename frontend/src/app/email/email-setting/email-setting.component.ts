@@ -11,6 +11,7 @@ export class EmailSettingComponent implements OnInit {
 
   newEmail: EmailDTO = <EmailDTO>{};
   updateEmail: EmailDTO = <EmailDTO>{};
+  conf: any = <any>{};
 
   constructor(private emailService: EmailService) {
   }
@@ -27,6 +28,14 @@ export class EmailSettingComponent implements OnInit {
     this.emailService.getUpdateEmail().subscribe(
       (updateEmail: EmailDTO) => {
         this.updateEmail = updateEmail;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    this.emailService.getEmailConf().subscribe(
+      (updateEmail: EmailDTO) => {
+        this.conf = updateEmail;
       },
       (err) => {
         console.log(err);
@@ -49,6 +58,17 @@ export class EmailSettingComponent implements OnInit {
     this.emailService.updateUpdateEmail(this.updateEmail).subscribe(
       (updateEmail: EmailDTO) => {
         this.updateEmail = updateEmail;
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+
+  updateConfig(){
+    this.emailService.updateEmailConf(this.conf).subscribe(
+      (conf: any) => {
+        this.conf = conf;
       },
       (err) => {
         console.log(err);

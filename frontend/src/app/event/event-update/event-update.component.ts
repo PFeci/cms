@@ -55,10 +55,6 @@ export class EventUpdateComponent implements OnInit {
       resp => this.secondCategories = resp,
       err => console.log(err)
     );
-    if (this.updateEvent.location) {
-      this.marker.lat = this.updateEvent.location.lat;
-      this.marker.lng = this.updateEvent.location.lng;
-    }
 
   }
 
@@ -68,6 +64,10 @@ export class EventUpdateComponent implements OnInit {
         this.updateEvent = resp;
         this.updateEvent.startDate = new Date(this.updateEvent.startDate);
         this.updateEvent.endDate = new Date(this.updateEvent.endDate);
+        if (this.updateEvent.location) {
+          this.marker.lat = this.updateEvent.location.lat;
+          this.marker.lng = this.updateEvent.location.lng;
+        }
       },
       err => console.log(err)
     );

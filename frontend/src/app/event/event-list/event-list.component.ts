@@ -4,6 +4,7 @@ import {SecondCategoryService} from "../../second-category/second-category.servi
 import {CategoryService} from "../../category/category.service";
 import {CategoryComponent} from "../../category/category.component";
 import {CategoryDTO} from "../../../../../src/dtos/category-dto";
+import {HappeningDTO} from "../../../../../src/dtos/happening-dto";
 
 @Component({
   selector: 'app-event-list',
@@ -16,11 +17,12 @@ export class EventListComponent implements OnInit {
   selectedCategories: any[] = [];
 
 
-  events: any[] = [];
+  events: HappeningDTO[] = [];
 
   constructor(private eventService: EventService,
               private categoryService: CategoryService,
-              private secondCategoryService: SecondCategoryService) { }
+              private secondCategoryService: SecondCategoryService) {
+  }
 
   ngOnInit() {
 
@@ -42,7 +44,9 @@ export class EventListComponent implements OnInit {
     );
 
     this.eventService.getEvents().subscribe(
-      resp => {this.events = resp;},
+      resp => {
+        this.events = resp;
+      },
       err => console.log(err)
     )
   }

@@ -55,7 +55,6 @@ export class EventUpdateComponent implements OnInit {
       resp => this.secondCategories = resp,
       err => console.log(err)
     );
-
   }
 
   getEvent(id) {
@@ -85,7 +84,8 @@ export class EventUpdateComponent implements OnInit {
       this.eventService.saveNewEvent(this.updateEvent).subscribe(
         resp => {
           this.updateEvent = resp;
-          console.log(resp);
+          this.updateEvent.startDate = new Date(this.updateEvent.startDate);
+          this.updateEvent.endDate = new Date(this.updateEvent.endDate);
         },
         err => console.log(err)
       );

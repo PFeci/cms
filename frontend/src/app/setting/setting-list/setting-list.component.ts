@@ -22,10 +22,7 @@ export class SettingListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getUser().subscribe(
-      resp => this.user = resp,
-      err => console.log(err)
-    );
+    this.user = _.cloneDeep(this.authService.getUser());
     this.categoryService.getCategories().subscribe(
       resp => this.categories = resp,
       err => console.log(err)
@@ -46,11 +43,14 @@ export class SettingListComponent implements OnInit {
     }
   }
 
-  updateUser(){
+  updateUser() {
     this.usersService.updateUser(this.user).subscribe(
-      resp => console.log(resp),
+      resp => {
+        this.authService.refreshUser();
+        this.user = resp;
+      },
       err => console.log(err)
-    )
+    );
 
   }
 

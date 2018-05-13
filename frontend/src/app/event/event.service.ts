@@ -32,7 +32,7 @@ export class EventService {
   subscribeEvent(subscribe: HappeningDTO): Observable<HappeningDTO> {
     let body = {
       happeningId: subscribe.id,
-      userId: this.authService.getUserId()
+      userId: this.authService.getUser().id
     };
     return this.http.post<HappeningDTO>('api/happening/subscribe', body);
   }
@@ -40,7 +40,7 @@ export class EventService {
   unsubscribeEvent(unsubscribe: HappeningDTO): Observable<HappeningDTO> {
     let body = {
       happeningId: unsubscribe.id,
-      userId: this.authService.getUserId()
+      userId: this.authService.getUser().id
     };
     return this.http.post<HappeningDTO>('api/happening/unsubscribe', body);
   }

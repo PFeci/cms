@@ -1,5 +1,5 @@
 <div class="d-flex flex-wrap">
   <div *ngFor="let event of events; let i = index;" style="width:400px; height: 400px">
-    <app-event-card [event]="event" [index]="i" (eventRefresh)="getEvents()"></app-event-card>
+    <app-event-card [event]="event" [index]="i" ></app-event-card>
   </div>
 </div>

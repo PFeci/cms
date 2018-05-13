@@ -10,35 +10,29 @@ import {Observable} from 'rxjs/Observable';
 export class AuthService {
 
   private token: string;
-  private userId: string;
-  private role: string;
+  private user: UserDTO;
   public loggedIn = new Subject<boolean>();
+  public refreshedUser = new Subject<UserDTO>();
 
   constructor(private http: HttpClient, private router: Router) {
     localStorage.getItem('token') ? this.token = localStorage.getItem('token') : '';
-    localStorage.getItem('user') ? this.userId = localStorage.getItem('user') : '';
-    localStorage.getItem('role') ? this.role = localStorage.getItem('role') : '';
+    localStorage.getItem('user') ? this.user = JSON.parse(localStorage.getItem('user')) : '';
   }
 
   getToken() {
     return this.token;
   }
 
-  getRole() {
-    return this.role;
+  getUser(): UserDTO {
+    return this.user;
   }
 
-  getUserId() {
-    return this.userId;
-  }
-
-  getUser(): Observable<UserDTO> {
-    return this.http.get<UserDTO>(`api/user/${this.userId}`);
+  getUserById(): Observable<UserDTO> {
+    return this.http.get<UserDTO>(`api/user/${this.user.id}`);
   }
 
   login(user): Observable<UserDTO> {
     return this.http.post<UserDTO>('api/auth/login', user);
-
   }
 
   logout() {
@@ -58,13 +52,24 @@ export class AuthService {
     let token = resp.token;
     let user = resp.user;
     localStorage.setItem('token', token);
-    localStorage.setItem('user', user.id);
+    localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('role', user.role);
     this.token = token;
-    this.userId = user.id;
-    this.role = user.role;
+    this.user = user;
     this.loggedIn.next(true);
+  }
 
+  refreshUser() {
+    let user;
+    this.getUserById().subscribe(
+      resp => {
+        user = resp;
+        this.user = user;
+        localStorage.setItem('user', JSON.stringify(user));
+        this.refreshedUser.next(user);
+      },
+      err => console.log(err)
+    );
   }
 
 }

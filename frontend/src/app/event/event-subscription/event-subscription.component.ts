@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../auth/auth.service';
 import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
+import {UserDTO} from '../../../../../src/dtos/user-dto';
 
 @Component({
   selector: 'app-event-subscription',
@@ -16,15 +17,15 @@ export class EventSubscriptionComponent implements OnInit {
 
   ngOnInit() {
     this.getEvents();
+    this.authService.refreshedUser.subscribe(
+      resp => {
+        this.events = resp.happenings;
+      }
+    );
   }
 
-  getEvents(){
-    this.authService.getUser().subscribe(
-      resp => {
-          this.events = resp['happenings'];
-      },
-      err => console.log(err)
-    );
+  getEvents() {
+    this.events = this.authService.getUser().happenings;
   }
 
 }

@@ -35,10 +35,10 @@
     <div class="card" style="margin-bottom: 10%; width: 350px; height: 360px">
       <div class="card-body">
         <div class="card-text">
-          <h5 *ngIf="user && !isSubscribe()" (click)="subscribeEvent()"><span class="badge badge-primary float-right"><i
-            class="fa fa-at" aria-hidden="true"></i>&nbsp;Subscribe</span></h5>
-          <h5 *ngIf="user && isSubscribe()" (click)="unsubscribeEvent()"><span class="badge badge-light float-right"><i
-            class="fa fa-at" aria-hidden="true"></i>&nbsp;Unsubscribe</span></h5>
+         <a><h5 *ngIf="user && !isSubscribe()" (click)="subscribeEvent()"><span class="badge badge-primary float-right"><i
+            class="fa fa-at" aria-hidden="true"></i>&nbsp;Subscribe</span></h5></a>
+         <a><h5 *ngIf="user && isSubscribe()" (click)="unsubscribeEvent()"><span class="badge badge-light float-right"><i
+            class="fa fa-at" aria-hidden="true"></i>&nbsp;Unsubscribe</span></h5></a>
           <br>
           <div style="height: 210px">
             {{event.description}}

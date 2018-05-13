@@ -60,9 +60,6 @@ export class EventDetailsComponent implements OnInit {
   }
 
   getUser(){
-    this.authService.getUser().subscribe(
-      resp => this.user = resp,
-      err => console.log(err)
-    )
+    this.user = this.authService.getUser();
   }
 }

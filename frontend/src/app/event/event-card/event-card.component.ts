@@ -4,7 +4,7 @@ import {EventService} from '../event.service';
 import {UserDTO} from '../../../../../src/dtos/user-dto';
 import {AuthService} from '../../auth/auth.service';
 import * as _ from 'lodash';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-event-card',
@@ -16,7 +16,6 @@ export class EventCardComponent implements OnInit {
   @Input() event: HappeningDTO;
   @Input() index: number;
   user: UserDTO;
-  @Output() eventRefresh: EventEmitter<any> = new EventEmitter<any>();
   currentUrl: string;
 
   constructor(private eventService: EventService,
@@ -25,27 +24,25 @@ export class EventCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.getUserId()) {
-      this.getUser();
-    }
-
+    this.getUser();
     this.currentUrl = window.location.href;
 
     this.authService.loggedIn.subscribe(
       resp => {
         !resp ? this.user = null : this.getUser();
       });
+
+    this.authService.refreshedUser.subscribe(
+      resp => {
+        console.log(resp);
+        this.user = resp;
+      }
+    );
   }
 
   getUser() {
-    if (this.authService.getUserId()) {
-      this.authService.getUser().subscribe(
-        resp => {
-          this.user = resp;
-        },
-        err => console.log(err)
-      );
-    }
+    console.log('getUSer');
+    this.user = this.authService.getUser();
   }
 
   flippCard() {
@@ -59,7 +56,7 @@ export class EventCardComponent implements OnInit {
 
   subscribeEvent() {
     this.eventService.subscribeEvent(this.event).subscribe(
-      resp => this.getUser(),
+      resp => this.authService.refreshUser(),
       err => console.log(err)
     );
   }
@@ -67,8 +64,7 @@ export class EventCardComponent implements OnInit {
   unsubscribeEvent() {
     this.eventService.unsubscribeEvent(this.event).subscribe(
       resp => {
-        this.getUser();
-        this.eventRefresh.emit();
+        this.authService.refreshUser();
       },
       err => console.log(err)
     );

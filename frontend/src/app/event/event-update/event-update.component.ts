@@ -10,6 +10,7 @@ import {MouseEvent as AGMMouseEvent} from '@agm/core';
 import {GeocodeService} from '../geocode.service';
 import {Location} from '../../../../../src/interface/location';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-event-update',
@@ -36,7 +37,8 @@ export class EventUpdateComponent implements OnInit {
               private secondCategoryService: SecondCategoryService,
               private geocodeService: GeocodeService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -77,7 +79,10 @@ export class EventUpdateComponent implements OnInit {
     this.updateEvent.location.lat = this.marker.lat;
     if (this.updateEvent.id) {
       this.eventService.updateEvent(this.updateEvent).subscribe(
-        resp => this.router.navigate(['home/event/user']),
+        resp => {
+          this.authService.refreshUser();
+          this.router.navigate(['home/event/user']);
+        },
         err => console.log(err)
       );
     } else {
@@ -95,7 +100,10 @@ export class EventUpdateComponent implements OnInit {
   deleteEvent(content) {
     if (this.updateEvent.id && !content.src) {
       this.eventService.deleteEvent(this.updateEvent).subscribe(
-        resp => this.router.navigate(['home/event/user']),
+        resp => {
+          this.authService.refreshUser();
+          this.router.navigate(['home/event/user']);
+        },
         err => console.log(err)
       );
     } else if (content.src) {

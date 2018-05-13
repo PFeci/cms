@@ -26,15 +26,14 @@ export class MenuComponent implements OnInit {
         this.isLoged = resp;
         this.getUser();
       });
+    this.authService.refreshedUser.subscribe(
+      resp => {
+        this.user = resp;
+      });
   }
 
   getUser() {
-    if (this.authService.getUserId()) {
-      this.authService.getUser().subscribe(
-        resp => this.user = resp,
-        err => console.log(err)
-      );
-    }
+    this.user = this.authService.getUser();
   }
 
   logout() {

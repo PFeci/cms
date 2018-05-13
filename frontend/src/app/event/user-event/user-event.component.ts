@@ -18,20 +18,18 @@ export class UserEventComponent implements OnInit {
 
   ngOnInit() {
     this.getAllEvents();
+    this.authService.refreshedUser.subscribe(
+      resp => this.usersEvent = resp.madeByMe
+    )
   }
 
   getAllEvents() {
-    this.authService.getUser().subscribe(
-      resp => {
-          this.usersEvent = resp['madeByMe'];
-          if (this.usersEvent.length !== 0) {
-            this.usersEvent.forEach(event => {
-              event.startDate = new Date(event.startDate);
-              event.endDate = new Date(event.endDate);
-            });
-          }
-      },
-      err => console.log(err)
-    );
+    this.usersEvent = this.authService.getUser().madeByMe;
+    if (this.usersEvent.length !== 0) {
+      this.usersEvent.forEach(event => {
+        event.startDate = new Date(event.startDate);
+        event.endDate = new Date(event.endDate);
+      });
+    }
   }
 }

@@ -26,8 +26,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn grey lighten-1" data-dismiss="modal" (click)="uploadModal.hide()">No</button>
-        <button type="button" class="btn btn-default" (click)="upload()">Yes</button>
+        <button type="button" class="btn grey lighten-1" data-dismiss="modal" (click)="close()">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="upload()" [disabled]="uploader.queue.length === 0">Upload</button>
       </div>
     </div>
   </div>

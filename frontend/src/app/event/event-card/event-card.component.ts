@@ -41,7 +41,6 @@ export class EventCardComponent implements OnInit {
   }
 
   getUser() {
-    console.log('getUSer');
     this.user = this.authService.getUser();
   }
 

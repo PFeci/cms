@@ -7,7 +7,7 @@ import {EventRoutingModule} from './event-routing.module';
 import {UserEventComponent} from './user-event/user-event.component';
 import {EventUpdateComponent} from './event-update/event-update.component';
 import {CalendarModule} from 'primeng/primeng';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import {EventSubscriptionComponent} from './event-subscription/event-subscription.component';
 import {EventCardComponent} from './event-card/event-card.component';
@@ -32,6 +32,7 @@ import {CategorySearchPipe} from "./category-search.pipe";
     FormsModule,
     MDBBootstrapModule.forRoot(),
     SharedModule,
+    ReactiveFormsModule,
     HttpClientModule,      // (Required) for share counts
     ShareButtonModule.forRoot(),
     AgmCoreModule.forRoot({

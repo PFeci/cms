@@ -49,8 +49,14 @@ export class UploadMediaModalComponent implements OnInit {
   remove(file) {
     _.remove(this.uploader.queue, file);
   }
+
   changeIsUpload(isUp) {
     this.isUpload = isUp;
+  }
+
+  close(){
+    this.uploader.queue = [];
+    this.uploadModal.hide();
   }
 
 }

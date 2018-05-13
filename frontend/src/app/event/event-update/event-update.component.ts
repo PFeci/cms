@@ -11,6 +11,7 @@ import {GeocodeService} from '../geocode.service';
 import {Location} from '../../../../../src/interface/location';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-event-update',
@@ -23,6 +24,7 @@ export class EventUpdateComponent implements OnInit {
   lat: number = 38.736946;
   lng: number = -9.142685;
   marker: Marker = <Marker>{};
+  showError: boolean = false;
 
   updateEvent: HappeningDTO = <HappeningDTO>{
     contents: [],
@@ -57,6 +59,7 @@ export class EventUpdateComponent implements OnInit {
       resp => this.secondCategories = resp,
       err => console.log(err)
     );
+
   }
 
   getEvent(id) {
@@ -145,6 +148,15 @@ export class EventUpdateComponent implements OnInit {
     }
   }
 
+  isFillCompleted() {
+    if (!this.updateEvent.title || !this.updateEvent.endDate || !this.updateEvent.startDate
+      || !this.updateEvent.location || !this.updateEvent.description) {
+      this.showError = true;
+    } else {
+      this.showError = false;
+      this.saveEvent();
+    }
+  }
 
   mapClicked($event: AGMMouseEvent) {
 

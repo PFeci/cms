@@ -84,13 +84,18 @@
         </span>
       </div>
     </div>
+    <br>
+    <div *ngIf="showError" class="alert alert-danger">
+      You have to fill all field!
+    </div>
     <div class="row">
       <div class="col-sm-12">
-      <span class="badge badge-default update float-right" (click)="saveEvent()"><i class="fa fa-save fa-2x"
-                                                                                    aria-hidden="true"></i></span>
-        <span class="badge badge-danger update float-right" (click)="delete.open(updateEvent)"><i
-          class="fa fa-trash fa-2x"
-          aria-hidden="true"></i></span>
+      <span class="badge badge-default update float-right" (click)="isFillCompleted()">
+        <i class="fa fa-save fa-2x" aria-hidden="true"></i>
+      </span>
+        <span class="badge badge-danger update float-right" (click)="delete.open(updateEvent)">
+          <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+        </span>
       </div>
     </div>
     <hr>
@@ -98,7 +103,7 @@
             (click)="upload.open(updateEvent)">Upload media
     </button>
     <br>
-    <table class="table" *ngIf="updateEvent.id" >
+    <table class="table" *ngIf="updateEvent.id">
       <thead class="mdb-color grey lighten-3">
       <tr class="text-black">
         <th>#</th>
@@ -111,10 +116,12 @@
       <tr *ngFor="let content of updateEvent.contents; let i = index">
         <th scope="row">{{i+1}}</th>
         <td *ngIf="content.fileType === 'image'"><img width="50" [src]="content.src"></td>
-        <td *ngIf="content.fileType === 'video'"><video width="50" class="float-left">
-          <source [src]="content.src" type="video/mp4">
-          Your browser does not support HTML5 video.
-        </video></td>
+        <td *ngIf="content.fileType === 'video'">
+          <video width="50" class="float-left">
+            <source [src]="content.src" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+        </td>
         <td>{{content.fileType}}</td>
         <td>
           <div class="float-right">

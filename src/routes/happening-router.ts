@@ -41,6 +41,14 @@ export class HappeningRouter {
                 contentDTOs = contents
             });
 
+        contentDTOs.sort((a: ContentDTO, b: ContentDTO) => {
+            if (a.fileType !== b.fileType) {
+                return a.src.localeCompare(b.src);
+            }
+            return a.fileType.localeCompare(b.fileType);
+
+        });
+
         const happeningDTO: HappeningDTO = {
             id: happeningModel._id,
             location: happeningModel.location,

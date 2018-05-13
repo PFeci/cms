@@ -27,7 +27,7 @@ export class EventUpdateComponent implements OnInit {
   updateEvent: HappeningDTO = <HappeningDTO>{
     contents: [],
     secondCategories: [],
-    categories: [],
+    categories: []
   };
   categories: CategoryDTO[] = [];
   secondCategories: SecondCategoryDTO[] = [];

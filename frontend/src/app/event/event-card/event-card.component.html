@@ -3,9 +3,9 @@
     <div class="card card-cascade" style="margin-bottom: 10%; width: 350px; height: 360px">
       <div class="view overlay">
         <div class="mdb-color lighten-3 text-center"></div>
-        <img *ngIf="event.contents.length !== 0" class="img-fluid z-depth-2 rounded"
+        <img *ngIf="event.contents.length !== 0 && event.contents[0].fileType !== 'video'" class="img-fluid z-depth-2 rounded"
              [src]="event.contents[0].src">
-        <img *ngIf="event.contents.length === 0" class="img-fluid z-depth-2 rounded"
+        <img *ngIf="event.contents.length === 0 || event.contents[0].fileType === 'video'" class="img-fluid z-depth-2 rounded"
              src="../../../assets/images/basic.JPG">
         <div class="text-block">
           <h4>{{event.title}}</h4>

@@ -110,7 +110,11 @@
       <tbody>
       <tr *ngFor="let content of updateEvent.contents; let i = index">
         <th scope="row">{{i+1}}</th>
-        <td><img width="50" [src]="content.src"></td>
+        <td *ngIf="content.fileType === 'image'"><img width="50" [src]="content.src"></td>
+        <td *ngIf="content.fileType === 'video'"><video width="50" class="float-left">
+          <source [src]="content.src" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video></td>
         <td>{{content.fileType}}</td>
         <td>
           <div class="float-right">

@@ -31,7 +31,7 @@
       <br>
       <div *ngFor="let content of happening.contents" style="display: inline-block">
         <img (click)="onNavigate(content)" *ngIf="content?.fileType === 'image'" class="float-left gallery-img" [src]="content.src">
-        <video (click)="onNavigate(content)" class="float-left" controls *ngIf="content?.fileType === 'video'">
+        <video (click)="onNavigate(content)" class="float-left gallery-video" controls *ngIf="content?.fileType === 'video'">
           <source [src]="content.src" type="video/mp4">
           Your browser does not support HTML5 video.
         </video>
@@ -55,7 +55,11 @@
         <tbody>
         <tr *ngFor="let content of happening.contents; let i = index">
           <th scope="row">{{i+1}}</th>
-          <td><img width="50" [src]="content.src"></td>
+          <td *ngIf="content.fileType === 'image'"><img width="50" [src]="content.src"></td>
+          <td *ngIf="content.fileType === 'video'"><video width="50" class="float-left">
+            <source [src]="content.src" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video></td>
           <td>{{content.fileType}}</td>
           <td>
             <div class="float-right">

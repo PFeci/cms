@@ -12,8 +12,8 @@
           <div class="col-sm-2 mb-4">
             <!--Featured image-->
             <div class="view overlay rounded z-depth-1-half">
-              <img *ngIf="userEvent.contents.length !== 0" [src]="userEvent.contents[0]?.src" class="img-fluid">
-              <img *ngIf="userEvent.contents.length === 0" class="img-fluid"
+              <img *ngIf="userEvent.contents.length !== 0 && userEvent.contents[0].fileType !== 'video'" [src]="userEvent.contents[0]?.src" class="img-fluid">
+              <img *ngIf="userEvent.contents.length === 0 || userEvent.contents[0].fileType === 'video'" class="img-fluid"
                    src="../../../assets/images/basic.JPG">
             </div>
           </div>

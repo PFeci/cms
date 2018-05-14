@@ -1,10 +1,7 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalDirective} from 'angular-bootstrap-md/modals/modal.directive';
-import {UserDTO} from '../../../../../src/dtos/user-dto';
 import {AuthService} from '../auth.service';
-import {UserAuthenticateDTO} from '../../../../../src/dtos/user-authenticate-dto';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {equalValidator} from '../register/equal-validator.directive';
 
 @Component({
   selector: 'app-login',
@@ -49,6 +46,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe(
       resp => {
           this.authService.saveToken(resp);
+          this.isRegisterSuccess = false;
           this.fluid.onEsc();
       },
       err => this.loginForm.setErrors({formError: true})

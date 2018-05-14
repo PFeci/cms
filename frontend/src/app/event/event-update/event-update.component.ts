@@ -94,6 +94,7 @@ export class EventUpdateComponent implements OnInit {
           this.updateEvent = resp;
           this.updateEvent.startDate = new Date(this.updateEvent.startDate);
           this.updateEvent.endDate = new Date(this.updateEvent.endDate);
+          this.authService.refreshUser();
         },
         err => console.log(err)
       );

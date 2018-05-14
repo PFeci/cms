@@ -34,7 +34,6 @@ export class EventCardComponent implements OnInit {
 
     this.authService.refreshedUser.subscribe(
       resp => {
-        console.log(resp);
         this.user = resp;
       }
     );

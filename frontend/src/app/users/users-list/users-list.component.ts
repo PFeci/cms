@@ -32,7 +32,7 @@ export class UsersListComponent implements OnInit {
 
   deleteUser(user){
     this.usersService.deleteUser(user).subscribe(
-      resp => console.log(resp),
+      resp =>
       err => console.log(err)
     )
   }

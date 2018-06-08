@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ModalDirective} from 'angular-bootstrap-md/modals/modal.directive';
 import {AuthService} from '../auth.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ModalDirective} from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-login',

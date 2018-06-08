@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
-import {ModalDirective} from 'angular-bootstrap-md/modals/modal.directive';
 import {HappeningDTO} from '../../../../../src/dtos/happening-dto';
 import * as _ from 'lodash';
 import {AuthService} from '../../auth/auth.service';
+import {ModalDirective} from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-upload-media-modal',

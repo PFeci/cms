@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {ModalDirective} from 'angular-bootstrap-md/modals/modal.directive';
+import {ModalDirective} from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-delete-modal',

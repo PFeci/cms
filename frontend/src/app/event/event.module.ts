@@ -8,7 +8,6 @@ import {UserEventComponent} from './user-event/user-event.component';
 import {EventUpdateComponent} from './event-update/event-update.component';
 import {CalendarModule} from 'primeng/primeng';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MDBBootstrapModule} from 'angular-bootstrap-md/index';
 import {EventSubscriptionComponent} from './event-subscription/event-subscription.component';
 import {EventCardComponent} from './event-card/event-card.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -22,6 +21,7 @@ import {AgmCoreModule} from "@agm/core";
 import {GeocodeService} from "./geocode.service";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {CategorySearchPipe} from "./category-search.pipe";
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
 
 @NgModule({
   imports: [
